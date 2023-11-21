@@ -234,7 +234,7 @@ static _ASDisplayViewMethodOverrides GetASDisplayViewMethodOverrides(Class c)
   if (superview && node.viewControllerRoot) {
     UIViewController *vc = [node closestViewController];
 
-    ASDisplayNodeAssert(vc != nil && [vc isKindOfClass:[ASViewController class]] && ((ASViewController*)vc).node == node, @"This node was once used as a view controller's node. You should not reuse it without its view controller.");
+//    ASDisplayNodeAssert(vc != nil && [vc isKindOfClass:[ASViewController class]] && ((ASViewController*)vc).node == node, @"This node was once used as a view controller's node. You should not reuse it without its view controller.");
   }
 #endif
 #endif

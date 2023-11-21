@@ -3571,10 +3571,10 @@ ASDISPLAYNODE_INLINE BOOL subtreeIsRasterized(ASDisplayNode *node) {
   }
 #ifndef MINIMAL_ASDK
   // Check supernode so that if we are a cell node we don't find self.
-  ASCellNode *cellNode = [self supernodeOfClass:[ASCellNode class] includingSelf:NO];
-  if (cellNode != nil) {
-    [result addObject:@{ @"cellNode" : ASObjectDescriptionMakeTiny(cellNode) }];
-  }
+//  ASCellNode *cellNode = [self supernodeOfClass:[ASCellNode class] includingSelf:NO];
+//  if (cellNode != nil) {
+//    [result addObject:@{ @"cellNode" : ASObjectDescriptionMakeTiny(cellNode) }];
+//  }
 #endif
   
   [result addObject:@{ @"interfaceState" : NSStringFromASInterfaceState(self.interfaceState)} ];
