@@ -1,0 +1,8 @@
+${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AppBundle/AppBundle.framework
+${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework
+${BUILT_PRODUCTS_DIR}/Display/Display.framework
+${BUILT_PRODUCTS_DIR}/Markdown/Markdown.framework
+${BUILT_PRODUCTS_DIR}/ObjCRuntimeUtils/ObjCRuntimeUtils.framework
+${BUILT_PRODUCTS_DIR}/SwiftSignalKit/SwiftSignalKit.framework
+${BUILT_PRODUCTS_DIR}/UIKitRuntimeUtils/UIKitRuntimeUtils.framework

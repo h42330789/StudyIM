@@ -1,0 +1,6 @@
+framework module Pods_StudyAsynDisplayTests {
+  umbrella header "Pods-StudyAsynDisplayTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
