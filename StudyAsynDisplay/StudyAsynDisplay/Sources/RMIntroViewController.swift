@@ -10,10 +10,6 @@ import UIKit
 class RMIntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .purple
-    }
-    
-    func animateIn() {
-        
+        self.view.backgroundColor = .blue
     }
 }

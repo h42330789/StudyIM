@@ -11,7 +11,6 @@ import Display
 class AuthorizationSequenceSplashController: ViewController {
     
     private let controller: RMIntroViewController
-    private var validLayout: ContainerViewLayout?
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -24,32 +23,14 @@ class AuthorizationSequenceSplashController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .orange
+        self.view.backgroundColor = .green
     }
     
     public override func containerLayoutUpdated(_ layout: ContainerViewLayout, transition: ContainedViewLayoutTransition) {
         super.containerLayoutUpdated(layout, transition: transition)
-        
-        self.validLayout = layout
-        let controllerFrame = CGRect(origin: CGPoint(), size: layout.size)
-//        self.controller.defaultFrame = controllerFrame
-//
-//        self.controllerNode.containerLayoutUpdated(layout, navigationBarHeight: 0.0, transition: transition)
-        
+               
         self.addControllerIfNeeded()
-        if case .immediate = transition {
-            self.controller.view.frame = controllerFrame
-        } else {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.controller.view.frame = controllerFrame
-            })
-        }
     }
-    
-    func animateIn() {
-        self.controller.animateIn()
-    }
-    
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -78,9 +59,6 @@ class AuthorizationSequenceSplashController: ViewController {
     private func addControllerIfNeeded() {
         if !self.controller.isViewLoaded || self.controller.view.superview == nil {
             self.displayNode.view.addSubview(self.controller.view)
-            if let layout = self.validLayout {
-                controller.view.frame = CGRect(origin: CGPoint(), size: layout.size)
-            }
             self.controller.viewDidAppear(false)
         }
     }

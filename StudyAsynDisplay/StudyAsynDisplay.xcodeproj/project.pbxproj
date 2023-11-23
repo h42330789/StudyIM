@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5294F3A62B0D0CEB0004DFD8 /* NativeWindowHostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3A52B0D0CEB0004DFD8 /* NativeWindowHostView.swift */; };
 		5294F3AA2B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3A92B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift */; };
 		5294F3AD2B0D16150004DFD8 /* RMIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3AC2B0D16150004DFD8 /* RMIntroViewController.swift */; };
+		5294F3AF2B0F87070004DFD8 /* StatusBarHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3AE2B0F87070004DFD8 /* StatusBarHost.swift */; };
+		5294F3B12B0F8C820004DFD8 /* ApplicationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3B02B0F8C820004DFD8 /* ApplicationContext.swift */; };
 		52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */; };
 		52F2DC452AF3DE16001CAEF0 /* AuthorizationSequenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */; };
 		52F2DC4A2AF3DE19001CAEF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52F2DC492AF3DE19001CAEF0 /* Assets.xcassets */; };
@@ -40,9 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5294F3A52B0D0CEB0004DFD8 /* NativeWindowHostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeWindowHostView.swift; sourceTree = "<group>"; };
 		5294F3A92B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSequenceSplashController.swift; sourceTree = "<group>"; };
 		5294F3AC2B0D16150004DFD8 /* RMIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMIntroViewController.swift; sourceTree = "<group>"; };
+		5294F3AE2B0F87070004DFD8 /* StatusBarHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarHost.swift; sourceTree = "<group>"; };
+		5294F3B02B0F8C820004DFD8 /* ApplicationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContext.swift; sourceTree = "<group>"; };
 		52F2DC3D2AF3DE16001CAEF0 /* StudyAsynDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyAsynDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSequenceController.swift; sourceTree = "<group>"; };
@@ -96,7 +98,8 @@
 		5294F3AB2B0D15F80004DFD8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				5294F3A52B0D0CEB0004DFD8 /* NativeWindowHostView.swift */,
+				5294F3AE2B0F87070004DFD8 /* StatusBarHost.swift */,
+				5294F3B02B0F8C820004DFD8 /* ApplicationContext.swift */,
 				52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */,
 				5294F3A92B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift */,
 				5294F3AC2B0D16150004DFD8 /* RMIntroViewController.swift */,
@@ -416,7 +419,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5294F3A62B0D0CEB0004DFD8 /* NativeWindowHostView.swift in Sources */,
+				5294F3AF2B0F87070004DFD8 /* StatusBarHost.swift in Sources */,
+				5294F3B12B0F8C820004DFD8 /* ApplicationContext.swift in Sources */,
 				52F2DC452AF3DE16001CAEF0 /* AuthorizationSequenceController.swift in Sources */,
 				52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */,
 				5294F3AA2B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift in Sources */,
@@ -602,6 +606,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -630,6 +635,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
