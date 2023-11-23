@@ -7,7 +7,6 @@
 
 import UIKit
 import Display
-import AuthenticationServices
 
 class AuthorizationSequenceController: NavigationController  {
     required init(coder aDecoder: NSCoder) {

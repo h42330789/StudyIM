@@ -7,7 +7,6 @@
 
 import UIKit
 import Display
-import AsyncDisplayKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
