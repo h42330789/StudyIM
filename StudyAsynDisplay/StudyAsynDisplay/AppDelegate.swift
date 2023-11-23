@@ -13,7 +13,6 @@ import AsyncDisplayKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     @objc var window: UIWindow?
-    var nativeWindow: (UIWindow & WindowHost)?
     var mainWindow: Window1!
     private var authContextValue: UnauthorizedApplicationContext?
 
@@ -25,9 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 持有hostView、stausBar的类
         self.mainWindow = Window1(hostView: hostView, statusBarHost: statusBarHost)
         // rooVC.view
-        hostView.containerView.backgroundColor = UIColor.white
+        hostView.containerView.backgroundColor = UIColor.orange
         self.window = window
-        self.nativeWindow = window
         
         self.window?.makeKeyAndVisible()
         self.authContextValue = UnauthorizedApplicationContext(account: "")
