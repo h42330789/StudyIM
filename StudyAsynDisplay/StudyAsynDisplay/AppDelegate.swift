@@ -27,10 +27,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = window
         
         self.window?.makeKeyAndVisible()
-        self.authContextValue = UnauthorizedApplicationContext(account: "")
-
-        if let cxt = self.authContextValue {
-            self.mainWindow.present(cxt.rootController, on: .root)
+        // 未登录，进入未登录流程
+        if UserDefaults.standard.object(forKey: "isLogined") == nil {
+            self.authContextValue = UnauthorizedApplicationContext(account: "")
+            
+            if let cxt = self.authContextValue {
+                self.mainWindow.present(cxt.rootController, on: .root)
+            }
+        } else {
+            let rootVC = TelegramRootController(context: "")
+            rootVC.addRootControllers(showCallsTab: false)
+            self.mainWindow.viewController = rootVC
         }
         return true
     }

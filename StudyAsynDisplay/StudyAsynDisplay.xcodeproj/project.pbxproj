@@ -14,6 +14,8 @@
 		5294F3BD2B10F8E70004DFD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5294F3BB2B10F8E70004DFD8 /* Localizable.strings */; };
 		5294F3BF2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3BE2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift */; };
 		5294F3C12B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3C02B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift */; };
+		5294F3C52B13A6CC0004DFD8 /* TelegramRootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3C42B13A6CC0004DFD8 /* TelegramRootController.swift */; };
+		5294F3C72B13A8010004DFD8 /* TabBarControllerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3C62B13A8010004DFD8 /* TabBarControllerImpl.swift */; };
 		52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */; };
 		52F2DC452AF3DE16001CAEF0 /* AuthorizationSequenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */; };
 		52F2DC4A2AF3DE19001CAEF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52F2DC492AF3DE19001CAEF0 /* Assets.xcassets */; };
@@ -51,6 +53,8 @@
 		5294F3BC2B10F8E70004DFD8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5294F3BE2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSequencePhoneEntryController.swift; sourceTree = "<group>"; };
 		5294F3C02B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSequencePhoneEntryControllerNode.swift; sourceTree = "<group>"; };
+		5294F3C42B13A6CC0004DFD8 /* TelegramRootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelegramRootController.swift; sourceTree = "<group>"; };
+		5294F3C62B13A8010004DFD8 /* TabBarControllerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerImpl.swift; sourceTree = "<group>"; };
 		52F2DC3D2AF3DE16001CAEF0 /* StudyAsynDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyAsynDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSequenceController.swift; sourceTree = "<group>"; };
@@ -104,13 +108,10 @@
 		5294F3AB2B0D15F80004DFD8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5294F3C32B13A6B00004DFD8 /* Chat */,
 				5294F3AE2B0F87070004DFD8 /* StatusBarHost.swift */,
 				5294F3B02B0F8C820004DFD8 /* ApplicationContext.swift */,
-				52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */,
-				5294F3A92B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift */,
-				5294F3AC2B0D16150004DFD8 /* RMIntroViewController.swift */,
-				5294F3BE2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift */,
-				5294F3C02B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift */,
+				5294F3C22B13A67D0004DFD8 /* Authorization */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -123,6 +124,27 @@
 				52F2DC4B2AF3DE19001CAEF0 /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		5294F3C22B13A67D0004DFD8 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */,
+				5294F3A92B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift */,
+				5294F3AC2B0D16150004DFD8 /* RMIntroViewController.swift */,
+				5294F3BE2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift */,
+				5294F3C02B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
+		5294F3C32B13A6B00004DFD8 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				5294F3C42B13A6CC0004DFD8 /* TelegramRootController.swift */,
+				5294F3C62B13A8010004DFD8 /* TabBarControllerImpl.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		52F2DC342AF3DE16001CAEF0 = {
@@ -439,8 +461,10 @@
 			files = (
 				5294F3AF2B0F87070004DFD8 /* StatusBarHost.swift in Sources */,
 				5294F3B12B0F8C820004DFD8 /* ApplicationContext.swift in Sources */,
+				5294F3C52B13A6CC0004DFD8 /* TelegramRootController.swift in Sources */,
 				5294F3BF2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift in Sources */,
 				52F2DC452AF3DE16001CAEF0 /* AuthorizationSequenceController.swift in Sources */,
+				5294F3C72B13A8010004DFD8 /* TabBarControllerImpl.swift in Sources */,
 				52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */,
 				5294F3AA2B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift in Sources */,
 				5294F3C12B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift in Sources */,
