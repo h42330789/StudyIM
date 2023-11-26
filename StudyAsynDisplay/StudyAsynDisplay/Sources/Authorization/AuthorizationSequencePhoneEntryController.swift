@@ -44,6 +44,10 @@ class AuthorizationSequencePhoneEntryController: ViewController {
                 let rootVC = TelegramRootController(context: "")
                 rootVC.addRootControllers(showCallsTab: false)
                 app.mainWindow.viewController = rootVC
+                if let nav = self?.navigationController as? AuthorizationSequenceController {
+                    nav.dismiss()
+                }
+                
             }
         }
     }

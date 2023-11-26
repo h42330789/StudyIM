@@ -95,6 +95,15 @@ class AuthorizationSequenceController: NavigationController  {
             }
         }
     }
-    
+    public func dismiss() {
+        self.animateOut(completion: { [weak self] in
+            self?.presentingViewController?.dismiss(animated: false, completion: nil)
+        })
+    }
+    private func animateOut(completion: (() -> Void)? = nil) {
+        self.view.layer.animatePosition(from: self.view.layer.position, to: CGPoint(x: self.view.layer.position.x, y: self.view.layer.position.y + self.view.layer.bounds.size.height), duration: 0.2, timingFunction: CAMediaTimingFunctionName.easeInEaseOut.rawValue, removeOnCompletion: false, completion: { _ in
+            completion?()
+        })
+    }
 }
 
