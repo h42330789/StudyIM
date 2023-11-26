@@ -1,6 +1,9 @@
 PODS:
   - AppBundle (1.0.0)
   - AsyncDisplayKit (1.0.0)
+  - AuthorizationUtils (1.0.0):
+    - AsyncDisplayKit
+    - Display
   - Display (1.0.0):
     - AppBundle
     - AsyncDisplayKit
@@ -8,8 +11,15 @@ PODS:
     - ObjCRuntimeUtils
     - SwiftSignalKit
     - UIKitRuntimeUtils
+  - libphonenumber (1.0.0)
   - Markdown (1.0.0)
   - ObjCRuntimeUtils (1.0.0)
+  - PhoneInputNode (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - PhoneNumberFormat
+  - PhoneNumberFormat (1.0.0):
+    - libphonenumber
   - SwiftSignalKit (1.0.0)
   - UIKitRuntimeUtils (1.0.0):
     - AsyncDisplayKit
@@ -18,9 +28,13 @@ PODS:
 DEPENDENCIES:
   - AppBundle (from `LocalLib/AppBundle`)
   - AsyncDisplayKit (from `LocalLib/AsyncDisplayKit`)
+  - AuthorizationUtils (from `LocalLib/AuthorizationUtils`)
   - Display (from `LocalLib/Display`)
+  - libphonenumber (from `LocalLib/libphonenumber`)
   - Markdown (from `LocalLib/Markdown`)
   - ObjCRuntimeUtils (from `LocalLib/ObjCRuntimeUtils`)
+  - PhoneInputNode (from `LocalLib/PhoneInputNode`)
+  - PhoneNumberFormat (from `LocalLib/PhoneNumberFormat`)
   - SwiftSignalKit (from `LocalLib/SwiftSignalKit`)
   - UIKitRuntimeUtils (from `LocalLib/UIKitRuntimeUtils`)
 
@@ -29,12 +43,20 @@ EXTERNAL SOURCES:
     :path: LocalLib/AppBundle
   AsyncDisplayKit:
     :path: LocalLib/AsyncDisplayKit
+  AuthorizationUtils:
+    :path: LocalLib/AuthorizationUtils
   Display:
     :path: LocalLib/Display
+  libphonenumber:
+    :path: LocalLib/libphonenumber
   Markdown:
     :path: LocalLib/Markdown
   ObjCRuntimeUtils:
     :path: LocalLib/ObjCRuntimeUtils
+  PhoneInputNode:
+    :path: LocalLib/PhoneInputNode
+  PhoneNumberFormat:
+    :path: LocalLib/PhoneNumberFormat
   SwiftSignalKit:
     :path: LocalLib/SwiftSignalKit
   UIKitRuntimeUtils:
@@ -43,12 +65,16 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppBundle: 792a39527c17d8ff2e98f0faddca106495334535
   AsyncDisplayKit: 81922bf21567440d409452e1d688f2daf10fd2d3
+  AuthorizationUtils: ef705778384b8773d2fb1c9bca591519612d2965
   Display: 614e441be95aa8721656242168a950858e9187a7
+  libphonenumber: 0bf63dd1dcfff9f039e1f47dba19c95cb347303f
   Markdown: d2995a605760e551d8ae61b9e320d88f57d7dc71
   ObjCRuntimeUtils: 8fc18e7c3c50ba7f1ccda0c5e38f0fdf5a629469
+  PhoneInputNode: d3369ad37546f4871348dc96c2a8df7467f58e04
+  PhoneNumberFormat: f4af517c28fba2fcfb7de0bfa00405b9efdcf080
   SwiftSignalKit: 0e94f337c2f5dc214fce0a97b7db2c0940218bb2
   UIKitRuntimeUtils: 95590f673bad3d2a7d47025849f602812ac36e68
 
-PODFILE CHECKSUM: abc1c1b307e0f550d9621c50f4997f09ea6fe95d
+PODFILE CHECKSUM: 5fa13aa362a2278fb72db729dba49350aa420fbd
 
 COCOAPODS: 1.12.1

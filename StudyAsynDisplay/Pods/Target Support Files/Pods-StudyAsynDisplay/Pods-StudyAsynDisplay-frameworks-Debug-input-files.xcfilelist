@@ -1,8 +1,12 @@
 ${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/AppBundle/AppBundle.framework
 ${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework
+${BUILT_PRODUCTS_DIR}/AuthorizationUtils/AuthorizationUtils.framework
 ${BUILT_PRODUCTS_DIR}/Display/Display.framework
 ${BUILT_PRODUCTS_DIR}/Markdown/Markdown.framework
 ${BUILT_PRODUCTS_DIR}/ObjCRuntimeUtils/ObjCRuntimeUtils.framework
+${BUILT_PRODUCTS_DIR}/PhoneInputNode/PhoneInputNode.framework
+${BUILT_PRODUCTS_DIR}/PhoneNumberFormat/PhoneNumberFormat.framework
 ${BUILT_PRODUCTS_DIR}/SwiftSignalKit/SwiftSignalKit.framework
 ${BUILT_PRODUCTS_DIR}/UIKitRuntimeUtils/UIKitRuntimeUtils.framework
+${BUILT_PRODUCTS_DIR}/libphonenumber/libphonenumber.framework

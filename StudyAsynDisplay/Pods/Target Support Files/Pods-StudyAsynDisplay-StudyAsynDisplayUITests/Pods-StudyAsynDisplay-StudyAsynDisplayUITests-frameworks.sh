@@ -178,20 +178,28 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AppBundle/AppBundle.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AuthorizationUtils/AuthorizationUtils.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Display/Display.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Markdown/Markdown.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjCRuntimeUtils/ObjCRuntimeUtils.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PhoneInputNode/PhoneInputNode.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PhoneNumberFormat/PhoneNumberFormat.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftSignalKit/SwiftSignalKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIKitRuntimeUtils/UIKitRuntimeUtils.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/libphonenumber/libphonenumber.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AppBundle/AppBundle.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AuthorizationUtils/AuthorizationUtils.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Display/Display.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Markdown/Markdown.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjCRuntimeUtils/ObjCRuntimeUtils.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PhoneInputNode/PhoneInputNode.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PhoneNumberFormat/PhoneNumberFormat.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftSignalKit/SwiftSignalKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIKitRuntimeUtils/UIKitRuntimeUtils.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/libphonenumber/libphonenumber.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

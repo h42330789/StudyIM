@@ -11,7 +11,7 @@ import Display
 class AuthorizationSequenceSplashController: ViewController {
     
     private let controller: RMIntroViewController
-    
+    var nextPressed: (() -> Void)?
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -19,6 +19,9 @@ class AuthorizationSequenceSplashController: ViewController {
     init(account: String) {
         self.controller = RMIntroViewController()
         super.init(navigationBarPresentationData: nil)
+        self.controller.skipBlcok = {[weak self] in
+            self?.nextPressed?()
+        }
     }
     
     override func viewDidLoad() {

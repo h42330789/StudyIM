@@ -1,0 +1,6 @@
+framework module PhoneInputNode {
+  umbrella header "PhoneInputNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

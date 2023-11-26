@@ -8,90 +8,104 @@
 import UIKit
 
 class RMIntroViewController: UIViewController {
-    var englishStrings: [String: String] = [:]
-    var loadedView: Bool = false
-    lazy var wrapperView = UIScrollView(frame: self.view.bounds)
-    lazy var pageScrollView: UIScrollView =  {
-        let scrollView = UIScrollView(frame: self.view.bounds)
-        scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.clipsToBounds = true
-        scrollView.isOpaque = true
-        scrollView.clearsContextBeforeDrawing = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.isPagingEnabled = true
-        scrollView.contentSize = CGSize(width: 6*self.view.bounds.size.width, height: self.view.bounds.size.height)
-//        scrollView.delegate = self
-        return scrollView
-    }()
-    
-    lazy var pageControl: UIPageControl = {
-        let control = UIPageControl()
-        control.autoresizingMask = .flexibleBottomMargin
-        control.isUserInteractionEnabled = false
-        control.numberOfPages = 6
-        control.pageIndicatorTintColor = .red
-        control.currentPageIndicatorTintColor = .green
-        return control
-    }()
-    
-    lazy var altrnativeLanguageButton = UIButton()
-    
-    convenience init(backgroundColor: UIColor) {
-        self.init()
-        // 多语言
-        let stringKeys = [
-            "Tour.Title1",
-            "Tour.Title2",
-            "Tour.Title3",
-            "Tour.Title4",
-            "Tour.Title5",
-            "Tour.Title6",
-            "Tour.Text1",
-            "Tour.Text2",
-            "Tour.Text3",
-            "Tour.Text4",
-            "Tour.Text5",
-            "Tour.Text6",
-            "Tour.StartButton"
-        ]
-        if let bundlePath = Bundle.main.path(forResource: "en", ofType: "lproj"),
-           let bundle = Bundle(path: bundlePath) {
-            for key in stringKeys {
-                let value = bundle.localizedString(forKey: key, value: key, table: nil)
-                englishStrings[key] = value
-            }
-        }
-    }
-    override func loadView() {
-        let introView = RMIntroView(frame:  UIScreen.main.bounds)
-        introView.onLayout = {[weak self] in
-            self?.updateLayout()
-        }
-        self.view = introView
-    }
+    var skipBlcok: (() -> Void)?
+//    var englishStrings: [String: String] = [:]
+//    var loadedView: Bool = false
+//    lazy var wrapperView = UIScrollView(frame: self.view.bounds)
+//    lazy var pageScrollView: UIScrollView =  {
+//        let scrollView = UIScrollView(frame: self.view.bounds)
+//        scrollView.contentInsetAdjustmentBehavior = .never
+//        scrollView.clipsToBounds = true
+//        scrollView.isOpaque = true
+//        scrollView.clearsContextBeforeDrawing = false
+//        scrollView.showsHorizontalScrollIndicator = false
+//        scrollView.showsVerticalScrollIndicator = false
+//        scrollView.isPagingEnabled = true
+//        scrollView.contentSize = CGSize(width: 6*self.view.bounds.size.width, height: self.view.bounds.size.height)
+////        scrollView.delegate = self
+//        return scrollView
+//    }()
+//    
+//    lazy var pageControl: UIPageControl = {
+//        let control = UIPageControl()
+//        control.autoresizingMask = .flexibleBottomMargin
+//        control.isUserInteractionEnabled = false
+//        control.numberOfPages = 6
+//        control.pageIndicatorTintColor = .red
+//        control.currentPageIndicatorTintColor = .green
+//        return control
+//    }()
+//    
+//    lazy var altrnativeLanguageButton = UIButton()
+//    
+//    convenience init(backgroundColor: UIColor) {
+//        self.init()
+//        // 多语言
+//        let stringKeys = [
+//            "Tour.Title1",
+//            "Tour.Title2",
+//            "Tour.Title3",
+//            "Tour.Title4",
+//            "Tour.Title5",
+//            "Tour.Title6",
+//            "Tour.Text1",
+//            "Tour.Text2",
+//            "Tour.Text3",
+//            "Tour.Text4",
+//            "Tour.Text5",
+//            "Tour.Text6",
+//            "Tour.StartButton"
+//        ]
+//        if let bundlePath = Bundle.main.path(forResource: "en", ofType: "lproj"),
+//           let bundle = Bundle(path: bundlePath) {
+//            for key in stringKeys {
+//                let value = bundle.localizedString(forKey: key, value: key, table: nil)
+//                englishStrings[key] = value
+//            }
+//        }
+//    }
+//    override func loadView() {
+//        let introView = RMIntroView(frame:  UIScreen.main.bounds)
+//        introView.onLayout = {[weak self] in
+//            self?.updateLayout()
+//        }
+//        self.view = introView
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.loadedView {
-            return
-        }
-        self.loadedView = true
-        self.loadGL()
-        self.view.addSubview(self.wrapperView)
-        self.wrapperView.addSubview(self.pageScrollView)
-        self.wrapperView.addSubview(self.pageControl)
-        
-        self.view.addSubview(self.altrnativeLanguageButton)
+        self.view.backgroundColor = .blue
+        let btn = UIButton()
+        btn.setTitle("skip", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.frame = CGRect(x: 100, y: 100, width: 60, height: 40)
+        btn.addTarget(self, action: #selector(skipClick), for: .touchUpInside)
+        btn.backgroundColor = .cyan
+        self.view.addSubview(btn)
+//        if self.loadedView {
+//            return
+//        }
+//        self.loadedView = true
+//        self.loadGL()
+//        self.view.addSubview(self.wrapperView)
+//        self.wrapperView.addSubview(self.pageScrollView)
+//        self.wrapperView.addSubview(self.pageControl)
+//        
+//        self.view.addSubview(self.altrnativeLanguageButton)
         
     }
     
-    func loadGL() {
-        
+    @objc func skipClick() {
+        print("skipClick")
+        self.skipBlcok?()
     }
     
-    func updateLayout() {
-        
-    }
+//    func loadGL() {
+//        
+//    }
+//    
+//    func updateLayout() {
+//        
+//    }
 }
 
 class RMIntroView: UIView {

@@ -15,6 +15,11 @@ target 'StudyAsynDisplay' do
   pod 'AppBundle', :path => 'LocalLib/AppBundle'
   pod 'UIKitRuntimeUtils', :path => 'LocalLib/UIKitRuntimeUtils'
   pod 'Display', :path => 'LocalLib/Display'
+  pod 'AuthorizationUtils', :path => 'LocalLib/AuthorizationUtils'
+  pod 'libphonenumber', :path => 'LocalLib/libphonenumber'
+  pod 'PhoneNumberFormat', :path => 'LocalLib/PhoneNumberFormat'
+  pod 'PhoneInputNode', :path => 'LocalLib/PhoneInputNode'
+#  pod 'CountrySelectionUI', :path => 'LocalLib/CountrySelectionUI'
 
   target 'StudyAsynDisplayTests' do
     inherit! :search_paths

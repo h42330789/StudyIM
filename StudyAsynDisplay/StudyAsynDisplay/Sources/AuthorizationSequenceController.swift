@@ -8,6 +8,21 @@
 import UIKit
 import Display
 
+public enum UnauthorizedAccountStateContents: Equatable {
+    case empty
+    case phoneEntry
+    case confirmationCodeEntry
+    case passwordEntry
+    case passwordRecovery
+    case awaitingAccountReset
+    case signUp
+}
+
+private enum InnerState: Equatable {
+    case state(UnauthorizedAccountStateContents)
+    case authorized
+}
+
 class AuthorizationSequenceController: NavigationController  {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -23,9 +38,14 @@ class AuthorizationSequenceController: NavigationController  {
         let theme = NavigationControllerTheme(statusBar: statusBar, navigationBar: navBar , emptyAreaColor: .black)
         
         super.init(mode: .single, theme: theme, isFlat: true)
-        var controllers: [ViewController] = []
-        controllers.append(self.splashController())
-        self.setViewControllers(controllers, animated: !self.viewControllers.isEmpty)
+        if UserDefaults.standard.string(forKey: "guide") == nil {
+            // 没有展示过引导页
+            self.updateState(state: .state(.empty))
+        } else {
+            // 已经展示过引导页
+            self.updateState(state: .state(.phoneEntry))
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -35,9 +55,46 @@ class AuthorizationSequenceController: NavigationController  {
     
     private func splashController() -> AuthorizationSequenceSplashController {
         let vc = AuthorizationSequenceSplashController(account: "")
+        vc.nextPressed = {[weak self] in
+            UserDefaults.standard.set("1", forKey: "guide")
+            self?.updateState(state: .state(.phoneEntry))
+        }
         return vc
     }
     
+    private func phoneEntryController(splashController: AuthorizationSequenceSplashController?) -> AuthorizationSequencePhoneEntryController {
+        let vc = AuthorizationSequencePhoneEntryController(account: "")
+        return vc
+    }
+    
+    private func updateState(state: InnerState) {
+        switch state {
+        case .authorized:
+            break
+        case let .state(stateInfo):
+            switch stateInfo {
+            case .empty:
+                var controllers: [ViewController] = []
+                controllers.append(self.splashController())
+                self.setViewControllers(controllers, animated: !self.viewControllers.isEmpty)
+                break
+            case .phoneEntry:
+                var controllers: [ViewController] = []
+                var previousSplashController: AuthorizationSequenceSplashController?
+                for c in self.viewControllers {
+                    if let c = c as? AuthorizationSequenceSplashController {
+                        previousSplashController = c
+                        break
+                    }
+                }
+                controllers.append(self.phoneEntryController(splashController: previousSplashController))
+                self.setViewControllers(controllers, animated: !self.viewControllers.isEmpty && (previousSplashController == nil || self.viewControllers.count > 2))
+                break
+            default:
+                break
+            }
+        }
+    }
     
 }
 
