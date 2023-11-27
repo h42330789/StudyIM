@@ -41,12 +41,7 @@ class AuthorizationSequencePhoneEntryController: ViewController {
 //                self?.push(controller)
             if let app = UIApplication.shared.delegate as? AppDelegate {
                 UserDefaults.standard.set("1", forKey: "isLogined")
-                let rootVC = TelegramRootController(context: "")
-                rootVC.addRootControllers(showCallsTab: false)
-                app.mainWindow.viewController = rootVC
-                if let nav = self?.navigationController as? AuthorizationSequenceController {
-                    nav.dismiss()
-                }
+                app.updateRootVC()
                 
             }
         }

@@ -16,6 +16,11 @@ class UnauthorizedApplicationContext {
     }
 }
 
-class AuthroizedApplicationContext {
+class AuthorizedApplicationContext {
+    let rootController: TelegramRootController
     
+    init(account: String) {
+        self.rootController = TelegramRootController(context: account)
+        self.rootController.addRootControllers(showCallsTab: false)
+    }
 }
