@@ -26,7 +26,7 @@ public final class TelegramRootController: NavigationController {
     }
     
     public func addRootControllers(showCallsTab: Bool) {
-        let tabBarController = TabBarControllerImpl(navigationBarPresentationData: nil, theme: TabBarControllerTheme(backgroundColor: .white, tabBarBackgroundColor: .white, tabBarSeparatorColor: .white, tabBarIconColor: .white, tabBarSelectedIconColor: .white, tabBarTextColor: .white, tabBarSelectedTextColor: .white, tabBarBadgeBackgroundColor: .white, tabBarBadgeStrokeColor: .white, tabBarBadgeTextColor: .white, tabBarExtractedIconColor: .white, tabBarExtractedTextColor: .white))
+        let tabBarController = TabBarControllerImpl(navigationBarPresentationData: nil)
         let contactsController = ContactsController(navigationBarPresentationData: nil)
         contactsController.view.backgroundColor = .red
         let callListController = CallListController(navigationBarPresentationData: nil)
@@ -38,9 +38,9 @@ public final class TelegramRootController: NavigationController {
         var controllers: [ViewController] = []
         controllers.append(contactsController)
         
-        if showCallsTab {
+//        if showCallsTab {
             controllers.append(callListController)
-        }
+//        }
         controllers.append(chatListController)
         controllers.append(accountSettingsController)
         // 设置默认选择chat
@@ -67,21 +67,6 @@ public final class TelegramRootController: NavigationController {
         controllers.append(self.accountSettingsController!)
         rootTabController.setControllers(controllers, selectedIndex: nil)
     }
-    
-//    public override func containerLayoutUpdated(_ layout: ContainerViewLayout, transition: ContainedViewLayoutTransition) {
-//        let needsRootWallpaperBackgroundNode: Bool
-//        if case .regular = layout.metrics.widthClass {
-//            needsRootWallpaperBackgroundNode = true
-//        } else {
-//            needsRootWallpaperBackgroundNode = false
-//        }
-//        
-////        if needsRootWallpaperBackgroundNode {
-////            let detailsPlaceholderNode: detai
-////        }
-//        
-//        super.containerLayoutUpdated(layout, transition: transition)
-//    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
