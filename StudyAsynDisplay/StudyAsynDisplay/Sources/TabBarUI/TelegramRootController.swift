@@ -27,14 +27,33 @@ public final class TelegramRootController: NavigationController {
     
     public func addRootControllers(showCallsTab: Bool) {
         let tabBarController = TabBarControllerImpl(navigationBarPresentationData: nil)
+        
+        
         let contactsController = ContactsController(navigationBarPresentationData: nil)
         contactsController.view.backgroundColor = .red
+        contactsController.tabBarItem.title = "contacts"
+        contactsController.tabBarItem.image = UIImage(named: "IconContacts")
+        contactsController.tabBarItem.selectedImage = UIImage(named: "IconContacts")
+        
         let callListController = CallListController(navigationBarPresentationData: nil)
         callListController.view.backgroundColor = .green
+        callListController.tabBarItem.title = "calls"
+        callListController.tabBarItem.image = UIImage(named: "IconCalls")
+        callListController.tabBarItem.selectedImage = UIImage(named: "IconCalls")
+        
         let chatListController = ChatListController(navigationBarPresentationData: nil)
         chatListController.view.backgroundColor = .blue
+        chatListController.tabBarItem.title = "chats"
+        chatListController.tabBarItem.image = UIImage(named: "IconChats")
+        chatListController.tabBarItem.selectedImage = UIImage(named: "IconChats")
+        
         let accountSettingsController = AccountSettingsController(navigationBarPresentationData: nil)
         accountSettingsController.view.backgroundColor = .purple
+        accountSettingsController.tabBarItem.title = "setting"
+        accountSettingsController.tabBarItem.image = UIImage(named: "IconSettings")
+        accountSettingsController.tabBarItem.selectedImage = UIImage(named: "IconSettings")
+        
+        
         var controllers: [ViewController] = []
         controllers.append(contactsController)
         
