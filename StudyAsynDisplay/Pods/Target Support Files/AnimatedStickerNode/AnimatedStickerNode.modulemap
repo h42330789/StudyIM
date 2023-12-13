@@ -1,0 +1,6 @@
+framework module AnimatedStickerNode {
+  umbrella header "AnimatedStickerNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

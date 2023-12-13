@@ -15,12 +15,24 @@
   "platforms": {
     "ios": "12.0"
   },
-  "source_files": "Sources/AuthorizationLayout.swift",
+  "source_files": "Sources/**/*.swift",
   "dependencies": {
     "AsyncDisplayKit": [
 
     ],
     "Display": [
+
+    ],
+    "TelegramCore": [
+
+    ],
+    "TextFormat": [
+
+    ],
+    "Markdown": [
+
+    ],
+    "TelegramPresentationData": [
 
     ]
   },

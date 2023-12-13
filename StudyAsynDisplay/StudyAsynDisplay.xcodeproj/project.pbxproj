@@ -19,6 +19,10 @@
 		5294F3C92B14D27C0004DFD8 /* TabBarControllerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3C82B14D27C0004DFD8 /* TabBarControllerNode.swift */; };
 		5294F3CB2B14F53B0004DFD8 /* AccountSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3CA2B14F53B0004DFD8 /* AccountSettingsController.swift */; };
 		5294F3CE2B20C1D40004DFD8 /* TabBarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5294F3CD2B20C1D40004DFD8 /* TabBarNode.swift */; };
+		5294F3D32B2360400004DFD8 /* TabCalls.json in Resources */ = {isa = PBXBuildFile; fileRef = 5294F3CF2B2360400004DFD8 /* TabCalls.json */; };
+		5294F3D42B2360400004DFD8 /* TabChats.json in Resources */ = {isa = PBXBuildFile; fileRef = 5294F3D02B2360400004DFD8 /* TabChats.json */; };
+		5294F3D52B2360400004DFD8 /* TabSettings.json in Resources */ = {isa = PBXBuildFile; fileRef = 5294F3D12B2360400004DFD8 /* TabSettings.json */; };
+		5294F3D62B2360400004DFD8 /* TabContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5294F3D22B2360400004DFD8 /* TabContacts.json */; };
 		52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */; };
 		52F2DC452AF3DE16001CAEF0 /* AuthorizationSequenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */; };
 		52F2DC4A2AF3DE19001CAEF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52F2DC492AF3DE19001CAEF0 /* Assets.xcassets */; };
@@ -61,6 +65,10 @@
 		5294F3C82B14D27C0004DFD8 /* TabBarControllerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerNode.swift; sourceTree = "<group>"; };
 		5294F3CA2B14F53B0004DFD8 /* AccountSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsController.swift; sourceTree = "<group>"; };
 		5294F3CD2B20C1D40004DFD8 /* TabBarNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarNode.swift; sourceTree = "<group>"; };
+		5294F3CF2B2360400004DFD8 /* TabCalls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabCalls.json; sourceTree = "<group>"; };
+		5294F3D02B2360400004DFD8 /* TabChats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabChats.json; sourceTree = "<group>"; };
+		5294F3D12B2360400004DFD8 /* TabSettings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabSettings.json; sourceTree = "<group>"; };
+		5294F3D22B2360400004DFD8 /* TabContacts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TabContacts.json; sourceTree = "<group>"; };
 		52F2DC3D2AF3DE16001CAEF0 /* StudyAsynDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyAsynDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSequenceController.swift; sourceTree = "<group>"; };
@@ -156,6 +164,10 @@
 		5294F3CC2B20C1A50004DFD8 /* TabBarUI */ = {
 			isa = PBXGroup;
 			children = (
+				5294F3CF2B2360400004DFD8 /* TabCalls.json */,
+				5294F3D02B2360400004DFD8 /* TabChats.json */,
+				5294F3D22B2360400004DFD8 /* TabContacts.json */,
+				5294F3D12B2360400004DFD8 /* TabSettings.json */,
 				5294F3C42B13A6CC0004DFD8 /* TelegramRootController.swift */,
 				5294F3C62B13A8010004DFD8 /* TabBarController.swift */,
 				5294F3C82B14D27C0004DFD8 /* TabBarControllerNode.swift */,
@@ -248,7 +260,6 @@
 				52F2DC392AF3DE16001CAEF0 /* Sources */,
 				52F2DC3A2AF3DE16001CAEF0 /* Frameworks */,
 				52F2DC3B2AF3DE16001CAEF0 /* Resources */,
-				B9A99E5799AEF2C485D36987 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -286,7 +297,6 @@
 				52F2DC592AF3DE19001CAEF0 /* Sources */,
 				52F2DC5A2AF3DE19001CAEF0 /* Frameworks */,
 				52F2DC5B2AF3DE19001CAEF0 /* Resources */,
-				A7AFC0EBF30DF7875C23A95F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -348,7 +358,11 @@
 			files = (
 				52F2DC4D2AF3DE19001CAEF0 /* LaunchScreen.storyboard in Resources */,
 				5294F3BD2B10F8E70004DFD8 /* Localizable.strings in Resources */,
+				5294F3D52B2360400004DFD8 /* TabSettings.json in Resources */,
+				5294F3D42B2360400004DFD8 /* TabChats.json in Resources */,
 				52F2DC4A2AF3DE19001CAEF0 /* Assets.xcassets in Resources */,
+				5294F3D62B2360400004DFD8 /* TabContacts.json in Resources */,
+				5294F3D32B2360400004DFD8 /* TabCalls.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,40 +403,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A7AFC0EBF30DF7875C23A95F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B9A99E5799AEF2C485D36987 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D3B6D98ED4D9CCAD67545973 /* [CP] Check Pods Manifest.lock */ = {

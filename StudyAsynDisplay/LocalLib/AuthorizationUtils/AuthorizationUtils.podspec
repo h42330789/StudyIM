@@ -10,16 +10,18 @@ Pod::Spec.new do |s|
   
     s.ios.deployment_target = '12.0'
   
-    s.source_files = 'Sources/AuthorizationLayout.swift'
+    s.source_files = 'Sources/**/*.swift'
 
     s.dependency "AsyncDisplayKit"
     s.dependency "Display"
+    s.dependency "AsyncDisplayKit"
+    s.dependency "TelegramCore"
+    s.dependency "Display"
+    s.dependency "TextFormat"
+    s.dependency "Markdown"
+    s.dependency "TelegramPresentationData"
    
     s.libraries = 'swiftCoreGraphics'
-  
-    # s.xcconfig = {
-    #     'LIBRARY_SEARCH_PATHS' => '$(SDKROOT)/usr/lib/swift',
-    # }
   
     # s.swift_versions = ['5.0']
   end

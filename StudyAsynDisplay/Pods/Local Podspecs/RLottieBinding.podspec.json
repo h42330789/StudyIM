@@ -1,0 +1,40 @@
+{
+  "name": "RLottieBinding",
+  "version": "1.0.0",
+  "authors": {
+    "Huy Nguyen": "hi@huynguyen.dev",
+    "Garrett Moon": "garrett@excitedpixel.com",
+    "Scott Goodson": "scottgoodson@gmail.com",
+    "Michael Schneider": "mischneider1@gmail.com",
+    "Adlai Holler": "adlai@icloud.com"
+  },
+  "summary": "Smooth asynchronous user interfaces for iOS apps.",
+  "source": {
+    "git": "https://github.com/TextureGroup/Texture.git",
+    "tag": "1.0.0"
+  },
+  "license": "MIT",
+  "homepage": "http://www.example.com",
+  "requires_arc": true,
+  "platforms": {
+    "ios": "12.0"
+  },
+  "public_header_files": "PublicHeaders/**/*.h",
+  "source_files": [
+    "rlottie/src/**/*.cpp",
+    "rlottie/src/**/*.h",
+    "rlottie/inc/**/*.h",
+    "PublicHeaders/**/*.h",
+    "LottieInstance.mm",
+    "config.h"
+  ],
+  "exclude_files": [
+    "rlottie/src/vector/vdrawhelper_neon.cpp",
+    "rlottie/src/vector/stb/**/*",
+    "rlottie/src/lottie/rapidjson/msinttypes/**/*"
+  ],
+  "pod_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": "$(inherited) -Dpixman_region_selfcheck=1 -DLOTTIE_DISABLE_ARM_NEON=1 -DLOTTIE_THREAD_SAFE=1 -DLOTTIE_IMAGE_MODULE_DISABLED=1"
+  },
+  "libraries": "c++"
+}

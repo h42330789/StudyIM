@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
     s.dependency "AsyncDisplayKit"
     s.dependency "Display"
-    # s.dependency "TelegramPresentationData"
+    s.dependency "TelegramPresentationData"
     s.dependency "PhoneNumberFormat"
    
     s.libraries = 'swiftCoreGraphics'

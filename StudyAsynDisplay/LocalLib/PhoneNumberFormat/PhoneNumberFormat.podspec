@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
     
     s.dependency "libphonenumber"
     # s.dependency "AccountContext"
-    # s.dependency "TelegramCore"
+    s.dependency "TelegramCore"
   
     s.libraries = 'swiftCoreGraphics'
   end

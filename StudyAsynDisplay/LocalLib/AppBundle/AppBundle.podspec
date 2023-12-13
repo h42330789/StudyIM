@@ -11,9 +11,6 @@ Pod::Spec.new do |s|
     s.requires_arc  = true
     s.ios.deployment_target = "12.0"
 
-    # s.public_header_files = ['PublicHeaders/**/*.h']
-    # s.source_files  = "Sources/**/*.{h,m,mm}"
-    # s.source_files = "Sources/AppBundle/AppBundle.h","Sources/AppBundle/AppBundle.m"
     s.public_header_files = 'PublicHeaders/**/*.h'
     s.source_files = "PublicHeaders/**/*.h","Sources/**/*.{h,m}"
     s.frameworks = "Foundation","UIKit"

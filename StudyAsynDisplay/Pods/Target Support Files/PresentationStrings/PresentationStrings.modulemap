@@ -1,0 +1,6 @@
+framework module PresentationStrings {
+  umbrella header "PresentationStrings-umbrella.h"
+
+  export *
+  module * { export * }
+}

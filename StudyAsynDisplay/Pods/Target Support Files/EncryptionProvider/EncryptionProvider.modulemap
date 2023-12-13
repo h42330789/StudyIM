@@ -1,0 +1,6 @@
+framework module EncryptionProvider {
+  umbrella header "EncryptionProvider-umbrella.h"
+
+  export *
+  module * { export * }
+}

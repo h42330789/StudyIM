@@ -19,6 +19,9 @@
   "dependencies": {
     "libphonenumber": [
 
+    ],
+    "TelegramCore": [
+
     ]
   },
   "libraries": "swiftCoreGraphics"

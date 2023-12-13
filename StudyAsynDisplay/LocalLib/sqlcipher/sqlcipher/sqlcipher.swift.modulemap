@@ -1,0 +1,8 @@
+module "sqlcipher" {
+    export *
+
+    header "../../../../../submodules/sqlcipher/PublicHeaders/sqlcipher/sqlite3.h"
+    header "../../../../../submodules/sqlcipher/PublicHeaders/sqlcipher/sqlite3ext.h"
+    header "../../../../../submodules/sqlcipher/PublicHeaders/sqlcipher/sqlite3session.h"
+
+}

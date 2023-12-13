@@ -34,24 +34,28 @@ public final class TelegramRootController: NavigationController {
         contactsController.tabBarItem.title = "contacts"
         contactsController.tabBarItem.image = UIImage(named: "IconContacts")
         contactsController.tabBarItem.selectedImage = UIImage(named: "IconContacts")
+        contactsController.tabBarItem.animationName = "TabContacts"
         
         let callListController = CallListController(navigationBarPresentationData: nil)
         callListController.view.backgroundColor = .green
         callListController.tabBarItem.title = "calls"
         callListController.tabBarItem.image = UIImage(named: "IconCalls")
         callListController.tabBarItem.selectedImage = UIImage(named: "IconCalls")
+        callListController.tabBarItem.animationName = "TabCalls"
         
         let chatListController = ChatListController(navigationBarPresentationData: nil)
         chatListController.view.backgroundColor = .blue
         chatListController.tabBarItem.title = "chats"
         chatListController.tabBarItem.image = UIImage(named: "IconChats")
         chatListController.tabBarItem.selectedImage = UIImage(named: "IconChats")
+        chatListController.tabBarItem.animationName = "TabChats"
         
         let accountSettingsController = AccountSettingsController(navigationBarPresentationData: nil)
         accountSettingsController.view.backgroundColor = .purple
         accountSettingsController.tabBarItem.title = "setting"
         accountSettingsController.tabBarItem.image = UIImage(named: "IconSettings")
         accountSettingsController.tabBarItem.selectedImage = UIImage(named: "IconSettings")
+        accountSettingsController.tabBarItem.animationName = "TabSettings"
         
         
         var controllers: [ViewController] = []

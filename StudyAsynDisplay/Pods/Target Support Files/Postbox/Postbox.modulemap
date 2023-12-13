@@ -1,0 +1,6 @@
+framework module Postbox {
+  umbrella header "Postbox-umbrella.h"
+
+  export *
+  module * { export * }
+}
