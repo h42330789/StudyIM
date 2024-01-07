@@ -237,57 +237,7 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
             let node = TabBarItemNode()
             
             // 设置图片
-            if index == self.selectedIndex {
-                // 选中的 文字+图片
-                let (textImage, contentWidth) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: .blue, imageMode: false)
-                let (image, imageContentWidth): (UIImage, CGFloat)
-                if let _ = item.animationName {
-                    // 有动画
-                    (image, imageContentWidth) = (UIImage(), 0)
-                    node.animationNode.isHidden = false
-                    let animationSize = Int(51.0 * UIScreen.main.scale)
-                    node.animationNode.visibility = true
-                    if node.isSelected == false {
-                        // 如果不是选中状态, 播放动画
-                        node.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: item.animationName ?? ""), width: animationSize, height: animationSize, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
-                    }
-                    node.animationNode.updateLayout(size: CGSize(width: 51.0, height: 51.0))
-                } else {
-                    // 没有动画，将图片设置tintColor
-                    (image, imageContentWidth) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: .blue, imageMode: true)
-                    node.animationNode.isHidden = true
-                    node.animationNode.visibility = false
-                }
-                
-                // 未选中的文字+图片
-                let (contextTextImage, _) = tabBarItemImage(item.image, title: item.title, tintColor: .gray, imageMode: false)
-                let (contextImage, _) = tabBarItemImage(item.image, title: item.title, tintColor: .gray, imageMode: true)
-                node.textImageNode.image = textImage
-                node.imageNode.image = image
-                node.contextTextImageNode.image = contextTextImage
-                node.contextImageNode.image = contextImage
-                // 设置item的宽度，
-                node.contentWidth = max(contentWidth, imageContentWidth)
-                node.isSelected = true
-            } else {
-                // 未选中的 文字+图片
-                let (textImage, contentWidth) = tabBarItemImage(item.image, title: item.title, tintColor: .gray, imageMode: false)
-                let (image, imageContentWidth) = tabBarItemImage(item.image, title: item.title, tintColor: .gray, imageMode: true)
-                // 选中的文字+图片
-                let (contextTextImage, _) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: .blue, imageMode: false)
-                let (contextImage, _) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: .blue, imageMode: true)
-                
-                // 动画不可见
-                node.animationNode.isHidden = true
-                node.animationNode.visibility = false
-                
-                node.textImageNode.image = textImage
-                node.imageNode.image = image
-                node.contextTextImageNode.image = contextTextImage
-                node.contextImageNode.image = contextImage
-                node.contentWidth = max(contentWidth, imageContentWidth)
-                node.isSelected = false
-            }
+            updateTabItem(index, item: item, node: node)
             
             let container = TabBarNodeContainer(item: itemModel, imageNode: node)
             tabBarNodeContainers.append(container)
@@ -296,7 +246,7 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
         self.tabBarNodeContainers = tabBarNodeContainers
 
     }
-
+    
     private func updateNodeImage(_ index: Int, layout: Bool) {
         // 判断是否越界
         guard index < self.tabBarNodeContainers.count else {
@@ -305,6 +255,10 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
         // 拿到tabItem的node
         let node = self.tabBarNodeContainers[index].imageNode
         let item = self.tabBarNodeContainers[index].item
+        updateTabItem(index, item: item, node: node)
+    }
+    
+    func updateTabItem(_ index: Int, item: UITabBarItem, node: TabBarItemNode) {
         // 设置图片
         if index == self.selectedIndex {
             // 选中的 文字+图片
@@ -320,7 +274,7 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
                     // 如果不是选中状态, 播放动画
                     node.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: item.animationName ?? ""), width: animationSize, height: animationSize, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
                 }
-                    node.animationNode.updateLayout(size: CGSize(width: 51.0, height: 51.0))
+                node.animationNode.updateLayout(size: CGSize(width: 51.0, height: 51.0))
             } else {
                 // 没有动画，将图片设置tintColor
                 (image, imageContentWidth) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: .blue, imageMode: true)
@@ -357,7 +311,6 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
             node.contentWidth = max(contentWidth, imageContentWidth)
             node.isSelected = false
         }
-        
     }
     
     private let separatorHeight: CGFloat = 1.0 / UIScreen.main.scale
@@ -376,7 +329,7 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
             let container = tabBarNodeContainers[i]
             let node = container.imageNode
             // node的真实宽高
-            let nodeSize = CGSize(width: 45, height: 45)
+            let nodeSize = node.textImageNode.image?.size ?? CGSize()
             let leftItemRight = CGFloat(i) * distanceBetweenNodes
             // 当前item在当前平分位置的中间
             let currentItemLeft = (distanceBetweenNodes - nodeSize.width)/2
@@ -389,6 +342,13 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
             node.textImageNode.frame = CGRect(origin: .zero, size: nodeFrame.size)
             node.contextImageNode.frame = CGRect(origin: .zero, size: nodeFrame.size)
             node.contextTextImageNode.frame = CGRect(origin: .zero, size: nodeFrame.size)
+            // MARK: 动画node的frame
+            let animationOffset = self.tabBarItems[i].item.animationOffset
+            // nodeSize=45,45
+            let animationNodeSize = CGSize(width: 51, height: 51)
+            // 左右居中，顶部固定位置-10，
+            let animationNodeOrigin = CGPoint(x: floorToScreenPixels((nodeSize.width - animationNodeSize.width) / 2.0), y: -10.0 - UIScreenPixel).offsetBy(dx: animationOffset.x, dy: animationOffset.y)
+            node.animationNode.frame = CGRect(origin: animationNodeOrigin, size: animationNodeSize)
         }
     }
 }
