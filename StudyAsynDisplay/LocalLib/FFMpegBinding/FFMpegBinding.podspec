@@ -15,10 +15,7 @@ Pod::Spec.new do |s|
     s.source_files  = ["Sources/**/*.{h,m}", "Public/**/*.h"]
 
     # s.dependency "ffmpeg"
-    s.dependency "libavutil"
-    s.dependency "libavformat"
-    s.dependency "libavcodec"
-    s.dependency "libswresample"
+    s.dependency "ffmpeg-kit-ios-full"
     
     s.frameworks = "Foundation"
 end

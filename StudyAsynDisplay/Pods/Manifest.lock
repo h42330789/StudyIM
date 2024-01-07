@@ -46,18 +46,12 @@ PODS:
   - Emoji (1.0.0)
   - EncryptionProvider (1.0.0)
   - FastBlur (1.0.0)
+  - ffmpeg-kit-ios-full (6.0)
   - FFMpegBinding (1.0.0):
-    - libavcodec
-    - libavformat
-    - libavutil
-    - libswresample
+    - ffmpeg-kit-ios-full
   - GZip (1.0.0)
   - LegacyReachability (1.0.0)
-  - libavcodec (1.0.0)
-  - libavformat (1.0.0)
-  - libavutil (1.0.0)
   - libphonenumber (1.0.0)
-  - libswresample (1.0.0)
   - LocalizedPeerData (1.0.0):
     - SwiftSignalKit
     - TelegramCore
@@ -204,14 +198,11 @@ DEPENDENCIES:
   - Emoji (from `LocalLib/Emoji`)
   - EncryptionProvider (from `LocalLib/EncryptionProvider`)
   - FastBlur (from `LocalLib/FastBlur`)
+  - ffmpeg-kit-ios-full
   - FFMpegBinding (from `LocalLib/FFMpegBinding`)
   - GZip (from `LocalLib/GZip`)
   - LegacyReachability (from `LocalLib/Reachability/LegacyReachability`)
-  - libavcodec (from `LocalLib/ffmpeg`)
-  - libavformat (from `LocalLib/ffmpeg`)
-  - libavutil (from `LocalLib/ffmpeg`)
   - libphonenumber (from `LocalLib/libphonenumber`)
-  - libswresample (from `LocalLib/ffmpeg`)
   - LocalizedPeerData (from `LocalLib/LocalizedPeerData`)
   - ManagedFile (from `LocalLib/ManagedFile`)
   - Markdown (from `LocalLib/Markdown`)
@@ -250,6 +241,10 @@ DEPENDENCIES:
   - WebPBinding (from `LocalLib/WebPBinding`)
   - YuvConversion (from `LocalLib/YuvConversion`)
 
+SPEC REPOS:
+  trunk:
+    - ffmpeg-kit-ios-full
+
 EXTERNAL SOURCES:
   ActivityIndicator:
     :path: LocalLib/ActivityIndicator
@@ -287,16 +282,8 @@ EXTERNAL SOURCES:
     :path: LocalLib/GZip
   LegacyReachability:
     :path: LocalLib/Reachability/LegacyReachability
-  libavcodec:
-    :path: LocalLib/ffmpeg
-  libavformat:
-    :path: LocalLib/ffmpeg
-  libavutil:
-    :path: LocalLib/ffmpeg
   libphonenumber:
     :path: LocalLib/libphonenumber
-  libswresample:
-    :path: LocalLib/ffmpeg
   LocalizedPeerData:
     :path: LocalLib/LocalizedPeerData
   ManagedFile:
@@ -388,14 +375,11 @@ SPEC CHECKSUMS:
   Emoji: 9a9bec440c1848281f5a3ea52cb4dedea27bbc9c
   EncryptionProvider: 8403dafee9a8d8afe03c43f803fd1737083401b6
   FastBlur: 01c8d64be0fc6f8ea7bf5f89be5e3d2c3cd0b6a8
-  FFMpegBinding: bd281102d5b23cb5e04a5df81f1e6a11837e85a9
+  ffmpeg-kit-ios-full: 0099a769d22114dde52cdc238397941c32f75d27
+  FFMpegBinding: e7cac3c51b1ee73f814026d90c334049718def79
   GZip: 4e8bbe2851cffa0e0fd6d79f57ce68092e449001
   LegacyReachability: a77542e02304b1da62cb7e24f55add66a3b27dd8
-  libavcodec: 5189512beb0b2df364ccaf008297c9e94774c54a
-  libavformat: ce360aa8551f0429be3384e316e137f030ec7fe6
-  libavutil: 6540cc354db5bcb5cb4dd21b78dfa785f9a57c07
   libphonenumber: 0bf63dd1dcfff9f039e1f47dba19c95cb347303f
-  libswresample: c4c6f7b9d4abbf9fc68db73169daba3df303f2b8
   LocalizedPeerData: 0213ea776838a1d1404e561c2eabb46b1187d027
   ManagedFile: 09b520b75107ff61a1817e4fb360b3102d4968f7
   Markdown: d2995a605760e551d8ae61b9e320d88f57d7dc71
@@ -434,6 +418,6 @@ SPEC CHECKSUMS:
   WebPBinding: d6da3e61dda7579e300ca9e6c3dfbde33a8c4c4c
   YuvConversion: 38fe0f0c2bb6e8db2750b4c5fdf232046372f3f0
 
-PODFILE CHECKSUM: cc3ae77e2d3ede8beee24e3d1346b4f4238e5cc8
+PODFILE CHECKSUM: b4feb37fe4bb9aac8d1e5e235a65b54a9804c5ab
 
 COCOAPODS: 1.12.1

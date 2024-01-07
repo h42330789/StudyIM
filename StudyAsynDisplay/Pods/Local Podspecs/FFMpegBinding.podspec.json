@@ -27,16 +27,7 @@
     "Public/**/*.h"
   ],
   "dependencies": {
-    "libavutil": [
-
-    ],
-    "libavformat": [
-
-    ],
-    "libavcodec": [
-
-    ],
-    "libswresample": [
+    "ffmpeg-kit-ios-full": [
 
     ]
   },
