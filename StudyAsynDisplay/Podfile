@@ -32,6 +32,21 @@ target 'StudyAsynDisplay' do
   pod "WebPBinding", :path => 'LocalLib/WebPBinding'
   pod "webp", :path => 'LocalLib/webp'
   pod 'AnimatedStickerNode', :path => 'LocalLib/AnimatedStickerNode'
+  pod 'StickerResources', :path => 'LocalLib/StickerResources'
+  pod 'ImageBlur', :path => 'LocalLib/ImageBlur'
+  pod 'Tuples', :path => 'LocalLib/Tuples'
+  pod 'LocalMediaResources', :path => 'LocalLib/LocalMediaResources'
+  
+  pod 'mozjpeg', :path => 'LocalLib/mozjpeg'
+  pod 'jxl', :path => 'LocalLib/libjxl'
+  pod 'MozjpegBinding', :path => 'LocalLib/MozjpegBinding'
+  
+  pod 'ImageCompression', :path => 'LocalLib/ImageCompression'
+  pod 'PersistentStringHash', :path => 'LocalLib/PersistentStringHash'
+  pod 'SoftwareVideo', :path => 'LocalLib/SoftwareVideo'
+  
+  
+  pod 'TelegramAnimatedStickerNode', :path => 'LocalLib/TelegramAnimatedStickerNode'
   pod "RangeSet", :path => 'LocalLib/RangeSet'
   pod "DarwinDirStat", :path => 'LocalLib/DarwinDirStat'
   pod "CryptoUtils", :path => 'LocalLib/CryptoUtils'

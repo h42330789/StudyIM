@@ -9,6 +9,7 @@ import Foundation
 import Display
 import AsyncDisplayKit
 import AnimatedStickerNode
+import TelegramAnimatedStickerNode
 
 class TabBarNodeContainer {
     let item: UITabBarItem
@@ -19,7 +20,7 @@ class TabBarNodeContainer {
         self.imageNode = imageNode
     }
 }
-
+// MARK: - TabBarItemNode
 class TabBarItemNode: ASDisplayNode {
     let extractedContainerNode: ContextExtractedContentContainingNode
     let containerNode: ContextControllerSourceNode
@@ -45,6 +46,8 @@ class TabBarItemNode: ASDisplayNode {
         
         self.animationContainerNode = ASDisplayNode()
         self.animationNode = DefaultAnimatedStickerNodeImpl()
+        self.animationNode.autoplay = true
+        self.animationNode.automaticallyLoadLastFrame = true
         
         self.contextImageNode = ASImageNode()
         self.contextImageNode.alpha = 0
@@ -118,7 +121,7 @@ private func tabBarItemImage(_ image: UIImage?, title: String?, tintColor: UICol
     UIGraphicsEndImageContext()
     return (resultImage!, contentWidth)
 }
-
+// MARK: - TabBarNode
 class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
     typealias ItemSelectedBlock = (Int, Bool, [ASDisplayNode]) -> Void
     private var validLayout: (CGSize, CGFloat, CGFloat, UIEdgeInsets, CGFloat)?
@@ -246,7 +249,7 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
                     node.animationNode.visibility = true
                     if node.isSelected == false {
                         // 如果不是选中状态, 播放动画
-                        //node.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: item.animationName ?? ""), width: animationSize, height: animationSize, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
+                        node.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: item.animationName ?? ""), width: animationSize, height: animationSize, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
                     }
                     node.animationNode.updateLayout(size: CGSize(width: 51.0, height: 51.0))
                 } else {
@@ -315,7 +318,7 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
                 node.animationNode.visibility = true
                 if node.isSelected == false {
                     // 如果不是选中状态, 播放动画
-                    //node.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: item.animationName ?? ""), width: animationSize, height: animationSize, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
+                    node.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: item.animationName ?? ""), width: animationSize, height: animationSize, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
                 }
                     node.animationNode.updateLayout(size: CGSize(width: 51.0, height: 51.0))
             } else {
