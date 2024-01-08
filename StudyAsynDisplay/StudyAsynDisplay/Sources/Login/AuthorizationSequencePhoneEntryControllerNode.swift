@@ -149,9 +149,11 @@ class AuthorizationSequencePhoneEntryControllerNode: ASDisplayNode {
     private let noticeNode: ASTextNode
     private let noticeActivateAreaNode: AccessibilityAreaNode
     private let phoneAndCountryNode: PhoneAndCountryNode
+    private let loginNode: ASButtonNode
     private let contactSyncNode: ContactSyncNode
     private let proceedNode: ASButtonNode
     var selectCountryCode: (() -> Void)?
+    var loginSuccess: (() -> Void)?
     
     init(strings: String) {
         self.animationNode = ASImageNode()
@@ -181,6 +183,9 @@ class AuthorizationSequencePhoneEntryControllerNode: ASDisplayNode {
         self.proceedNode = ASButtonNode()
         self.proceedNode.setTitle("Continue", with: Font.regular(20), with: .black, for: .normal)
         
+        self.loginNode = ASButtonNode()
+        self.loginNode.setTitle("Login", with: Font.regular(20), with: .black, for: .normal)
+        
         super.init()
         self.setViewBlock {
             return UITracingLayerView()
@@ -194,10 +199,16 @@ class AuthorizationSequencePhoneEntryControllerNode: ASDisplayNode {
         self.addSubnode(self.phoneAndCountryNode)
         self.addSubnode(self.contactSyncNode)
         self.addSubnode(self.proceedNode)
+        self.addSubnode(self.loginNode)
         
         self.phoneAndCountryNode.selectCountryCode = { [weak self] in
             self?.selectCountryCode?()
         }
+        self.loginNode.addTarget(self, action: #selector(loginClick), forControlEvents: .touchUpInside)
+    }
+    
+    @objc func loginClick() {
+        self.loginSuccess?()
     }
     
     override func didLoad() {
@@ -230,7 +241,7 @@ class AuthorizationSequencePhoneEntryControllerNode: ASDisplayNode {
             AuthorizationLayoutItem(node: self.titleNode, size: titleSize, spacingBefore: AuthorizationLayoutItemSpacing(weight: titleInset, maxValue: titleInset), spacingAfter: AuthorizationLayoutItemSpacing(weight: 0, maxValue: 0)),
             AuthorizationLayoutItem(node: self.noticeNode, size: noticeSize, spacingBefore: AuthorizationLayoutItemSpacing(weight: noticeInset, maxValue: noticeInset), spacingAfter: AuthorizationLayoutItemSpacing(weight: 0, maxValue: 0)),
             AuthorizationLayoutItem(node: self.phoneAndCountryNode, size: CGSize(width: maximumWidth, height: 115.0), spacingBefore: AuthorizationLayoutItemSpacing(weight: 30.0, maxValue: 30.0), spacingAfter: AuthorizationLayoutItemSpacing(weight: 0.0, maxValue: 0.0)),
-            AuthorizationLayoutItem(node: self.contactSyncNode, size: contactSyncSize, spacingBefore: AuthorizationLayoutItemSpacing(weight: 14.0, maxValue: 14.0), spacingAfter: AuthorizationLayoutItemSpacing(weight: 0.0, maxValue: 0.0))
+            AuthorizationLayoutItem(node: self.loginNode, size: contactSyncSize, spacingBefore: AuthorizationLayoutItemSpacing(weight: 14.0, maxValue: 14.0), spacingAfter: AuthorizationLayoutItemSpacing(weight: 0.0, maxValue: 0.0))
         ]
         
         let _ = layoutAuthorizationItems(bounds: CGRect(origin: CGPoint(x: 0.0, y: insets.top), size: CGSize(width: layout.size.width, height: layout.size.height - insets.top - insets.bottom - additionalBottomInset)), items: items, transition: transition, failIfDoesNotFit: false)

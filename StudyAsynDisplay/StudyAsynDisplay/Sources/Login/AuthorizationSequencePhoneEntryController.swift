@@ -35,15 +35,19 @@ class AuthorizationSequencePhoneEntryController: ViewController {
 //                        strongSelf.controllerNode.activateInput()
                     }
                 }
+            
 //                controller.dismissed = {
 //                    self?.controllerNode.activateInput()
 //                }
                 self?.push(controller)
-//            if let app = UIApplication.shared.delegate as? AppDelegate {
-//                UserDefaults.standard.set("1", forKey: "isLogined")
-//                app.updateRootVC()
-//                
-//            }
+
+        }
+        self.controllerNode.loginSuccess = {
+                if let app = UIApplication.shared.delegate as? AppDelegate {
+                    UserDefaults.standard.set("1", forKey: "isLogined")
+                    app.updateRootVC()
+    
+                }
         }
     }
     public func updateData(countryCode: Int32, countryId: String?) {
