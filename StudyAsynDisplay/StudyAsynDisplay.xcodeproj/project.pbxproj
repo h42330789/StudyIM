@@ -25,6 +25,9 @@
 		5294F3D62B2360400004DFD8 /* TabContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = 5294F3D22B2360400004DFD8 /* TabContacts.json */; };
 		52A508912B4AEA2C002E0EF9 /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A508902B4AEA2C002E0EF9 /* libbz2.1.0.tbd */; };
 		52A508932B4AEA48002E0EF9 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A508922B4AEA48002E0EF9 /* libiconv.tbd */; };
+		52CDDA602B4C4A7A0008C4D0 /* CountrySelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CDDA5F2B4C4A7A0008C4D0 /* CountrySelectionController.swift */; };
+		52CDDA622B4C4A8B0008C4D0 /* CountrySelectionControllerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CDDA612B4C4A8B0008C4D0 /* CountrySelectionControllerNode.swift */; };
+		52CDDA642B4C4BB30008C4D0 /* PhoneCountries.txt in Resources */ = {isa = PBXBuildFile; fileRef = 52CDDA632B4C4BB30008C4D0 /* PhoneCountries.txt */; };
 		52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */; };
 		52F2DC452AF3DE16001CAEF0 /* AuthorizationSequenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */; };
 		52F2DC4A2AF3DE19001CAEF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52F2DC492AF3DE19001CAEF0 /* Assets.xcassets */; };
@@ -74,6 +77,9 @@
 		52A508902B4AEA2C002E0EF9 /* libbz2.1.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.1.0.tbd; path = usr/lib/libbz2.1.0.tbd; sourceTree = SDKROOT; };
 		52A508922B4AEA48002E0EF9 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		52BE86362B4AE7F000027EAA /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		52CDDA5F2B4C4A7A0008C4D0 /* CountrySelectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionController.swift; sourceTree = "<group>"; };
+		52CDDA612B4C4A8B0008C4D0 /* CountrySelectionControllerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySelectionControllerNode.swift; sourceTree = "<group>"; };
+		52CDDA632B4C4BB30008C4D0 /* PhoneCountries.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PhoneCountries.txt; sourceTree = "<group>"; };
 		52F2DC3D2AF3DE16001CAEF0 /* StudyAsynDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyAsynDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSequenceController.swift; sourceTree = "<group>"; };
@@ -129,6 +135,7 @@
 		5294F3AB2B0D15F80004DFD8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				52CDDA5E2B4C4A4A0008C4D0 /* Login */,
 				5294F3CC2B20C1A50004DFD8 /* TabBarUI */,
 				5294F3C32B13A6B00004DFD8 /* Chat */,
 				5294F3AE2B0F87070004DFD8 /* StatusBarHost.swift */,
@@ -141,6 +148,7 @@
 		5294F3B22B10F67E0004DFD8 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				52CDDA632B4C4BB30008C4D0 /* PhoneCountries.txt */,
 				5294F3BB2B10F8E70004DFD8 /* Localizable.strings */,
 				52F2DC492AF3DE19001CAEF0 /* Assets.xcassets */,
 				52F2DC4B2AF3DE19001CAEF0 /* LaunchScreen.storyboard */,
@@ -154,8 +162,6 @@
 				52F2DC442AF3DE16001CAEF0 /* AuthorizationSequenceController.swift */,
 				5294F3A92B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift */,
 				5294F3AC2B0D16150004DFD8 /* RMIntroViewController.swift */,
-				5294F3BE2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift */,
-				5294F3C02B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -181,6 +187,17 @@
 				5294F3CD2B20C1D40004DFD8 /* TabBarNode.swift */,
 			);
 			path = TabBarUI;
+			sourceTree = "<group>";
+		};
+		52CDDA5E2B4C4A4A0008C4D0 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				5294F3BE2B110CFF0004DFD8 /* AuthorizationSequencePhoneEntryController.swift */,
+				5294F3C02B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift */,
+				52CDDA5F2B4C4A7A0008C4D0 /* CountrySelectionController.swift */,
+				52CDDA612B4C4A8B0008C4D0 /* CountrySelectionControllerNode.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		52F2DC342AF3DE16001CAEF0 = {
@@ -374,6 +391,7 @@
 				5294F3D42B2360400004DFD8 /* TabChats.json in Resources */,
 				52F2DC4A2AF3DE19001CAEF0 /* Assets.xcassets in Resources */,
 				5294F3D62B2360400004DFD8 /* TabContacts.json in Resources */,
+				52CDDA642B4C4BB30008C4D0 /* PhoneCountries.txt in Resources */,
 				5294F3D32B2360400004DFD8 /* TabCalls.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,7 +529,9 @@
 				52F2DC452AF3DE16001CAEF0 /* AuthorizationSequenceController.swift in Sources */,
 				5294F3C72B13A8010004DFD8 /* TabBarController.swift in Sources */,
 				5294F3C92B14D27C0004DFD8 /* TabBarControllerNode.swift in Sources */,
+				52CDDA622B4C4A8B0008C4D0 /* CountrySelectionControllerNode.swift in Sources */,
 				52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */,
+				52CDDA602B4C4A7A0008C4D0 /* CountrySelectionController.swift in Sources */,
 				5294F3AA2B0D15740004DFD8 /* AuthorizationSequenceSplashController.swift in Sources */,
 				5294F3C12B1360630004DFD8 /* AuthorizationSequencePhoneEntryControllerNode.swift in Sources */,
 				5294F3AD2B0D16150004DFD8 /* RMIntroViewController.swift in Sources */,

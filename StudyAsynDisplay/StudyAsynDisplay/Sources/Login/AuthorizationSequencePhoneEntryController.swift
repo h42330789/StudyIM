@@ -28,25 +28,29 @@ class AuthorizationSequencePhoneEntryController: ViewController {
         self.displayNode = AuthorizationSequencePhoneEntryControllerNode(strings: "")
         self.displayNodeDidLoad()
         self.controllerNode.selectCountryCode = { [weak self] in
-//                let controller = AuthorizationSequenceCountrySelectionController(strings: "", theme: nil)
-//                controller.completeWithCountryCode = { code, name in
-////                    if let strongSelf = self, let currentData = strongSelf.currentData {
-////                        strongSelf.updateData(countryCode: Int32(code), countryName: name, number: currentData.2)
-////                        strongSelf.controllerNode.activateInput()
-////                    }
-//                }
+            let controller = CountrySelectionController(navigationBarPresentationData: nil)
+                controller.completeWithCountryCode = { code, id in
+                    if let strongSelf = self {
+                        strongSelf.updateData(countryCode: Int32(code), countryId: id)
+//                        strongSelf.controllerNode.activateInput()
+                    }
+                }
 //                controller.dismissed = {
 //                    self?.controllerNode.activateInput()
 //                }
-//                self?.push(controller)
-            if let app = UIApplication.shared.delegate as? AppDelegate {
-                UserDefaults.standard.set("1", forKey: "isLogined")
-                app.updateRootVC()
-                
-            }
+                self?.push(controller)
+//            if let app = UIApplication.shared.delegate as? AppDelegate {
+//                UserDefaults.standard.set("1", forKey: "isLogined")
+//                app.updateRootVC()
+//                
+//            }
         }
     }
-    
+    public func updateData(countryCode: Int32, countryId: String?) {
+        if self.isNodeLoaded {
+            self.controllerNode.codeAndCountryId = (countryCode, countryId, "")
+        }
+    }
     override func containerLayoutUpdated(_ layout: ContainerViewLayout, transition: ContainedViewLayoutTransition) {
         super.containerLayoutUpdated(layout, transition: transition)
         let hadLayout = self.validLayout != nil

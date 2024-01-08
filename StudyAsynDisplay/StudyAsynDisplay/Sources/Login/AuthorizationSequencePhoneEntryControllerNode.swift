@@ -11,6 +11,7 @@ import Display
 import AuthorizationUtils
 import PhoneInputNode
 
+// 区号和手机号Node
 private final class PhoneAndCountryNode: ASDisplayNode {
     let countryButton: ASButtonNode
     let phoneBackground: ASImageNode
@@ -19,12 +20,12 @@ private final class PhoneAndCountryNode: ASDisplayNode {
     
     init(strings: String){
         let inset: CGFloat = 24.0
-        
+        // 区号
         let countryButtonBackground = generateImage(CGSize(width: 136.0, height: 67.0), rotatedContext: { size, context in
             let arrowSize: CGFloat = 10.0
             let lineWidth = UIScreenPixel
             context.clear(CGRect(origin: CGPoint(), size: size))
-            //context.setStrokeColor(theme.list.itemPlainSeparatorColor.cgColor)
+            context.setStrokeColor(UIColor.red.cgColor)
             context.setLineWidth(lineWidth)
             context.move(to: CGPoint(x: inset, y: lineWidth / 2.0))
             context.addLine(to: CGPoint(x: size.width - inset, y: lineWidth / 2.0))
@@ -41,7 +42,7 @@ private final class PhoneAndCountryNode: ASDisplayNode {
         let countryButtonHighlightedBackground = generateImage(CGSize(width: 70.0, height: 67.0), rotatedContext: { size, context in
             let arrowSize: CGFloat = 10.0
             context.clear(CGRect(origin: CGPoint(), size: size))
-            //context.setFillColor(theme.list.itemHighlightedBackgroundColor.cgColor)
+            context.setFillColor(UIColor.green.cgColor)
             context.fill(CGRect(origin: CGPoint(), size: CGSize(width: size.width, height: size.height - arrowSize)))
             context.move(to: CGPoint(x: size.width, y: size.height - arrowSize))
             context.addLine(to: CGPoint(x: size.width - 1.0, y: size.height - arrowSize))
@@ -54,7 +55,7 @@ private final class PhoneAndCountryNode: ASDisplayNode {
         let phoneInputBackground = generateImage(CGSize(width: 96.0, height: 57.0), rotatedContext: { size, context in
             let lineWidth = UIScreenPixel
             context.clear(CGRect(origin: CGPoint(), size: size))
-            //context.setStrokeColor(theme.list.itemPlainSeparatorColor.cgColor)
+            context.setStrokeColor(UIColor.blue.cgColor)
             context.setLineWidth(lineWidth)
             context.move(to: CGPoint(x: inset, y: size.height - lineWidth / 2.0))
             context.addLine(to: CGPoint(x: size.width, y: size.height - lineWidth / 2.0))
@@ -88,10 +89,11 @@ private final class PhoneAndCountryNode: ASDisplayNode {
         self.countryButton.addTarget(self, action: #selector(self.countryPressed), forControlEvents: .touchUpInside)
         
         // 输入框地址变化响应
-        self.phoneInputNode.countryCodeUpdated = {[weak self] code, name in
-            let flagString = "🇺🇸"
-            let localizedName = "US"
-            self?.countryButton.setTitle("\(flagString) \(localizedName)", with: Font.regular(20), with: .black, for: [])
+        self.phoneInputNode.countryCodeUpdated = {[weak self] code, id in
+            let countryId = id ?? "US"
+            let flagString = emojiFlagForISOCountryCode(countryId)
+            let countryName = Locale(identifier: "en_US").localizedString(forRegionCode: countryId) ?? ""
+            self?.countryButton.setTitle("\(flagString) \(countryName)", with: Font.regular(20), with: .black, for: [])
         }
         
         self.addSubnode(self.phoneBackground)
@@ -232,5 +234,13 @@ class AuthorizationSequencePhoneEntryControllerNode: ASDisplayNode {
         ]
         
         let _ = layoutAuthorizationItems(bounds: CGRect(origin: CGPoint(x: 0.0, y: insets.top), size: CGSize(width: layout.size.width, height: layout.size.height - insets.top - insets.bottom - additionalBottomInset)), items: items, transition: transition, failIfDoesNotFit: false)
+    }
+    
+    var codeAndCountryId: (Int32?, String?, String) {
+        get {
+            return self.phoneAndCountryNode.phoneInputNode.codeAndNumber
+        } set(value) {
+            self.phoneAndCountryNode.phoneInputNode.codeAndNumber = value
+        }
     }
 }
