@@ -261,8 +261,9 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
     func updateTabItem(_ index: Int, item: UITabBarItem, node: TabBarItemNode) {
         // 设置图片
         if index == self.selectedIndex {
+            let selectedTintColor = UIColor.blue
             // 选中的 文字+图片
-            let (textImage, contentWidth) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: .blue, imageMode: false)
+            let (textImage, contentWidth) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: selectedTintColor, imageMode: false)
             let (image, imageContentWidth): (UIImage, CGFloat)
             if let _ = item.animationName {
                 // 有动画
@@ -274,19 +275,21 @@ class TabBarNode: ASDisplayNode, UIGestureRecognizerDelegate {
                     // 如果不是选中状态, 播放动画
                     node.animationNode.setup(source: AnimatedStickerNodeLocalFileSource(name: item.animationName ?? ""), width: animationSize, height: animationSize, playbackMode: .once, mode: .direct(cachePathPrefix: nil))
                 }
+                node.animationNode.setOverlayColor(selectedTintColor, replace: true, animated: false)
                 node.animationNode.updateLayout(size: CGSize(width: 51.0, height: 51.0))
             } else {
                 // 没有动画，将图片设置tintColor
-                (image, imageContentWidth) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: .blue, imageMode: true)
+                (image, imageContentWidth) = tabBarItemImage(item.selectedImage, title: item.title, tintColor: selectedTintColor, imageMode: true)
                 node.animationNode.isHidden = true
                 node.animationNode.visibility = false
             }
+            node.textImageNode.image = textImage
+            node.imageNode.image = image
+            
             
             // 未选中的文字+图片
             let (contextTextImage, _) = tabBarItemImage(item.image, title: item.title, tintColor: .gray, imageMode: false)
             let (contextImage, _) = tabBarItemImage(item.image, title: item.title, tintColor: .gray, imageMode: true)
-            node.textImageNode.image = textImage
-            node.imageNode.image = image
             node.contextTextImageNode.image = contextTextImage
             node.contextImageNode.image = contextImage
             // 设置item的宽度，
