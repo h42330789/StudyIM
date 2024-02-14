@@ -15,6 +15,11 @@ target 'StudyAsynDisplay' do
   pod 'AppBundle', :path => 'LocalLib/AppBundle'
   pod 'UIKitRuntimeUtils', :path => 'LocalLib/UIKitRuntimeUtils'
   pod 'Display', :path => 'LocalLib/Display'
+  pod 'MergeLists', :path => 'LocalLib/MergeLists'
+  # 三方库
+  pod 'GDPerformanceView-Swift'
+  pod 'SnapKit'
+  pod 'Kingfisher'
 
   target 'StudyAsynDisplayTests' do
     inherit! :search_paths

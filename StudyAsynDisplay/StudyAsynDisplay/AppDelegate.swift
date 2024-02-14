@@ -6,31 +6,27 @@
 //
 
 import UIKit
-import Display
+import GDPerformanceView_Swift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     @objc var window: UIWindow?
-    var mainWindow: Window1!
-    private var authContextValue: UnauthorizedApplicationContext?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        let statusBarHost = ApplicationStatusBarHost()
-        // 创建window，以及持有window和rootVC的view
-        let (window, hostView) = nativeWindowHostView()
-        // 持有hostView、stausBar的类
-        self.mainWindow = Window1(hostView: hostView, statusBarHost: statusBarHost)
-        // rooVC.view
-        hostView.containerView.backgroundColor = UIColor.orange
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = UINavigationController(rootViewController: RootViewController())
         self.window = window
         
         self.window?.makeKeyAndVisible()
-        self.authContextValue = UnauthorizedApplicationContext(account: "")
+        
 
-        if let cxt = self.authContextValue {
-            self.mainWindow.present(cxt.rootController, on: .root)
+        PerformanceMonitor.shared().performanceViewConfigurator.options = [.all]
+        PerformanceMonitor.shared().performanceViewConfigurator.style = .custom(backgroundColor: .black, borderColor: .black, borderWidth: 1, cornerRadius: 5, textColor: .white, font: UIFont.systemFont(ofSize: 14))
+        PerformanceMonitor.shared().start()
+        if let monitorView = PerformanceMonitor.shared().performanceViewConfigurator as? UIView {
+            window.addSubview(monitorView)
         }
         return true
     }
