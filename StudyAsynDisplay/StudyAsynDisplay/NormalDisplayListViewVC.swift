@@ -17,6 +17,13 @@ extension CGRect {
         return CGRect(x: self.origin.x + dx, y: self.origin.y + dy, width: self.size.width + dw, height: self.size.height + dh)
     }
 }
+extension ASDisplayNode {
+    var slopFrame: CGRect {
+        let slopInsets = self.hitTestSlop
+        let slopFrame = self.frame.changeOffset(dx: slopInsets.left, dy: slopInsets.top, dw: -slopInsets.left-slopInsets.right, dh: -slopInsets.top-slopInsets.bottom)
+        return slopFrame
+    }
+}
 class NormalDisplayListViewVC: UIViewController {
     
     lazy var listView: ListView = {
@@ -51,7 +58,7 @@ class NormalDisplayListViewVC: UIViewController {
         }
         // 需要添加的内容
         let updatedCount = newList.count
-        var maxAnimatedInsertionIndex = -1
+        //var maxAnimatedInsertionIndex = -1
         var insertList: [ListViewInsertItem] = []
         for (index, dataModel, previousIndex) in insertIndices {
             // 由于是倒序，真正的index需要反着算
@@ -209,11 +216,12 @@ class NormalItemNode: ListViewItemNode {
     // 容器
     private let containerNode: ASDisplayNode
     
-    // 头像
-    private let avatarNode: ImageNode
-    private let titleNode: TextNode
-    private let statusNode: TextNode
-    private let dateNode: TextNode
+    // 各个展示元素
+    private let avatarNode: ImageNode // 头像
+    private let titleNode: TextNode // 标题
+    private let statusNode: TextNode // 子标题
+    private let dateNode: TextNode  // 右侧的文字
+    private let infoButtonNode: HighlightableButtonNode // 右侧的按钮
     
     required init() {
         
@@ -243,6 +251,10 @@ class NormalItemNode: ListViewItemNode {
         self.titleNode = TextNode()
         self.statusNode = TextNode()
         self.dateNode = TextNode()
+        // 右侧info的按钮，响应区域变大
+        self.infoButtonNode = HighlightableButtonNode()
+        self.infoButtonNode.hitTestSlop = UIEdgeInsets(top: -6.0, left: -6.0, bottom: -6.0, right: -10.0)
+        
         
         super.init(layerBacked: false, dynamicBounce: false, rotated: false, seeThrough: false)
         // 添加显示内容
@@ -253,10 +265,25 @@ class NormalItemNode: ListViewItemNode {
         self.containerNode.addSubnode(self.titleNode)
         self.containerNode.addSubnode(self.statusNode)
         self.containerNode.addSubnode(self.dateNode)
+        self.containerNode.addSubnode(self.infoButtonNode)
+        // self不能在初始化之前直接使用
+        self.infoButtonNode.addTarget(self, action: #selector(self.infoPressed), forControlEvents: .touchUpInside)
        
     }
+    // MARK: - 按钮点击
+    @objc func infoPressed() {
+        print("infoPressed")
+    }
     
-    // MARK: 刷新数据及计算frame
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if self.infoButtonNode.slopFrame.contains(point) {
+            return self.infoButtonNode.view
+        } else {
+            return super.hitTest(point, with: event)
+        }
+    }
+    
+    // MARK: - 刷新数据及计算frame
     func asyncLayout() -> (_ item: NormalUIModel, _ params: ListViewItemLayoutParams, _ first: Bool, _ last: Bool) -> (ListViewItemNodeLayout, (Bool) -> (Signal<Void, NoError>?, (Bool) -> Void)) {
         let makeTitleLayout = TextNode.asyncLayout(self.titleNode)
         let makeStatusLayout = TextNode.asyncLayout(self.statusNode)
@@ -307,6 +334,7 @@ class NormalItemNode: ListViewItemNode {
 //            let contentSize = nodeLayout.contentSize
             let revealOffset: CGFloat = 0
             let separatorHeight = UIScreenPixel
+            let infoIconRightInset: CGFloat = rightInset - 1.0
             return (nodeLayout, { [weak self] synchronousLoads in
                 if let strongSelf = self {
                     return (nil, { [weak strongSelf] animated in
@@ -325,8 +353,6 @@ class NormalItemNode: ListViewItemNode {
                             
                             // 高亮背景
                             strongSelf.highlightedBackgroundNode.frame = CGRect(origin: CGPoint(x: 0.0, y: -nodeLayout.insets.top - 0), size: CGSize(width: nodeLayout.size.width, height: nodeLayout.size.height + 0))
-                            // 自己本身
-//                            strongSelf.updateLayout(size: nodeLayout.contentSize, leftInset: params.leftInset, rightInset: params.rightInset)
 
                             // 底部的分隔线
                             if !last && strongSelf.bottomStripeNode.supernode == nil {
@@ -338,6 +364,11 @@ class NormalItemNode: ListViewItemNode {
                             }
                             transition.updateFrameAdditive(node: strongSelf.bottomStripeNode, frame: CGRect(origin: CGPoint(x: leftInset, y: nodeLayout.contentSize.height - separatorHeight), size: CGSize(width: params.width - leftInset, height: separatorHeight)))
                             
+                            // Info按钮
+                            if let infoIcon = UIImage(named: "InfoIcon") {
+                                strongSelf.infoButtonNode.setImage(infoIcon, for: [])
+                                transition.updateFrameAdditive(node: strongSelf.infoButtonNode, frame: CGRect(origin: CGPoint(x: revealOffset + params.width - infoIconRightInset - infoIcon.size.width, y: floor((nodeLayout.contentSize.height - infoIcon.size.height) / 2.0)), size: infoIcon.size))
+                            }
                             // 头像 x: title.left - 间距10 - avatar.width
                             strongSelf.avatarNode.setSignal(strongSelf.createImageSignal(url: item.data.avator))
                             let avartorFrame = CGRect(origin: CGPoint(x: revealOffset + leftInset - avatarDiameter - 10, y: floor((nodeLayout.contentSize.height - avatarDiameter) / 2.0)), size: CGSize(width: avatarDiameter, height: avatarDiameter))
@@ -354,7 +385,7 @@ class NormalItemNode: ListViewItemNode {
                             
                             // 设置date的内容及frame
                             let _ = dateApply()
-                            transition.updateFrameAdditive(node: strongSelf.dateNode, frame: CGRect(origin: CGPoint(x: revealOffset + params.width - dateRightInset - dateLayout.size.width, y: floor((nodeLayout.contentSize.height - dateLayout.size.height) / 2.0) + 2.0), size: dateLayout.size))
+                            transition.updateFrameAdditive(node: strongSelf.dateNode, frame: CGRect(origin: CGPoint(x: revealOffset + params.width - dateRightInset - dateLayout.size.width, y: floor((nodeLayout.contentSize.height - dateLayout.size.height) / 2.0)), size: dateLayout.size))
                         }
                     })
                 } else {

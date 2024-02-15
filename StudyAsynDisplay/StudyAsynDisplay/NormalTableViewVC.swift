@@ -84,6 +84,12 @@ class NormalTableCell: UITableViewCell {
         v.font = UIFont.systemFont(ofSize: 12)
         return v
     }()
+    lazy var infoBtn: UIButton = {
+        let v = UIButton(type: .custom)
+        v.setImage(UIImage(named: "InfoIcon"), for: .normal)
+        v.addTarget(self, action: #selector(self.infoPressed), for: .touchUpInside)
+        return v
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -99,6 +105,7 @@ class NormalTableCell: UITableViewCell {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(statusLabel)
         self.contentView.addSubview(dateLabel)
+        self.contentView.addSubview(infoBtn)
         
         avatar.snp.makeConstraints { make in
             make.left.equalTo(10)
@@ -113,9 +120,19 @@ class NormalTableCell: UITableViewCell {
             make.left.equalTo(avatar.snp.right).offset(10)
             make.bottom.equalTo(avatar.snp.bottom)
         }
+        infoBtn.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.right.equalTo(-10)
+            make.width.height.equalTo(40)
+        }
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalTo(avatar)
-            make.right.equalTo(-10)
+            make.right.equalTo(infoBtn.snp.left).offset(-10)
         }
+    }
+    
+    // MARK: - 按钮点击
+    @objc func infoPressed() {
+        print("infoPressed")
     }
 }
