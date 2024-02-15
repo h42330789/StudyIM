@@ -58,7 +58,7 @@ class NormalDisplayListViewVC: UIViewController {
         }
         // 需要添加的内容
         let updatedCount = newList.count
-        //var maxAnimatedInsertionIndex = -1
+        let maxAnimatedInsertionIndex = -1
         var insertList: [ListViewInsertItem] = []
         for (index, dataModel, previousIndex) in insertIndices {
             // 由于是倒序，真正的index需要反着算
