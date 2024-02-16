@@ -37,7 +37,7 @@ use_frameworks! :linkage => :static
   pod "TelegramAnimatedStickerNode", :path => 'LocalLib/TelegramAnimatedStickerNode'
   pod "CheckNode", :path => 'LocalLib/CheckNode'
   pod "SegmentedControlNode", :path => 'LocalLib/SegmentedControlNode'
- #  pod "AccountContext", :path => 'LocalLib/AccountContext'
+  pod "AccountContext", :path => 'LocalLib/AccountContext'
   pod "AnimationUI", :path => 'LocalLib/AnimationUI'
   pod "ShimmerEffect", :path => 'LocalLib/ShimmerEffect'
   pod "ManagedAnimationNode", :path => 'LocalLib/ManagedAnimationNode'
@@ -126,7 +126,7 @@ use_frameworks! :linkage => :static
   ##    pod "TelegramCore", :path => 'LocalLib/TelegramCore'
 
   # AccountContext依赖引入
-  pod "TelegramAudio", :path => 'LocalLib/TelegramAudio'
+  ##  pod "TelegramAudio", :path => 'LocalLib/TelegramAudio'
   ##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
   #  pod "TemporaryCachedPeerDataManager", :path => 'LocalLib/TemporaryCachedPeerDataManager'
   #  pod "DeviceLocationManager", :path => 'LocalLib/DeviceLocationManager'

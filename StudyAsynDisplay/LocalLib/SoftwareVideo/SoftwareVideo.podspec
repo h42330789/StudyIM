@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
     s.dependency "AsyncDisplayKit"
     s.dependency "Display"
     s.dependency "TelegramCore"
-    # s.dependency "AccountContext"
+    s.dependency "AccountContext"
     s.dependency "UniversalMediaPlayer"
   
     s.libraries = 'swiftCoreGraphics'

@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-    s.name = 'AvatarNode'
+    s.name = 'AccountContext'
     s.version = '1.0.0'
     s.license = 'MIT'
     s.summary = 'Harness the power of auto layout with a simplified, chainable, and compile time safe syntax.'
@@ -12,20 +12,21 @@ Pod::Spec.new do |s|
   
     s.source_files = 'Sources/**/*.swift'
 
+    s.dependency "TelegramAudio"
     s.dependency "AsyncDisplayKit"
-    s.dependency "Display"
-    s.dependency "TelegramCore"
-    s.dependency "Postbox"
+    # s.dependency "TemporaryCachedPeerDataManager"
+    # s.dependency "DeviceLocationManager"
+    s.dependency "UniversalMediaPlayer"
     s.dependency "TelegramPresentationData"
-    s.dependency "AnimationUI"
-    s.dependency "AppBundle"
-    s.dependency "AccountContext"
-    s.dependency "Emoji"
-    s.dependency "TinyThumbnail"
-    s.dependency "FastBlur"
-    s.dependency "ComponentFlow"
-    s.dependency "AvatarStoryIndicatorComponent"
-    s.dependency "DirectMediaImageCache"
+    s.dependency "SwiftSignalKit"
+    s.dependency "Postbox"
+    s.dependency "TelegramCore"
+    # s.dependency "MusicAlbumArtResources"
+    s.dependency "RangeSet"
+    # s.dependency "InAppPurchaseManager"
+    s.dependency "TextFormat"
+    # s.dependency "AnimationCache"
+    # s.dependency "MultiAnimationRenderer"
    
     s.libraries = 'swiftCoreGraphics'
   

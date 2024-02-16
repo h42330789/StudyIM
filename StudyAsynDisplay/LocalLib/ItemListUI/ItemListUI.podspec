@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
     s.dependency "TelegramAnimatedStickerNode"
     s.dependency "CheckNode"
     s.dependency "SegmentedControlNode"
-#    s.dependency "AccountContext"
+    s.dependency "AccountContext"
     s.dependency "AnimationUI"
     s.dependency "ShimmerEffect"
     s.dependency "ManagedAnimationNode"
