@@ -3,10 +3,14 @@ ${BUILT_PRODUCTS_DIR}/AppBundle/AppBundle.framework
 ${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework
 ${BUILT_PRODUCTS_DIR}/Display/Display.framework
 ${BUILT_PRODUCTS_DIR}/GDPerformanceView-Swift/GDPerformanceView_Swift.framework
+${BUILT_PRODUCTS_DIR}/ItemListUI/ItemListUI.framework
 ${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
+${BUILT_PRODUCTS_DIR}/LegacyComponents/LegacyComponents.framework
 ${BUILT_PRODUCTS_DIR}/Markdown/Markdown.framework
 ${BUILT_PRODUCTS_DIR}/MergeLists/MergeLists.framework
 ${BUILT_PRODUCTS_DIR}/ObjCRuntimeUtils/ObjCRuntimeUtils.framework
+${BUILT_PRODUCTS_DIR}/SSignalKit/SSignalKit.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
 ${BUILT_PRODUCTS_DIR}/SwiftSignalKit/SwiftSignalKit.framework
+${BUILT_PRODUCTS_DIR}/SwitchNode/SwitchNode.framework
 ${BUILT_PRODUCTS_DIR}/UIKitRuntimeUtils/UIKitRuntimeUtils.framework

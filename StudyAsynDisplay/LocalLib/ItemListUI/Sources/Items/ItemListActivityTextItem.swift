@@ -3,9 +3,9 @@ import UIKit
 import Display
 import AsyncDisplayKit
 import SwiftSignalKit
-import TelegramPresentationData
-import ActivityIndicator
-import TextFormat
+//import TelegramPresentationData
+//import ActivityIndicator
+//import TextFormat
 import Markdown
 
 public class ItemListActivityTextItem: ListViewItem, ItemListItem {

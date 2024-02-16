@@ -9,12 +9,27 @@ PODS:
     - SwiftSignalKit
     - UIKitRuntimeUtils
   - GDPerformanceView-Swift (2.1.1)
+  - ItemListUI (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - Markdown
+    - MergeLists
+    - SwiftSignalKit
+    - SwitchNode
   - Kingfisher (7.11.0)
+  - LegacyComponents (1.0.0):
+    - AppBundle
+    - SSignalKit
   - Markdown (1.0.0)
   - MergeLists (1.0.0)
   - ObjCRuntimeUtils (1.0.0)
   - SnapKit (5.6.0)
+  - SSignalKit (1.0.0)
   - SwiftSignalKit (1.0.0)
+  - SwitchNode (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - LegacyComponents
   - UIKitRuntimeUtils (1.0.0):
     - AsyncDisplayKit
     - ObjCRuntimeUtils
@@ -24,12 +39,16 @@ DEPENDENCIES:
   - AsyncDisplayKit (from `LocalLib/AsyncDisplayKit`)
   - Display (from `LocalLib/Display`)
   - GDPerformanceView-Swift
+  - ItemListUI (from `LocalLib/ItemListUI`)
   - Kingfisher
+  - LegacyComponents (from `LocalLib/LegacyComponents`)
   - Markdown (from `LocalLib/Markdown`)
   - MergeLists (from `LocalLib/MergeLists`)
   - ObjCRuntimeUtils (from `LocalLib/ObjCRuntimeUtils`)
   - SnapKit
+  - SSignalKit (from `LocalLib/SSignalKit`)
   - SwiftSignalKit (from `LocalLib/SwiftSignalKit`)
+  - SwitchNode (from `LocalLib/SwitchNode`)
   - UIKitRuntimeUtils (from `LocalLib/UIKitRuntimeUtils`)
 
 SPEC REPOS:
@@ -45,14 +64,22 @@ EXTERNAL SOURCES:
     :path: LocalLib/AsyncDisplayKit
   Display:
     :path: LocalLib/Display
+  ItemListUI:
+    :path: LocalLib/ItemListUI
+  LegacyComponents:
+    :path: LocalLib/LegacyComponents
   Markdown:
     :path: LocalLib/Markdown
   MergeLists:
     :path: LocalLib/MergeLists
   ObjCRuntimeUtils:
     :path: LocalLib/ObjCRuntimeUtils
+  SSignalKit:
+    :path: LocalLib/SSignalKit
   SwiftSignalKit:
     :path: LocalLib/SwiftSignalKit
+  SwitchNode:
+    :path: LocalLib/SwitchNode
   UIKitRuntimeUtils:
     :path: LocalLib/UIKitRuntimeUtils
 
@@ -61,14 +88,18 @@ SPEC CHECKSUMS:
   AsyncDisplayKit: 81922bf21567440d409452e1d688f2daf10fd2d3
   Display: 614e441be95aa8721656242168a950858e9187a7
   GDPerformanceView-Swift: 22d964fe40b19e3d914dba2586237d064de8fd77
+  ItemListUI: 4397d84724075dc026396fea5c65e0ac28c6e6ce
   Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
+  LegacyComponents: 6de1240c652eaa1ef2ecdfa336490370106fc3c1
   Markdown: d2995a605760e551d8ae61b9e320d88f57d7dc71
   MergeLists: b3d91f80a41167dde06d48d54df4ab4969f0599d
   ObjCRuntimeUtils: 8fc18e7c3c50ba7f1ccda0c5e38f0fdf5a629469
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SSignalKit: 521361b34129bf90a4db49c7c03e0f71f0f868b5
   SwiftSignalKit: 0e94f337c2f5dc214fce0a97b7db2c0940218bb2
+  SwitchNode: aef048e92ffd18f6281ee6e9dcbf2ab6fe8b8ec3
   UIKitRuntimeUtils: 95590f673bad3d2a7d47025849f602812ac36e68
 
-PODFILE CHECKSUM: 36082912d6c19a06951bdfb39d0b9a529bd82c32
+PODFILE CHECKSUM: 31024e8215d5e27259e4745ebda1203fc9de055a
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.3

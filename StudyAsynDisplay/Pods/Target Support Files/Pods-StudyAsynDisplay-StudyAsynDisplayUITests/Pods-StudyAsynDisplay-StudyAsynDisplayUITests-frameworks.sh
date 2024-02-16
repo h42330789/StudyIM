@@ -18,7 +18,7 @@ echo "mkdir -p ${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
 COCOAPODS_PARALLEL_CODE_SIGN="${COCOAPODS_PARALLEL_CODE_SIGN:-false}"
-SWIFT_STDLIB_PATH="${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}"
+SWIFT_STDLIB_PATH="${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}"
 BCSYMBOLMAP_DIR="BCSymbolMaps"
 
 
@@ -180,12 +180,16 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Display/Display.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GDPerformanceView-Swift/GDPerformanceView_Swift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ItemListUI/ItemListUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/LegacyComponents/LegacyComponents.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Markdown/Markdown.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MergeLists/MergeLists.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjCRuntimeUtils/ObjCRuntimeUtils.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SSignalKit/SSignalKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftSignalKit/SwiftSignalKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SwitchNode/SwitchNode.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIKitRuntimeUtils/UIKitRuntimeUtils.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -193,12 +197,16 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Display/Display.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GDPerformanceView-Swift/GDPerformanceView_Swift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ItemListUI/ItemListUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/LegacyComponents/LegacyComponents.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Markdown/Markdown.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MergeLists/MergeLists.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjCRuntimeUtils/ObjCRuntimeUtils.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SSignalKit/SSignalKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftSignalKit/SwiftSignalKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SwitchNode/SwitchNode.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UIKitRuntimeUtils/UIKitRuntimeUtils.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

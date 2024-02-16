@@ -16,6 +16,17 @@ target 'StudyAsynDisplay' do
   pod 'UIKitRuntimeUtils', :path => 'LocalLib/UIKitRuntimeUtils'
   pod 'Display', :path => 'LocalLib/Display'
   pod 'MergeLists', :path => 'LocalLib/MergeLists'
+  pod 'LegacyComponents', :path => 'LocalLib/LegacyComponents'
+  pod 'SSignalKit', :path => 'LocalLib/SSignalKit'
+  pod 'SwitchNode', :path => 'LocalLib/SwitchNode'
+  pod 'Emoji', :path => 'LocalLib/Emoji'
+  pod 'TelegramApi', :path => 'LocalLib/TelegramApi'
+  pod 'EncryptionProvider', :path => 'LocalLib/EncryptionProvider'
+  
+  
+  
+  pod 'ItemListUI', :path => 'LocalLib/ItemListUI'
+  
   # 三方库
   pod 'GDPerformanceView-Swift'
   pod 'SnapKit'
