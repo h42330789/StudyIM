@@ -1,0 +1,6 @@
+framework module RangeSet {
+  umbrella header "RangeSet-umbrella.h"
+
+  export *
+  module * { export * }
+}

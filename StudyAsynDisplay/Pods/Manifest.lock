@@ -1,6 +1,76 @@
 PODS:
+  - ActivityIndicator (1.0.0):
+    - AsyncDisplayKit
+    - Display
+  - AnimatedStickerNode (1.0.0):
+    - AnimationCompression
+    - AsyncDisplayKit
+    - Display
+    - GZip
+    - ManagedFile
+    - MediaResources
+    - MetalImageView
+    - RLottieBinding
+    - SwiftSignalKit
+    - TelegramCore
+    - UniversalMediaPlayer
+    - WebPBinding
+    - YuvConversion
+  - AnimationCompression (1.0.0):
+    - DctHuffman
+    - MetalImageView
+  - AnimationUI (1.0.0):
+    - AppBundle
+    - AsyncDisplayKit
+    - Display
+    - GZip
+    - Lottie
+    - RLottieBinding
   - AppBundle (1.0.0)
   - AsyncDisplayKit (1.0.0)
+  - AvatarNode (1.0.0):
+    - AnimationUI
+    - AppBundle
+    - AsyncDisplayKit
+    - AvatarStoryIndicatorComponent
+    - ComponentFlow
+    - DirectMediaImageCache
+    - Display
+    - Emoji
+    - FastBlur
+    - Postbox
+    - TelegramCore
+    - TelegramPresentationData
+    - TinyThumbnail
+  - AvatarStoryIndicatorComponent (1.0.0):
+    - ComponentFlow
+    - Display
+    - HierarchyTrackingLayer
+    - TelegramPresentationData
+  - CheckNode (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - LegacyComponents
+    - TelegramPresentationData
+  - CloudData (1.0.0):
+    - EncryptionProvider
+    - MtProtoKit
+    - SwiftSignalKit
+  - ComponentFlow (1.0.0):
+    - Display
+  - Crc32 (1.0.0)
+  - CryptoUtils (1.0.0)
+  - DarwinDirStat (1.0.0)
+  - DctHuffman (1.0.0)
+  - DirectMediaImageCache (1.0.0):
+    - Display
+    - FastBlur
+    - ManagedFile
+    - MozjpegBinding
+    - Postbox
+    - SwiftSignalKit
+    - TelegramCore
+    - TinyThumbnail
   - Display (1.0.0):
     - AppBundle
     - AsyncDisplayKit
@@ -8,98 +78,555 @@ PODS:
     - ObjCRuntimeUtils
     - SwiftSignalKit
     - UIKitRuntimeUtils
+  - Emoji (1.0.0)
+  - EncryptionProvider (1.0.0)
+  - FastBlur (1.0.0)
+  - ffmpeg-kit-ios-full (6.0)
+  - FFMpegBinding (1.0.0):
+    - ffmpeg-kit-ios-full
   - GDPerformanceView-Swift (2.1.1)
-  - ItemListUI (1.0.0):
-    - AsyncDisplayKit
+  - GenerateStickerPlaceholderImage (1.0.0):
     - Display
+  - GZip (1.0.0)
+  - HierarchyTrackingLayer (1.0.0)
+  - ImageBlur (1.0.0):
+    - FastBlur
+  - ImageCompression (1.0.0):
+    - MozjpegBinding
+  - ItemListUI (1.0.0):
+    - AnimatedStickerNode
+    - AnimationUI
+    - AsyncDisplayKit
+    - AvatarNode
+    - CheckNode
+    - Display
+    - ManagedAnimationNode
     - Markdown
     - MergeLists
+    - ProgressNavigationButtonNode
+    - SegmentedControlNode
+    - ShimmerEffect
     - SwiftSignalKit
     - SwitchNode
+    - TelegramAnimatedStickerNode
+    - TelegramCore
+    - TelegramPresentationData
+    - TextFormat
+  - jxl (1.0.0)
   - Kingfisher (7.11.0)
   - LegacyComponents (1.0.0):
     - AppBundle
     - SSignalKit
+  - LegacyReachability (1.0.0)
+  - LocalMediaResources (1.0.0):
+    - ImageCompression
+    - PersistentStringHash
+    - Postbox
+    - SwiftSignalKit
+    - TelegramCore
+  - Lottie (1.0.0):
+    - Display
+  - ManagedAnimationNode (1.0.0):
+    - AppBundle
+    - AsyncDisplayKit
+    - Display
+    - GZip
+    - RLottieBinding
+    - SwiftSignalKit
+    - TelegramCore
+  - ManagedFile (1.0.0):
+    - SwiftSignalKit
   - Markdown (1.0.0)
+  - MediaResources (1.0.0):
+    - Postbox
+    - SwiftSignalKit
+    - TelegramCore
+    - TelegramUIPreferences
   - MergeLists (1.0.0)
+  - MetalImageView (1.0.0):
+    - Display
+  - mozjpeg (1.0.0)
+  - MozjpegBinding (1.0.0):
+    - jxl
+    - mozjpeg
+  - MtProtoKit (1.0.0):
+    - EncryptionProvider
+  - MurMurHash32 (1.0.0)
+  - NetworkLogging (1.0.0):
+    - MtProtoKit
+  - NumberPluralizationForm (1.0.0)
   - ObjCRuntimeUtils (1.0.0)
+  - PersistentStringHash (1.0.0)
+  - Postbox (1.0.0):
+    - Crc32
+    - CryptoUtils
+    - DarwinDirStat
+    - ManagedFile
+    - MurMurHash32
+    - RangeSet
+    - sqlcipher
+    - StringTransliteration
+    - SwiftSignalKit
+  - PresentationStrings (1.0.0):
+    - AppBundle
+    - NumberPluralizationForm
+  - ProgressNavigationButtonNode (1.0.0):
+    - ActivityIndicator
+    - AsyncDisplayKit
+    - Display
+  - RangeSet (1.0.0)
+  - Reachability (1.0.0):
+    - LegacyReachability
+    - SwiftSignalKit
+  - RingBuffer (1.0.0)
+  - RLottieBinding (1.0.0)
+  - SegmentedControlNode (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - TelegramPresentationData
+  - ShimmerEffect (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - GenerateStickerPlaceholderImage
+    - HierarchyTrackingLayer
   - SnapKit (5.6.0)
+  - SoftwareVideo (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - SwiftSignalKit
+    - TelegramCore
+    - UniversalMediaPlayer
+  - sqlcipher (1.0.0)
   - SSignalKit (1.0.0)
+  - StickerResources (1.0.0):
+    - Display
+    - ImageBlur
+    - MediaResources
+    - Postbox
+    - SwiftSignalKit
+    - TelegramCore
+    - TelegramUIPreferences
+    - Tuples
+    - WebPBinding
+  - StringPluralization (1.0.0):
+    - AppBundle
+    - NumberPluralizationForm
+  - StringTransliteration (1.0.0)
+  - Sunrise (1.0.0)
   - SwiftSignalKit (1.0.0)
   - SwitchNode (1.0.0):
     - AsyncDisplayKit
     - Display
     - LegacyComponents
+  - TelegramAnimatedStickerNode (1.0.0):
+    - AnimatedStickerNode
+    - GZip
+    - LocalMediaResources
+    - ManagedFile
+    - MediaResources
+    - Postbox
+    - RLottieBinding
+    - SoftwareVideo
+    - StickerResources
+    - TelegramCore
+    - Tuples
+    - UniversalMediaPlayer
+    - YuvConversion
+  - TelegramApi (1.0.0)
+  - TelegramAudio (1.0.0):
+    - SwiftSignalKit
+  - TelegramCore (1.0.0):
+    - CloudData
+    - CryptoUtils
+    - DarwinDirStat
+    - Emoji
+    - EncryptionProvider
+    - ManagedFile
+    - MtProtoKit
+    - NetworkLogging
+    - Postbox
+    - RangeSet
+    - Reachability
+    - SwiftSignalKit
+    - TelegramApi
+  - TelegramPresentationData (1.0.0):
+    - AppBundle
+    - Display
+    - FastBlur
+    - MediaResources
+    - Postbox
+    - PresentationStrings
+    - StringPluralization
+    - Sunrise
+    - SwiftSignalKit
+    - TelegramCore
+    - TelegramUIPreferences
+    - TinyThumbnail
+  - TelegramUIPreferences (1.0.0):
+    - Postbox
+    - SwiftSignalKit
+    - TelegramCore
+  - TextFormat (1.0.0):
+    - Display
+    - Emoji
+    - Markdown
+    - TelegramCore
+    - TelegramPresentationData
+  - TinyThumbnail (1.0.0)
+  - Tuples (1.0.0)
   - UIKitRuntimeUtils (1.0.0):
     - AsyncDisplayKit
     - ObjCRuntimeUtils
+  - UniversalMediaPlayer (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - FFMpegBinding
+    - Postbox
+    - RangeSet
+    - RingBuffer
+    - SwiftSignalKit
+    - TelegramAudio
+    - TelegramCore
+    - TextFormat
+    - YuvConversion
+  - webp (1.0.0)
+  - WebPBinding (1.0.0):
+    - webp
+  - YuvConversion (1.0.0)
 
 DEPENDENCIES:
+  - ActivityIndicator (from `LocalLib/ActivityIndicator`)
+  - AnimatedStickerNode (from `LocalLib/AnimatedStickerNode`)
+  - AnimationCompression (from `LocalLib/AnimationCompression`)
+  - AnimationUI (from `LocalLib/AnimationUI`)
   - AppBundle (from `LocalLib/AppBundle`)
   - AsyncDisplayKit (from `LocalLib/AsyncDisplayKit`)
+  - AvatarNode (from `LocalLib/AvatarNode`)
+  - AvatarStoryIndicatorComponent (from `LocalLib/TelegramUI/Stories/AvatarStoryIndicatorComponent`)
+  - CheckNode (from `LocalLib/CheckNode`)
+  - CloudData (from `LocalLib/CloudData`)
+  - ComponentFlow (from `LocalLib/ComponentFlow`)
+  - Crc32 (from `LocalLib/Crc32`)
+  - CryptoUtils (from `LocalLib/CryptoUtils`)
+  - DarwinDirStat (from `LocalLib/DarwinDirStat`)
+  - DctHuffman (from `LocalLib/AnimationCompression/DctHuffman`)
+  - DirectMediaImageCache (from `LocalLib/DirectMediaImageCache`)
   - Display (from `LocalLib/Display`)
+  - Emoji (from `LocalLib/Emoji`)
+  - EncryptionProvider (from `LocalLib/EncryptionProvider`)
+  - FastBlur (from `LocalLib/FastBlur`)
+  - ffmpeg-kit-ios-full (= 6.0)
+  - FFMpegBinding (from `LocalLib/FFMpegBinding`)
   - GDPerformanceView-Swift
+  - GenerateStickerPlaceholderImage (from `LocalLib/TelegramUI/Components/Utils/GenerateStickerPlaceholderImage`)
+  - GZip (from `LocalLib/GZip`)
+  - HierarchyTrackingLayer (from `LocalLib/Components/HierarchyTrackingLayer`)
+  - ImageBlur (from `LocalLib/ImageBlur`)
+  - ImageCompression (from `LocalLib/ImageCompression`)
   - ItemListUI (from `LocalLib/ItemListUI`)
+  - jxl (from `LocalLib/libjxl`)
   - Kingfisher
   - LegacyComponents (from `LocalLib/LegacyComponents`)
+  - LegacyReachability (from `LocalLib/Reachability/LegacyReachability`)
+  - LocalMediaResources (from `LocalLib/LocalMediaResources`)
+  - Lottie (from `LocalLib/lottie-ios`)
+  - ManagedAnimationNode (from `LocalLib/ManagedAnimationNode`)
+  - ManagedFile (from `LocalLib/ManagedFile`)
   - Markdown (from `LocalLib/Markdown`)
+  - MediaResources (from `LocalLib/MediaResources`)
   - MergeLists (from `LocalLib/MergeLists`)
+  - MetalImageView (from `LocalLib/MetalImageView`)
+  - mozjpeg (from `LocalLib/mozjpeg`)
+  - MozjpegBinding (from `LocalLib/MozjpegBinding`)
+  - MtProtoKit (from `LocalLib/MtProtoKit`)
+  - MurMurHash32 (from `LocalLib/MurMurHash32`)
+  - NetworkLogging (from `LocalLib/NetworkLogging`)
+  - NumberPluralizationForm (from `LocalLib/NumberPluralizationForm`)
   - ObjCRuntimeUtils (from `LocalLib/ObjCRuntimeUtils`)
+  - PersistentStringHash (from `LocalLib/PersistentStringHash`)
+  - Postbox (from `LocalLib/Postbox`)
+  - PresentationStrings (from `LocalLib/GeneratedPresentationStrings`)
+  - ProgressNavigationButtonNode (from `LocalLib/ProgressNavigationButtonNode`)
+  - RangeSet (from `LocalLib/RangeSet`)
+  - Reachability (from `LocalLib/Reachability`)
+  - RingBuffer (from `LocalLib/RingBuffer`)
+  - RLottieBinding (from `LocalLib/rlottie`)
+  - SegmentedControlNode (from `LocalLib/SegmentedControlNode`)
+  - ShimmerEffect (from `LocalLib/ShimmerEffect`)
   - SnapKit
+  - SoftwareVideo (from `LocalLib/SoftwareVideo`)
+  - sqlcipher (from `LocalLib/sqlcipher`)
   - SSignalKit (from `LocalLib/SSignalKit`)
+  - StickerResources (from `LocalLib/StickerResources`)
+  - StringPluralization (from `LocalLib/StringPluralization`)
+  - StringTransliteration (from `LocalLib/StringTransliteration`)
+  - Sunrise (from `LocalLib/Sunrise`)
   - SwiftSignalKit (from `LocalLib/SwiftSignalKit`)
   - SwitchNode (from `LocalLib/SwitchNode`)
+  - TelegramAnimatedStickerNode (from `LocalLib/TelegramAnimatedStickerNode`)
+  - TelegramApi (from `LocalLib/TelegramApi`)
+  - TelegramAudio (from `LocalLib/TelegramAudio`)
+  - TelegramCore (from `LocalLib/TelegramCore`)
+  - TelegramPresentationData (from `LocalLib/TelegramPresentationData`)
+  - TelegramUIPreferences (from `LocalLib/TelegramUIPreferences`)
+  - TextFormat (from `LocalLib/TextFormat`)
+  - TinyThumbnail (from `LocalLib/TinyThumbnail`)
+  - Tuples (from `LocalLib/Tuples`)
   - UIKitRuntimeUtils (from `LocalLib/UIKitRuntimeUtils`)
+  - UniversalMediaPlayer (from `LocalLib/MediaPlayer`)
+  - webp (from `LocalLib/webp`)
+  - WebPBinding (from `LocalLib/WebPBinding`)
+  - YuvConversion (from `LocalLib/YuvConversion`)
 
 SPEC REPOS:
   trunk:
+    - ffmpeg-kit-ios-full
     - GDPerformanceView-Swift
     - Kingfisher
     - SnapKit
 
 EXTERNAL SOURCES:
+  ActivityIndicator:
+    :path: LocalLib/ActivityIndicator
+  AnimatedStickerNode:
+    :path: LocalLib/AnimatedStickerNode
+  AnimationCompression:
+    :path: LocalLib/AnimationCompression
+  AnimationUI:
+    :path: LocalLib/AnimationUI
   AppBundle:
     :path: LocalLib/AppBundle
   AsyncDisplayKit:
     :path: LocalLib/AsyncDisplayKit
+  AvatarNode:
+    :path: LocalLib/AvatarNode
+  AvatarStoryIndicatorComponent:
+    :path: LocalLib/TelegramUI/Stories/AvatarStoryIndicatorComponent
+  CheckNode:
+    :path: LocalLib/CheckNode
+  CloudData:
+    :path: LocalLib/CloudData
+  ComponentFlow:
+    :path: LocalLib/ComponentFlow
+  Crc32:
+    :path: LocalLib/Crc32
+  CryptoUtils:
+    :path: LocalLib/CryptoUtils
+  DarwinDirStat:
+    :path: LocalLib/DarwinDirStat
+  DctHuffman:
+    :path: LocalLib/AnimationCompression/DctHuffman
+  DirectMediaImageCache:
+    :path: LocalLib/DirectMediaImageCache
   Display:
     :path: LocalLib/Display
+  Emoji:
+    :path: LocalLib/Emoji
+  EncryptionProvider:
+    :path: LocalLib/EncryptionProvider
+  FastBlur:
+    :path: LocalLib/FastBlur
+  FFMpegBinding:
+    :path: LocalLib/FFMpegBinding
+  GenerateStickerPlaceholderImage:
+    :path: LocalLib/TelegramUI/Components/Utils/GenerateStickerPlaceholderImage
+  GZip:
+    :path: LocalLib/GZip
+  HierarchyTrackingLayer:
+    :path: LocalLib/Components/HierarchyTrackingLayer
+  ImageBlur:
+    :path: LocalLib/ImageBlur
+  ImageCompression:
+    :path: LocalLib/ImageCompression
   ItemListUI:
     :path: LocalLib/ItemListUI
+  jxl:
+    :path: LocalLib/libjxl
   LegacyComponents:
     :path: LocalLib/LegacyComponents
+  LegacyReachability:
+    :path: LocalLib/Reachability/LegacyReachability
+  LocalMediaResources:
+    :path: LocalLib/LocalMediaResources
+  Lottie:
+    :path: LocalLib/lottie-ios
+  ManagedAnimationNode:
+    :path: LocalLib/ManagedAnimationNode
+  ManagedFile:
+    :path: LocalLib/ManagedFile
   Markdown:
     :path: LocalLib/Markdown
+  MediaResources:
+    :path: LocalLib/MediaResources
   MergeLists:
     :path: LocalLib/MergeLists
+  MetalImageView:
+    :path: LocalLib/MetalImageView
+  mozjpeg:
+    :path: LocalLib/mozjpeg
+  MozjpegBinding:
+    :path: LocalLib/MozjpegBinding
+  MtProtoKit:
+    :path: LocalLib/MtProtoKit
+  MurMurHash32:
+    :path: LocalLib/MurMurHash32
+  NetworkLogging:
+    :path: LocalLib/NetworkLogging
+  NumberPluralizationForm:
+    :path: LocalLib/NumberPluralizationForm
   ObjCRuntimeUtils:
     :path: LocalLib/ObjCRuntimeUtils
+  PersistentStringHash:
+    :path: LocalLib/PersistentStringHash
+  Postbox:
+    :path: LocalLib/Postbox
+  PresentationStrings:
+    :path: LocalLib/GeneratedPresentationStrings
+  ProgressNavigationButtonNode:
+    :path: LocalLib/ProgressNavigationButtonNode
+  RangeSet:
+    :path: LocalLib/RangeSet
+  Reachability:
+    :path: LocalLib/Reachability
+  RingBuffer:
+    :path: LocalLib/RingBuffer
+  RLottieBinding:
+    :path: LocalLib/rlottie
+  SegmentedControlNode:
+    :path: LocalLib/SegmentedControlNode
+  ShimmerEffect:
+    :path: LocalLib/ShimmerEffect
+  SoftwareVideo:
+    :path: LocalLib/SoftwareVideo
+  sqlcipher:
+    :path: LocalLib/sqlcipher
   SSignalKit:
     :path: LocalLib/SSignalKit
+  StickerResources:
+    :path: LocalLib/StickerResources
+  StringPluralization:
+    :path: LocalLib/StringPluralization
+  StringTransliteration:
+    :path: LocalLib/StringTransliteration
+  Sunrise:
+    :path: LocalLib/Sunrise
   SwiftSignalKit:
     :path: LocalLib/SwiftSignalKit
   SwitchNode:
     :path: LocalLib/SwitchNode
+  TelegramAnimatedStickerNode:
+    :path: LocalLib/TelegramAnimatedStickerNode
+  TelegramApi:
+    :path: LocalLib/TelegramApi
+  TelegramAudio:
+    :path: LocalLib/TelegramAudio
+  TelegramCore:
+    :path: LocalLib/TelegramCore
+  TelegramPresentationData:
+    :path: LocalLib/TelegramPresentationData
+  TelegramUIPreferences:
+    :path: LocalLib/TelegramUIPreferences
+  TextFormat:
+    :path: LocalLib/TextFormat
+  TinyThumbnail:
+    :path: LocalLib/TinyThumbnail
+  Tuples:
+    :path: LocalLib/Tuples
   UIKitRuntimeUtils:
     :path: LocalLib/UIKitRuntimeUtils
+  UniversalMediaPlayer:
+    :path: LocalLib/MediaPlayer
+  webp:
+    :path: LocalLib/webp
+  WebPBinding:
+    :path: LocalLib/WebPBinding
+  YuvConversion:
+    :path: LocalLib/YuvConversion
 
 SPEC CHECKSUMS:
+  ActivityIndicator: c978b545e6afc201ff326a65e5ecc502460c9ae4
+  AnimatedStickerNode: 6e4765731dc7be07507b04644a5826ce55e15d70
+  AnimationCompression: 422d30b4d1df035d40fb8f00083e4c67cc61493b
+  AnimationUI: 1523df94752cac7c232e04d78bbefaf14851b7c5
   AppBundle: 792a39527c17d8ff2e98f0faddca106495334535
   AsyncDisplayKit: 81922bf21567440d409452e1d688f2daf10fd2d3
+  AvatarNode: e15ebe783eb9eddf2e33515ba9135fd4c0a302cf
+  AvatarStoryIndicatorComponent: 6e0e04473b53cc819d5361b0371fd3729bb2d22a
+  CheckNode: 23fa04bf9da9ac7c34c2d6ba3f33fd659dbedb20
+  CloudData: 6ff6587459cdb1cc377267a891fb3daad7edd886
+  ComponentFlow: 40a0529a53ed259c07be7d3a175a1050227cfbf5
+  Crc32: 0014701937dbc73a3247b32b92b8853b66105fdf
+  CryptoUtils: c73068f4e5ddde88e88a884ef5ef6d5276209959
+  DarwinDirStat: 8683ecb3a456468eb859900987b518fd62f449c3
+  DctHuffman: 5910102bfdd36093f24c19e9ef5ad5627a632737
+  DirectMediaImageCache: be954c78d3ab187d05d978430d2a186f5b448859
   Display: 614e441be95aa8721656242168a950858e9187a7
+  Emoji: 9a9bec440c1848281f5a3ea52cb4dedea27bbc9c
+  EncryptionProvider: 8403dafee9a8d8afe03c43f803fd1737083401b6
+  FastBlur: 01c8d64be0fc6f8ea7bf5f89be5e3d2c3cd0b6a8
+  ffmpeg-kit-ios-full: 0099a769d22114dde52cdc238397941c32f75d27
+  FFMpegBinding: e7cac3c51b1ee73f814026d90c334049718def79
   GDPerformanceView-Swift: 22d964fe40b19e3d914dba2586237d064de8fd77
-  ItemListUI: 4397d84724075dc026396fea5c65e0ac28c6e6ce
+  GenerateStickerPlaceholderImage: 44a60232851ce9efb9e0648d536fe4cc78888d36
+  GZip: 4e8bbe2851cffa0e0fd6d79f57ce68092e449001
+  HierarchyTrackingLayer: d7e44ed0990d1bc6f34bed2b005d2c6e2b80c3c3
+  ImageBlur: e6ba166451ad07ea5bd3fbb251ed066c9c62a3ae
+  ImageCompression: 9a565cd7a14a37e87b2f93ed18624641427c99d3
+  ItemListUI: 653a59d24b98f5d938366fdf252417e636b06224
+  jxl: a867cef54a228e312098db3297a718fd24cd346e
   Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
-  LegacyComponents: 6de1240c652eaa1ef2ecdfa336490370106fc3c1
+  LegacyComponents: a018396c4c984efd75aaf1959a36029e6e485c3a
+  LegacyReachability: a77542e02304b1da62cb7e24f55add66a3b27dd8
+  LocalMediaResources: ecd938b73185b4515a4a75902f68823a1b6939b1
+  Lottie: 5967ef9946a7f3287701743644c76cbb3322ed46
+  ManagedAnimationNode: 58efc7942d42fa5b5eb5446be2b79c098520c82a
+  ManagedFile: 09b520b75107ff61a1817e4fb360b3102d4968f7
   Markdown: d2995a605760e551d8ae61b9e320d88f57d7dc71
+  MediaResources: 781585057a9801e3bf12c772ddeefd4c2940dbee
   MergeLists: b3d91f80a41167dde06d48d54df4ab4969f0599d
+  MetalImageView: 7d4662b94c5a07ebf4cf620b96d65d0f28a1af2c
+  mozjpeg: 3cba0f1c3b039e1d82e03ed7a507ace67b04a475
+  MozjpegBinding: 6125283262fc24f9502212ecba5fec0db8f64cee
+  MtProtoKit: 922aa4a2bc9a27999f956c5e3d143dd9a1350d83
+  MurMurHash32: 58ed3c9a6b4d5a53345a81fd160592d04a1e8ce8
+  NetworkLogging: c22c817752a0436342157d6c235c269af5872cb8
+  NumberPluralizationForm: 1bcdcd383f75cd7535349e8e3d765fc3457600d1
   ObjCRuntimeUtils: 8fc18e7c3c50ba7f1ccda0c5e38f0fdf5a629469
+  PersistentStringHash: d9c4ebc3e63890226cc32e74932e8a3655921265
+  Postbox: f6b6a0fc97a9435a3e6de827fbdb4831f3987bd3
+  PresentationStrings: 2a3bf7c2b62cf7a0864ae2c18f2f40015fc9b17b
+  ProgressNavigationButtonNode: 1482dc572a8762ef74941ae1cc9560bd81f8c5c6
+  RangeSet: 2a376438d0ecc89437a0d975f07054086ce43450
+  Reachability: 54c0319f37e478ac32d5b1c8e69ce9fa694bb7db
+  RingBuffer: 23a93ee441c5d6a2f08473296bca6bee666f5588
+  RLottieBinding: 660202b6901b6d933321b35ed062f27f2788c528
+  SegmentedControlNode: a1d6d1eab88e79a858d4ab2840d95925719f3e42
+  ShimmerEffect: 3c0454792bf33ef95545d5b3fa94ef96fffdb33a
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SoftwareVideo: 0f92ce14254b803794388a498da9342a11153e4f
+  sqlcipher: 5222a552270c24e5df34014f440597b2bcbb59fe
   SSignalKit: 521361b34129bf90a4db49c7c03e0f71f0f868b5
+  StickerResources: 8adebe72e1caab0a7043ee3eaaaf609a584aaee7
+  StringPluralization: 318d5bdacd1b1609bdeb3b14ed16ae981aebcfad
+  StringTransliteration: 8a97fb5c32f9a0dbf2832ce013867e329d800461
+  Sunrise: f8975e4f1cfd8d20eb4e3b7b012e60830c5b47fd
   SwiftSignalKit: 0e94f337c2f5dc214fce0a97b7db2c0940218bb2
   SwitchNode: aef048e92ffd18f6281ee6e9dcbf2ab6fe8b8ec3
+  TelegramAnimatedStickerNode: 02c6f2fb6e33e8805e35aaed4c3121cdda962eec
+  TelegramApi: 8cf9a3586eb0a325aa1c77e752caa8fcea768870
+  TelegramAudio: 1b3f5ba99804c97019e2d2da4131402f714b2ddf
+  TelegramCore: 583b17b1fa538ed0a9984e8025154e7d14d9ed73
+  TelegramPresentationData: 11a0e25bf2bb05d704e15e559f78e9027beece25
+  TelegramUIPreferences: 97234b73163c131bd106f77bc80504c23f3ae314
+  TextFormat: 56fc9b6473c91e059e91986d94b1e13fb87aef39
+  TinyThumbnail: 19f099814c913b248eca753b10790ab2cdfcb8ba
+  Tuples: 883240aadbd5ab23cc5fe00768d6203eee2d9c42
   UIKitRuntimeUtils: 95590f673bad3d2a7d47025849f602812ac36e68
+  UniversalMediaPlayer: a2ffe4525280ec91e35ab5a02dc9d1307211c896
+  webp: 9dae113f782e4730a32ac23172c9c109637d2c58
+  WebPBinding: d6da3e61dda7579e300ca9e6c3dfbde33a8c4c4c
+  YuvConversion: 38fe0f0c2bb6e8db2750b4c5fdf232046372f3f0
 
-PODFILE CHECKSUM: 31024e8215d5e27259e4745ebda1203fc9de055a
+PODFILE CHECKSUM: 90b073f39ebdbd2e5adeee286d7beb00467e2d0c
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.12.1

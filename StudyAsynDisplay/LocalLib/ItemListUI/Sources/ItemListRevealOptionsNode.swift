@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import AsyncDisplayKit
 import Display
-//import ManagedAnimationNode
+import ManagedAnimationNode
 
 public enum ItemListRevealOptionIcon: Equatable {
     case none

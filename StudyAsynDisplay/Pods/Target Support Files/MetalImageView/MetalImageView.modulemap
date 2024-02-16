@@ -1,0 +1,6 @@
+framework module MetalImageView {
+  umbrella header "MetalImageView-umbrella.h"
+
+  export *
+  module * { export * }
+}

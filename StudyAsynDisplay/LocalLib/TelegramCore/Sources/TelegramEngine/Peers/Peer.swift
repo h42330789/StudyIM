@@ -6,46 +6,52 @@ public enum EnginePeer: Equatable {
 
     public struct Presence: Equatable {
         public enum Status: Comparable {
-            private struct SortKey: Comparable {
-                var major: Int
-                var minor: Int32
-                
-                init(major: Int, minor: Int32) {
-                    self.major = major
-                    self.minor = minor
-                }
-                
-                static func <(lhs: SortKey, rhs: SortKey) -> Bool {
-                    if lhs.major != rhs.major {
-                        return lhs.major < rhs.major
-                    }
-                    return lhs.minor < rhs.minor
-                }
-            }
-            
             case present(until: Int32)
-            case recently(isHidden: Bool)
-            case lastWeek(isHidden: Bool)
-            case lastMonth(isHidden: Bool)
+            case recently
+            case lastWeek
+            case lastMonth
             case longTimeAgo
-            
-            private var sortKey: SortKey {
-                switch self {
-                case let .present(until):
-                    return SortKey(major: 6, minor: until)
-                case .recently:
-                    return SortKey(major: 4, minor: 0)
-                case .lastWeek:
-                    return SortKey(major: 3, minor: 0)
-                case .lastMonth:
-                    return SortKey(major: 2, minor: 0)
-                case .longTimeAgo:
-                    return SortKey(major: 1, minor: 0)
-                }
-            }
 
             public static func <(lhs: Status, rhs: Status) -> Bool {
-                return lhs.sortKey < rhs.sortKey
+                switch lhs {
+                case .longTimeAgo:
+                    switch rhs {
+                    case .longTimeAgo:
+                        return false
+                    case .lastMonth, .lastWeek, .recently, .present:
+                        return true
+                    }
+                case let .present(until):
+                    switch rhs {
+                    case .longTimeAgo:
+                        return false
+                    case let .present(rhsUntil):
+                        return until < rhsUntil
+                    case .lastWeek, .lastMonth, .recently:
+                        return false
+                    }
+                case .recently:
+                    switch rhs {
+                    case .longTimeAgo, .lastWeek, .lastMonth, .recently:
+                        return false
+                    case .present:
+                        return true
+                    }
+                case .lastWeek:
+                    switch rhs {
+                    case .longTimeAgo, .lastMonth, .lastWeek:
+                        return false
+                    case .present, .recently:
+                        return true
+                    }
+                case .lastMonth:
+                    switch rhs {
+                    case .longTimeAgo, .lastMonth:
+                        return false
+                    case .present, .recently, lastWeek:
+                        return true
+                    }
+                }
             }
         }
 
@@ -364,12 +370,12 @@ public extension EnginePeer.Presence {
                 mappedStatus = .longTimeAgo
             case let .present(until):
                 mappedStatus = .present(until: until)
-            case let .recently(isHidden):
-                mappedStatus = .recently(isHidden: isHidden)
-            case let .lastWeek(isHidden):
-                mappedStatus = .lastWeek(isHidden: isHidden)
-            case let .lastMonth(isHidden):
-                mappedStatus = .lastMonth(isHidden: isHidden)
+            case .recently:
+                mappedStatus = .recently
+            case .lastWeek:
+                mappedStatus = .lastWeek
+            case .lastMonth:
+                mappedStatus = .lastMonth
             }
 
             self.init(status: mappedStatus, lastActivity: presence.lastActivity)
@@ -385,12 +391,12 @@ public extension EnginePeer.Presence {
             mappedStatus = .none
         case let .present(until):
             mappedStatus = .present(until: until)
-        case let .recently(isHidden):
-            mappedStatus = .recently(isHidden: isHidden)
-        case let .lastWeek(isHidden):
-            mappedStatus = .lastWeek(isHidden: isHidden)
-        case let .lastMonth(isHidden):
-            mappedStatus = .lastMonth(isHidden: isHidden)
+        case .recently:
+            mappedStatus = .recently
+        case .lastWeek:
+            mappedStatus = .lastWeek
+        case .lastMonth:
+            mappedStatus = .lastMonth
         }
         return TelegramUserPresence(status: mappedStatus, lastActivity: self.lastActivity)
     }
@@ -504,20 +510,8 @@ public extension EnginePeer {
         return self._asPeer().nameColor
     }
     
-    var profileColor: PeerNameColor? {
-        return self._asPeer().profileColor
-    }
-    
-    var emojiStatus: PeerEmojiStatus? {
-        return self._asPeer().emojiStatus
-    }
-    
     var backgroundEmojiId: Int64? {
         return self._asPeer().backgroundEmojiId
-    }
-    
-    var profileBackgroundEmojiId: Int64? {
-        return self._asPeer().profileBackgroundEmojiId
     }
 }
 

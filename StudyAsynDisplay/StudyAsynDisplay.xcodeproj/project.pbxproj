@@ -181,7 +181,8 @@
 				52F2DC392AF3DE16001CAEF0 /* Sources */,
 				52F2DC3A2AF3DE16001CAEF0 /* Frameworks */,
 				52F2DC3B2AF3DE16001CAEF0 /* Resources */,
-				B9A99E5799AEF2C485D36987 /* [CP] Embed Pods Frameworks */,
+				1BE49C130FA7EF8A07D2E483 /* [CP] Copy Pods Resources */,
+				B87E70D2A4FB9A8A9C78FB43 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -219,7 +220,8 @@
 				52F2DC592AF3DE19001CAEF0 /* Sources */,
 				52F2DC5A2AF3DE19001CAEF0 /* Frameworks */,
 				52F2DC5B2AF3DE19001CAEF0 /* Resources */,
-				A7AFC0EBF30DF7875C23A95F /* [CP] Embed Pods Frameworks */,
+				783729FE503A9A2336B1B102 /* [CP] Copy Pods Resources */,
+				EF575947C0BD301D4AAFD71C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -323,24 +325,41 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A7AFC0EBF30DF7875C23A95F /* [CP] Embed Pods Frameworks */ = {
+		1BE49C130FA7EF8A07D2E483 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B9A99E5799AEF2C485D36987 /* [CP] Embed Pods Frameworks */ = {
+		783729FE503A9A2336B1B102 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B87E70D2A4FB9A8A9C78FB43 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -377,6 +396,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF575947C0BD301D4AAFD71C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StudyAsynDisplay-StudyAsynDisplayUITests/Pods-StudyAsynDisplay-StudyAsynDisplayUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F74538A6F3517042CF07327E /* [CP] Check Pods Manifest.lock */ = {

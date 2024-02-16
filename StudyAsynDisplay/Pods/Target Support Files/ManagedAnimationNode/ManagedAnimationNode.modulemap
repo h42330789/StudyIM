@@ -1,0 +1,6 @@
+framework module ManagedAnimationNode {
+  umbrella header "ManagedAnimationNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

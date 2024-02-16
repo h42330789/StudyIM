@@ -1,0 +1,6 @@
+framework module DirectMediaImageCache {
+  umbrella header "DirectMediaImageCache-umbrella.h"
+
+  export *
+  module * { export * }
+}

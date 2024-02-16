@@ -26,13 +26,49 @@
     "Display": [
 
     ],
+    "TelegramPresentationData": [
+
+    ],
     "MergeLists": [
+
+    ],
+    "TextFormat": [
 
     ],
     "Markdown": [
 
     ],
+    "ProgressNavigationButtonNode": [
+
+    ],
     "SwitchNode": [
+
+    ],
+    "AnimatedStickerNode": [
+
+    ],
+    "TelegramAnimatedStickerNode": [
+
+    ],
+    "CheckNode": [
+
+    ],
+    "SegmentedControlNode": [
+
+    ],
+    "AnimationUI": [
+
+    ],
+    "ShimmerEffect": [
+
+    ],
+    "ManagedAnimationNode": [
+
+    ],
+    "AvatarNode": [
+
+    ],
+    "TelegramCore": [
 
     ]
   },

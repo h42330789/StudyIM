@@ -1,0 +1,6 @@
+framework module AvatarStoryIndicatorComponent {
+  umbrella header "AvatarStoryIndicatorComponent-umbrella.h"
+
+  export *
+  module * { export * }
+}

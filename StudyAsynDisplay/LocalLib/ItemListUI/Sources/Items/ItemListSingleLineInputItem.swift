@@ -3,7 +3,7 @@ import UIKit
 import Display
 import AsyncDisplayKit
 import SwiftSignalKit
-//import TelegramPresentationData
+import TelegramPresentationData
 
 private let validIdentifierSet: CharacterSet = {
     var set = CharacterSet(charactersIn: "a".unicodeScalars.first! ... "z".unicodeScalars.first!)

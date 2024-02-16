@@ -1,0 +1,7 @@
+module "//third-party/mozjpeg:mozjpeg" {
+  export *
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/mozjpeg/Public/mozjpeg/turbojpeg.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/mozjpeg/Public/mozjpeg/jpeglib.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/mozjpeg/Public/mozjpeg/jmorecfg.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/mozjpeg/Public/mozjpeg/jconfig.h"
+}

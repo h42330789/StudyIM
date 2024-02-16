@@ -11,17 +11,16 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = '12.0'
   
     s.source_files = 'Sources/**/*.swift'
-
-    # s.dependency "Crc32",
-    s.dependency "SwiftSignalKit",
-    # s.dependency "sqlcipher",
-    # s.dependency "MurMurHash32",
-    # s.dependency "StringTransliteration",
-    # s.dependency "ManagedFile",
-    # s.dependency "RangeSet",
-    # s.dependency "CryptoUtils",
-    # s.dependency "DarwinDirStat",
+    
+    s.dependency "Crc32"
+    s.dependency "SwiftSignalKit"
+    s.dependency "sqlcipher"
+    s.dependency "MurMurHash32"
+    s.dependency "StringTransliteration"
+    s.dependency "ManagedFile"
+    s.dependency "RangeSet"
+    s.dependency "CryptoUtils"
+    s.dependency "DarwinDirStat"
   
     s.libraries = 'swiftCoreGraphics'
-  
   end

@@ -453,10 +453,6 @@ final class ViewTracker {
                     if let hole = view.topHole() {
                         firstHoles.insert(hole)
                     }
-                } else if case .savedMessagesIndex = key, let view = view as? MutableMessageHistorySavedMessagesIndexView {
-                    if let hole = view.topHole() {
-                        firstHoles.insert(hole)
-                    }
                 }
             }
         }
@@ -472,14 +468,9 @@ final class ViewTracker {
         var firstHolesAndTags = Set<MessageHistoryHolesViewEntry>()
         for (view, _) in self.messageHistoryViews.copyItems() {
             if let (hole, direction, count, userId) = view.firstHole() {
-                let space: MessageHistoryHoleOperationSpace
+                let space: MessageHistoryHoleSpace
                 if let tag = view.tag {
-                    switch tag {
-                    case let .tag(value):
-                        space = .tag(value)
-                    case let .customTag(value):
-                        space = .customTag(value)
-                    }
+                    space = .tag(tag)
                 } else {
                     space = .everywhere
                 }

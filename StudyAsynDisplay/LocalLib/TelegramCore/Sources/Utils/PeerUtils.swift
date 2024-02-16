@@ -1,8 +1,6 @@
 import Foundation
 import Postbox
 
-public let anonymousSavedMessagesId: Int64 = 2666000
-
 public extension Peer {
     var debugDisplayTitle: String {
         switch self {
@@ -238,53 +236,12 @@ public extension Peer {
         }
     }
     
-    var profileColor: PeerNameColor? {
-        switch self {
-        case let user as TelegramUser:
-            return user.profileColor
-        case let channel as TelegramChannel:
-            return channel.profileColor
-        default:
-            return nil
-        }
-    }
-    
-    var hasCustomNameColor: Bool {
-        let defaultNameColor = PeerNameColor(rawValue: Int32(self.id.id._internalGetInt64Value() % 7))
-        if self.nameColor != defaultNameColor {
-            return true
-        }
-        return false
-    }
-    
-    var emojiStatus: PeerEmojiStatus? {
-        switch self {
-        case let user as TelegramUser:
-            return user.emojiStatus
-        case let channel as TelegramChannel:
-            return channel.emojiStatus
-        default:
-            return nil
-        }
-    }
-    
     var backgroundEmojiId: Int64? {
         switch self {
         case let user as TelegramUser:
             return user.backgroundEmojiId
         case let channel as TelegramChannel:
             return channel.backgroundEmojiId
-        default:
-            return nil
-        }
-    }
-    
-    var profileBackgroundEmojiId: Int64? {
-        switch self {
-        case let user as TelegramUser:
-            return user.profileBackgroundEmojiId
-        case let channel as TelegramChannel:
-            return channel.profileBackgroundEmojiId
         default:
             return nil
         }
@@ -425,17 +382,5 @@ public extension PeerId {
             }
         }
         return false
-    }
-    
-    var isAnonymousSavedMessages: Bool {
-        if self.namespace == Namespaces.Peer.CloudUser {
-            if self.id._internalGetInt64Value() == anonymousSavedMessagesId {
-                return true
-            }
-        }
-        return false
-    }
-    var isSecretChat: Bool {
-        return self.namespace == Namespaces.Peer.SecretChat
     }
 }

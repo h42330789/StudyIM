@@ -297,7 +297,6 @@ enum MutableChatListEntry: Equatable {
         var readState: ChatListViewReadState?
         var notificationSettings: PeerNotificationSettings?
         var isRemovedFromTotalUnreadCount: Bool
-        var displayAsRegularChat: Bool
         var embeddedInterfaceState: StoredPeerChatInterfaceState?
         var renderedPeer: RenderedPeer
         var presence: PeerPresence?
@@ -315,7 +314,6 @@ enum MutableChatListEntry: Equatable {
             readState: ChatListViewReadState?,
             notificationSettings: PeerNotificationSettings?,
             isRemovedFromTotalUnreadCount: Bool,
-            displayAsRegularChat: Bool,
             embeddedInterfaceState: StoredPeerChatInterfaceState?,
             renderedPeer: RenderedPeer,
             presence: PeerPresence?,
@@ -332,7 +330,6 @@ enum MutableChatListEntry: Equatable {
             self.readState = readState
             self.notificationSettings = notificationSettings
             self.isRemovedFromTotalUnreadCount = isRemovedFromTotalUnreadCount
-            self.displayAsRegularChat = displayAsRegularChat
             self.embeddedInterfaceState = embeddedInterfaceState
             self.renderedPeer = renderedPeer
             self.presence = presence
@@ -566,9 +563,6 @@ final class MutableChatListView {
     
     private var currentHiddenPeerIds = Set<PeerId>()
     
-    private let displaySavedMessagesAsTopicListPreferencesKey: ValueBoxKey
-    private(set) var displaySavedMessagesAsTopicList: PreferencesEntry?
-    
     init(postbox: PostboxImpl, currentTransaction: Transaction, groupId: PeerGroupId, filterPredicate: ChatListFilterPredicate?, aroundIndex: ChatListIndex, count: Int, summaryComponents: ChatListEntrySummaryComponents) {
         self.groupId = groupId
         self.filterPredicate = filterPredicate
@@ -576,8 +570,6 @@ final class MutableChatListView {
         self.summaryComponents = summaryComponents
         
         self.currentHiddenPeerIds = postbox.hiddenChatIds
-        
-        self.displaySavedMessagesAsTopicListPreferencesKey = postbox.seedConfiguration.displaySavedMessagesAsTopicListPreferencesKey
         
         var spaces: [ChatListViewSpace] = [
             .group(groupId: self.groupId, pinned: .notPinned, predicate: filterPredicate)
@@ -617,8 +609,6 @@ final class MutableChatListView {
         } else {
             self.groupEntries = []
         }
-        
-        self.displaySavedMessagesAsTopicList = postbox.preferencesTable.get(key: self.displaySavedMessagesAsTopicListPreferencesKey)
     }
     
     private func reloadGroups(postbox: PostboxImpl) {
@@ -696,8 +686,6 @@ final class MutableChatListView {
                 }
             }
         }
-        
-        self.displaySavedMessagesAsTopicList = postbox.preferencesTable.get(key: self.displaySavedMessagesAsTopicListPreferencesKey)
     }
     
     func refreshDueToExternalTransaction(postbox: PostboxImpl, currentTransaction: Transaction) -> Bool {
@@ -708,14 +696,10 @@ final class MutableChatListView {
         updated = true
         
         let currentGroupEntries = self.groupEntries
-        let currentDisplaySavedMessagesAsTopicList = self.displaySavedMessagesAsTopicList
         
         self.reloadGroups(postbox: postbox)
         
         if self.groupEntries != currentGroupEntries {
-            updated = true
-        }
-        if self.displaySavedMessagesAsTopicList != currentDisplaySavedMessagesAsTopicList {
             updated = true
         }
         
@@ -747,20 +731,6 @@ final class MutableChatListView {
             }
         }
         
-        if !transaction.currentPreferencesOperations.isEmpty {
-            for operation in transaction.currentPreferencesOperations {
-                switch operation {
-                case let .update(key, value):
-                    if key == self.displaySavedMessagesAsTopicListPreferencesKey {
-                        if self.displaySavedMessagesAsTopicList != value {
-                            self.displaySavedMessagesAsTopicList = value
-                            hasChanges = true
-                        }
-                    }
-                }
-            }
-        }
-        
         if case .root = self.groupId, self.filterPredicate == nil {
             var invalidatedGroups = false
             for (groupId, groupOperations) in operations {
@@ -789,13 +759,7 @@ final class MutableChatListView {
                             if transaction.alteredInitialPeerCombinedReadStates[groupEntries[i].renderedPeers[j].peer.peerId] != nil {
                                 
                                 let isUnread: Bool
-                                
-                                var displayAsRegularChat: Bool = false
-                                if let cachedData = postbox.cachedPeerDataTable.get(groupEntries[i].renderedPeers[j].peer.peerId) {
-                                    displayAsRegularChat = postbox.seedConfiguration.decodeDisplayPeerAsRegularChat(cachedData)
-                                }
-                                
-                                if let peer = groupEntries[i].renderedPeers[j].peer.peer, postbox.seedConfiguration.peerSummaryIsThreadBased(peer), !displayAsRegularChat {
+                                if let peer = groupEntries[i].renderedPeers[j].peer.peer, postbox.seedConfiguration.peerSummaryIsThreadBased(peer) {
                                     isUnread = postbox.peerThreadsSummaryTable.get(peerId: peer.id)?.hasUnmutedUnread ?? false
                                 } else {
                                     isUnread = postbox.readStateTable.getCombinedState(groupEntries[i].renderedPeers[j].peer.peerId)?.isUnread ?? false
@@ -900,14 +864,7 @@ final class MutableChatListView {
             }
             
             let readState: ChatListViewReadState?
-            var displayAsRegularChat: Bool = false
-            var autoremoveTimeout: Int32?
-            if let cachedData = postbox.cachedPeerDataTable.get(index.messageIndex.id.peerId) {
-                autoremoveTimeout = postbox.seedConfiguration.decodeAutoremoveTimeout(cachedData)
-                displayAsRegularChat = postbox.seedConfiguration.decodeDisplayPeerAsRegularChat(cachedData)
-            }
-            
-            if let peer = postbox.peerTable.get(index.messageIndex.id.peerId), postbox.seedConfiguration.peerSummaryIsThreadBased(peer), !displayAsRegularChat {
+            if let peer = postbox.peerTable.get(index.messageIndex.id.peerId), postbox.seedConfiguration.peerSummaryIsThreadBased(peer) {
                 let summary = postbox.peerThreadsSummaryTable.get(peerId: index.messageIndex.id.peerId)
                 var count: Int32 = 0
                 var isMuted: Bool = false
@@ -924,6 +881,11 @@ final class MutableChatListView {
                 }
             }
             
+            var autoremoveTimeout: Int32?
+            if let cachedData = postbox.cachedPeerDataTable.get(index.messageIndex.id.peerId) {
+                autoremoveTimeout = postbox.seedConfiguration.decodeAutoremoveTimeout(cachedData)
+            }
+            
             let storyStats = fetchPeerStoryStats(postbox: postbox, peerId: index.messageIndex.id.peerId)
             
             return .MessageEntry(MutableChatListEntry.MessageEntryData(
@@ -932,7 +894,6 @@ final class MutableChatListView {
                 readState: readState,
                 notificationSettings: notificationSettings,
                 isRemovedFromTotalUnreadCount: false,
-                displayAsRegularChat: displayAsRegularChat,
                 embeddedInterfaceState: postbox.peerChatInterfaceStateTable.get(index.messageIndex.id.peerId),
                 renderedPeer: renderedPeer,
                 presence: presence,
@@ -965,7 +926,6 @@ public final class ChatListView {
     public let groupEntries: [ChatListGroupReferenceEntry]
     public let earlierIndex: ChatListIndex?
     public let laterIndex: ChatListIndex?
-    public let displaySavedMessagesAsTopicList: PreferencesEntry?
     
     init(_ mutableView: MutableChatListView) {
         self.groupId = mutableView.groupId
@@ -983,8 +943,8 @@ public final class ChatListView {
                     renderedPeer: entryData.renderedPeer,
                     presence: entryData.presence,
                     summaryInfo: entryData.tagSummaryInfo,
-                    forumTopicData: entryData.displayAsRegularChat ? nil : entryData.forumTopicData,
-                    topForumTopics: entryData.displayAsRegularChat ? [] : entryData.topForumTopics,
+                    forumTopicData: entryData.forumTopicData,
+                    topForumTopics: entryData.topForumTopics,
                     hasFailed: entryData.hasFailedMessages,
                     isContact: entryData.isContact,
                     autoremoveTimeout: entryData.autoremoveTimeout,
@@ -1017,8 +977,8 @@ public final class ChatListView {
                         renderedPeer: entryData.renderedPeer,
                         presence: entryData.presence,
                         summaryInfo: entryData.tagSummaryInfo,
-                        forumTopicData: entryData.displayAsRegularChat ? nil : entryData.forumTopicData,
-                        topForumTopics: entryData.displayAsRegularChat ? [] : entryData.topForumTopics,
+                        forumTopicData: entryData.forumTopicData,
+                        topForumTopics: entryData.topForumTopics,
                         hasFailed: entryData.hasFailedMessages,
                         isContact: entryData.isContact,
                         autoremoveTimeout: entryData.autoremoveTimeout,
@@ -1034,6 +994,5 @@ public final class ChatListView {
         }
         
         self.additionalItemEntries = additionalItemEntries
-        self.displaySavedMessagesAsTopicList = mutableView.displaySavedMessagesAsTopicList
     }
 }

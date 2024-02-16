@@ -129,7 +129,6 @@ public final class EngineChatList: Equatable {
         public let isContact: Bool
         public let autoremoveTimeout: Int32?
         public let storyStats: StoryStats?
-        public let displayAsTopicList: Bool
 
         public init(
             id: Id,
@@ -148,8 +147,7 @@ public final class EngineChatList: Equatable {
             hasFailed: Bool,
             isContact: Bool,
             autoremoveTimeout: Int32?,
-            storyStats: StoryStats?,
-            displayAsTopicList: Bool
+            storyStats: StoryStats?
         ) {
             self.id = id
             self.index = index
@@ -168,7 +166,6 @@ public final class EngineChatList: Equatable {
             self.isContact = isContact
             self.autoremoveTimeout = autoremoveTimeout
             self.storyStats = storyStats
-            self.displayAsTopicList = displayAsTopicList
         }
         
         public static func ==(lhs: Item, rhs: Item) -> Bool {
@@ -221,9 +218,6 @@ public final class EngineChatList: Equatable {
                 return false
             }
             if lhs.storyStats != rhs.storyStats {
-                return false
-            }
-            if lhs.displayAsTopicList != rhs.displayAsTopicList {
                 return false
             }
             return true
@@ -425,7 +419,7 @@ public extension EngineChatList.RelativePosition {
 }
 
 extension EngineChatList.Item {
-    convenience init?(_ entry: ChatListEntry, displayAsTopicList: Bool) {
+    convenience init?(_ entry: ChatListEntry) {
         switch entry {
         case let .MessageEntry(entryData):
             let index = entryData.index
@@ -510,8 +504,7 @@ extension EngineChatList.Item {
                 hasFailed: hasFailed,
                 isContact: isContact,
                 autoremoveTimeout: autoremoveTimeout,
-                storyStats: entryData.storyStats,
-                displayAsTopicList: displayAsTopicList
+                storyStats: entryData.storyStats
             )
         case .HoleEntry:
             return nil
@@ -551,7 +544,7 @@ extension EngineChatList.AdditionalItem.PromoInfo {
 
 extension EngineChatList.AdditionalItem {
     convenience init?(_ entry: ChatListAdditionalItemEntry) {
-        guard let item = EngineChatList.Item(entry.entry, displayAsTopicList: false) else {
+        guard let item = EngineChatList.Item(entry.entry) else {
             return nil
         }
         guard let promoInfo = (entry.info as? PromoChatListItem).flatMap(EngineChatList.AdditionalItem.PromoInfo.init) else {
@@ -562,19 +555,14 @@ extension EngineChatList.AdditionalItem {
 }
 
 public extension EngineChatList {
-    convenience init(_ view: ChatListView, accountPeerId: PeerId) {
+    convenience init(_ view: ChatListView) {
         var isLoading = false
-        
-        var displaySavedMessagesAsTopicList = false
-        if let value = view.displaySavedMessagesAsTopicList?.get(EngineDisplaySavedChatsAsTopics.self) {
-            displaySavedMessagesAsTopicList = value.value
-        }
 
         var items: [EngineChatList.Item] = []
         loop: for entry in view.entries {
             switch entry {
             case .MessageEntry:
-                if let item = EngineChatList.Item(entry, displayAsTopicList: entry.index.messageIndex.id.peerId == accountPeerId ? displaySavedMessagesAsTopicList : false) {
+                if let item = EngineChatList.Item(entry) {
                     items.append(item)
                 }
             case .HoleEntry:

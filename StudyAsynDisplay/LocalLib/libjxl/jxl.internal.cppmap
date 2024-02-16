@@ -1,0 +1,17 @@
+module "//third-party/libjxl:jxl" {
+  export *
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/codestream_header.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/cms_interface.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/color_encoding.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/decode_cxx.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/decode.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/encode_cxx.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/encode.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/jxl_export.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/jxl_threads_export.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/memory_manager.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/parallel_runner.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/stats.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/types.h"
+  textual header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/version.h"
+}

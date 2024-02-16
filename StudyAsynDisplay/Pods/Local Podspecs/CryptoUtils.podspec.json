@@ -1,0 +1,30 @@
+{
+  "name": "CryptoUtils",
+  "version": "1.0.0",
+  "authors": {
+    "Huy Nguyen": "hi@huynguyen.dev",
+    "Garrett Moon": "garrett@excitedpixel.com",
+    "Scott Goodson": "scottgoodson@gmail.com",
+    "Michael Schneider": "mischneider1@gmail.com",
+    "Adlai Holler": "adlai@icloud.com"
+  },
+  "summary": "Smooth asynchronous user interfaces for iOS apps.",
+  "source": {
+    "git": "https://github.com/TextureGroup/Texture.git",
+    "tag": "1.0.0"
+  },
+  "license": "MIT",
+  "homepage": "http://www.example.com",
+  "requires_arc": true,
+  "platforms": {
+    "ios": "12.0"
+  },
+  "public_header_files": [
+    "PublicHeaders/**/*.h"
+  ],
+  "source_files": [
+    "Sources/**/*.{h,m}",
+    "PublicHeaders/**/*.h"
+  ],
+  "frameworks": "Foundation"
+}

@@ -17,11 +17,6 @@ Pod::Spec.new do |s|
     s.resource_bundle = {'LegacyComponentsResources' => ['Resources/LegacyComponentsResources.bundle']}
     # s.resource_bundle = {'LegacyImages' => ['LegacyImages.xcassets']}
     
-    s.library = 'c++'
-    s.pod_target_xcconfig = {
-        'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
-        'CLANG_CXX_LIBRARY' => 'libc++'
-    }
     s.frameworks = "Foundation","UIKit","QuickLook","CoreMotion","Vision","PhotosUI"
 
     s.dependency "SSignalKit"

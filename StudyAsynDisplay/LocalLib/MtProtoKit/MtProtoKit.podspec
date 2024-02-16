@@ -12,16 +12,10 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = "12.0"
 
     s.public_header_files = ['PublicHeaders/**/*.h']
-    s.source_files  = "PublicHeaders/**/*.h", "Sources/**/*.{h,m}"
-    
-    s.library = 'c++'
-    s.pod_target_xcconfig = {
-        'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
-        'CLANG_CXX_LIBRARY' => 'libc++'
-    }
-    s.frameworks = "Foundation","Security","SystemConfiguration","CFNetwork"
+    s.source_files  = ["Sources/**/*.{h,m}", "PublicHeaders/**/*.h"]
 
     s.dependency "EncryptionProvider"
-
+    
+    s.frameworks = "Foundation", "Security", "SystemConfiguration", "CFNetwork"
 end
 # 参考 https://github.com/TextureGroup/Texture/blob/master/Texture.podspec

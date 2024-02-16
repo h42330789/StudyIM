@@ -1,0 +1,6 @@
+framework module SegmentedControlNode {
+  umbrella header "SegmentedControlNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

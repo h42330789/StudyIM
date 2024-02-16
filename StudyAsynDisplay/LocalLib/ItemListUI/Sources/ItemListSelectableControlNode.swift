@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import AsyncDisplayKit
 import Display
-//import CheckNode
+import CheckNode
 
 public final class ItemListSelectableControlNode: ASDisplayNode {
     private let checkNode: CheckNode

@@ -1,0 +1,6 @@
+framework module ManagedFile {
+  umbrella header "ManagedFile-umbrella.h"
+
+  export *
+  module * { export * }
+}

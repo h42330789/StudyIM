@@ -1,0 +1,1 @@
+../../../../LocalLib/libjxl/Public/jxl/color_encoding.h

@@ -19,9 +19,10 @@ public struct ChatTextInputAttributes {
     public static let textUrl = NSAttributedString.Key(rawValue: "Attribute__TextUrl")
     public static let spoiler = NSAttributedString.Key(rawValue: "Attribute__Spoiler")
     public static let customEmoji = NSAttributedString.Key(rawValue: "Attribute__CustomEmoji")
-    public static let block = NSAttributedString.Key(rawValue: "Attribute__Blockquote")
+    public static let code = NSAttributedString.Key(rawValue: "Attribute__Code")
+    public static let quote = NSAttributedString.Key(rawValue: "Attribute__Blockquote")
     
-    public static let allAttributes = [ChatTextInputAttributes.bold, ChatTextInputAttributes.italic, ChatTextInputAttributes.monospace, ChatTextInputAttributes.strikethrough, ChatTextInputAttributes.underline, ChatTextInputAttributes.textMention, ChatTextInputAttributes.textUrl, ChatTextInputAttributes.spoiler, ChatTextInputAttributes.customEmoji, ChatTextInputAttributes.block]
+    public static let allAttributes = [ChatTextInputAttributes.bold, ChatTextInputAttributes.italic, ChatTextInputAttributes.monospace, ChatTextInputAttributes.strikethrough, ChatTextInputAttributes.underline, ChatTextInputAttributes.textMention, ChatTextInputAttributes.textUrl, ChatTextInputAttributes.spoiler, ChatTextInputAttributes.customEmoji, ChatTextInputAttributes.code, ChatTextInputAttributes.quote]
 }
 
 public let originalTextAttributeKey = NSAttributedString.Key(rawValue: "Attribute__OriginalText")
@@ -148,14 +149,15 @@ public func textAttributedStringForStateText(_ stateText: NSAttributedString, fo
             } else if key == ChatTextInputAttributes.customEmoji {
                 result.addAttribute(key, value: value, range: range)
                 result.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.clear, range: range)
-            } else if key == ChatTextInputAttributes.block, let value = value as? ChatTextInputTextQuoteAttribute {
-                switch value.kind {
-                case .quote:
-                    fontAttributes.insert(.blockQuote)
-                case .code:
-                    fontAttributes.insert(.monospace)
-                }
+            } else if key == ChatTextInputAttributes.quote {
+                fontAttributes.insert(.blockQuote)
                 result.addAttribute(key, value: value, range: range)
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.firstLineHeadIndent = 8.0
+                paragraphStyle.headIndent = 8.0
+                //paragraphStyle.paragraphSpacing = 8.0
+                //paragraphStyle.paragraphSpacingBefore = 8.0
+                //result.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
             }
         }
             
@@ -242,16 +244,7 @@ public final class ChatTextInputTextUrlAttribute: NSObject {
 }
 
 public final class ChatTextInputTextQuoteAttribute: NSObject {
-    public enum Kind: Equatable {
-        case quote
-        case code(language: String?)
-    }
-    
-    public let kind: Kind
-    
-    public init(kind: Kind) {
-        self.kind = kind
-        
+    override public init() {
         super.init()
     }
     
@@ -260,9 +253,7 @@ public final class ChatTextInputTextQuoteAttribute: NSObject {
             return false
         }
         
-        if self.kind != other.kind {
-            return false
-        }
+        let _ = other
         
         return true
     }
@@ -277,21 +268,16 @@ public final class ChatTextInputTextCustomEmojiAttribute: NSObject, Codable {
         case topicInfo
     }
     
-    public enum Custom: Codable {
-        case topic(id: Int64, info: EngineMessageHistoryThread.Info)
-        case nameColors([UInt32])
-    }
-    
     public let interactivelySelectedFromPackId: ItemCollectionId?
     public let fileId: Int64
     public let file: TelegramMediaFile?
-    public let custom: Custom?
+    public let topicInfo: (Int64, EngineMessageHistoryThread.Info)?
     
-    public init(interactivelySelectedFromPackId: ItemCollectionId?, fileId: Int64, file: TelegramMediaFile?, custom: Custom? = nil) {
+    public init(interactivelySelectedFromPackId: ItemCollectionId?, fileId: Int64, file: TelegramMediaFile?, topicInfo: (Int64, EngineMessageHistoryThread.Info)? = nil) {
         self.interactivelySelectedFromPackId = interactivelySelectedFromPackId
         self.fileId = fileId
         self.file = file
-        self.custom = custom
+        self.topicInfo = topicInfo
         
         super.init()
     }
@@ -301,7 +287,11 @@ public final class ChatTextInputTextCustomEmojiAttribute: NSObject, Codable {
         self.interactivelySelectedFromPackId = try container.decodeIfPresent(ItemCollectionId.self, forKey: .interactivelySelectedFromPackId)
         self.fileId = try container.decode(Int64.self, forKey: .fileId)
         self.file = try container.decodeIfPresent(TelegramMediaFile.self, forKey: .file)
-        self.custom = nil
+        if let topicId = try container.decodeIfPresent(Int64.self, forKey: .topicId), let topicInfo = try container.decodeIfPresent(EngineMessageHistoryThread.Info.self, forKey: .topicInfo) {
+            self.topicInfo = (topicId, topicInfo)
+        } else {
+            self.topicInfo = nil
+        }
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -309,11 +299,16 @@ public final class ChatTextInputTextCustomEmojiAttribute: NSObject, Codable {
         try container.encodeIfPresent(self.interactivelySelectedFromPackId, forKey: .interactivelySelectedFromPackId)
         try container.encode(self.fileId, forKey: .fileId)
         try container.encodeIfPresent(self.file, forKey: .file)
+        if let (topicId, topicInfo) = self.topicInfo {
+            try container.encode(topicId, forKey: .topicId)
+            try container.encode(topicInfo, forKey: .topicInfo)
+        }
     }
     
     override public func isEqual(_ object: Any?) -> Bool {
         if let other = object as? ChatTextInputTextCustomEmojiAttribute {
             return self === other
+            //return self.stickerPack == other.stickerPack && self.fileId == other.fileId && self.file?.fileId == other.file?.fileId
         } else {
             return false
         }
@@ -592,7 +587,7 @@ private func quoteRangesEqual(_ lhs: [(NSRange, ChatTextInputTextQuoteAttribute)
 private func refreshBlockQuotes(text: NSString, initialAttributedText: NSAttributedString, attributedText: NSMutableAttributedString, fullRange: NSRange) {
     var quoteRanges: [(NSRange, ChatTextInputTextQuoteAttribute)] = []
     initialAttributedText.enumerateAttributes(in: fullRange, using: { dict, range, _ in
-        if let value = dict[ChatTextInputAttributes.block] as? ChatTextInputTextQuoteAttribute {
+        if let value = dict[ChatTextInputAttributes.quote] as? ChatTextInputTextQuoteAttribute {
             quoteRanges.append((range, value))
         }
     })
@@ -643,9 +638,10 @@ private func refreshBlockQuotes(text: NSString, initialAttributedText: NSAttribu
     }
     
     if !quoteRangesEqual(quoteRanges, initialQuoteRanges) {
-        attributedText.removeAttribute(ChatTextInputAttributes.block, range: fullRange)
+        attributedText.removeAttribute(ChatTextInputAttributes.quote, range: fullRange)
         for (range, attribute) in quoteRanges {
-            attributedText.addAttribute(ChatTextInputAttributes.block, value: ChatTextInputTextQuoteAttribute(kind: attribute.kind), range: range)
+            let _ = attribute
+            attributedText.addAttribute(ChatTextInputAttributes.quote, value: ChatTextInputTextQuoteAttribute(), range: range)
         }
     }
 }
@@ -699,7 +695,7 @@ public func refreshChatTextInputAttributes(textView: UITextView, primaryTextColo
         textView.textStorage.removeAttribute(ChatTextInputAttributes.textUrl, range: fullRange)
         textView.textStorage.removeAttribute(ChatTextInputAttributes.spoiler, range: fullRange)
         textView.textStorage.removeAttribute(ChatTextInputAttributes.customEmoji, range: fullRange)
-        textView.textStorage.removeAttribute(ChatTextInputAttributes.block, range: fullRange)
+        textView.textStorage.removeAttribute(ChatTextInputAttributes.quote, range: fullRange)
         
         textView.textStorage.addAttribute(NSAttributedString.Key.font, value: Font.regular(baseFontSize), range: fullRange)
         textView.textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: primaryTextColor, range: fullRange)
@@ -743,14 +739,15 @@ public func refreshChatTextInputAttributes(textView: UITextView, primaryTextColo
                 } else if key == ChatTextInputAttributes.customEmoji, let value = value as? ChatTextInputTextCustomEmojiAttribute {
                     textView.textStorage.addAttribute(key, value: value, range: range)
                     textView.textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.clear, range: range)
-                } else if key == ChatTextInputAttributes.block, let value = value as? ChatTextInputTextQuoteAttribute {
-                    switch value.kind {
-                    case .quote:
-                        fontAttributes.insert(.blockQuote)
-                    case .code:
-                        fontAttributes.insert(.monospace)
-                    }
+                } else if key == ChatTextInputAttributes.quote {
+                    fontAttributes.insert(.blockQuote)
                     textView.textStorage.addAttribute(key, value: value, range: range)
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.firstLineHeadIndent = 8.0
+                    paragraphStyle.headIndent = 8.0
+                    //paragraphStyle.paragraphSpacing = 8.0
+                    //paragraphStyle.paragraphSpacingBefore = 8.0
+                    //textView.textStorage.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
                 }
             }
                 
@@ -861,6 +858,13 @@ public func refreshGenericTextInputAttributes(_ textView: UITextView, theme: Pre
                     } else {
                         textView.textStorage.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.clear, range: range)
                     }
+                } else if key == ChatTextInputAttributes.quote {
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.firstLineHeadIndent = 8.0
+                    paragraphStyle.headIndent = 8.0
+                    //paragraphStyle.paragraphSpacing = 8.0
+                    //paragraphStyle.paragraphSpacingBefore = 8.0
+                    //textView.textStorage.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: range)
                 }
             }
                 
@@ -1052,21 +1056,8 @@ public func convertMarkdownToAttributes(_ text: NSAttributedString) -> NSAttribu
                     
                     stringOffset -= match.range(at: 2).length + match.range(at: 4).length
                     
-                    var substring = (string.substring(with: match.range(at: 1)).trimmingCharacters(in: .whitespacesAndNewlines) + text + string.substring(with: match.range(at: 5))) as NSString
-                    
-                    var language: String?
-                    let newlineRange = substring.range(of: "\n")
-                    if newlineRange.location != NSNotFound {
-                        if newlineRange.location != 0 {
-                            language = substring.substring(with: NSRange(location: 0, length: newlineRange.location))
-                        }
-                        substring = substring.substring(with: NSRange(location: newlineRange.upperBound, length: substring.length - newlineRange.upperBound)) as NSString
-                    }
-                    if substring.hasSuffix("\n") {
-                        substring = substring.substring(with: NSRange(location: 0, length: substring.length - 1)) as NSString
-                    }
-                    
-                    result.append(NSAttributedString(string: substring as String, attributes: [ChatTextInputAttributes.block: ChatTextInputTextQuoteAttribute(kind: .code(language: language))]))
+                    let substring = string.substring(with: match.range(at: 1)) + text + string.substring(with: match.range(at: 5))
+                    result.append(NSAttributedString(string: substring, attributes: [ChatTextInputAttributes.code: true as NSNumber]))
                     offsetRanges.append((NSMakeRange(matchIndex + match.range(at: 1).length, text.count), 6))
                 }
             }
@@ -1099,7 +1090,7 @@ public func convertMarkdownToAttributes(_ text: NSAttributedString) -> NSAttribu
                         case "`":
                             textInputAttribute = ChatTextInputAttributes.monospace
                         case "```":
-                            textInputAttribute = ChatTextInputAttributes.block
+                            textInputAttribute = ChatTextInputAttributes.code
                         case "**":
                             textInputAttribute = ChatTextInputAttributes.bold
                         case "__":

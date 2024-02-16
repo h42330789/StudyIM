@@ -1,0 +1,6 @@
+framework module CloudData {
+  umbrella header "CloudData-umbrella.h"
+
+  export *
+  module * { export * }
+}

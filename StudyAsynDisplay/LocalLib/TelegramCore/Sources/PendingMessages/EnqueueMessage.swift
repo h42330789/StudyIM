@@ -14,17 +14,14 @@ public struct EngineMessageReplyQuote: Codable, Equatable {
         case text = "t"
         case entities = "e"
         case media = "m"
-        case offset = "o"
     }
     
     public var text: String
-    public var offset: Int?
     public var entities: [MessageTextEntity]
     public var media: Media?
     
-    public init(text: String, offset: Int?, entities: [MessageTextEntity], media: Media?) {
+    public init(text: String, entities: [MessageTextEntity], media: Media?) {
         self.text = text
-        self.offset = offset
         self.entities = entities
         self.media = media
     }
@@ -33,7 +30,6 @@ public struct EngineMessageReplyQuote: Codable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.text = try container.decode(String.self, forKey: .text)
-        self.offset = (try container.decodeIfPresent(Int32.self, forKey: .offset)).flatMap(Int.init)
         self.entities = try container.decode([MessageTextEntity].self, forKey: .entities)
         
         if let mediaData = try container.decodeIfPresent(Data.self, forKey: .media) {
@@ -47,7 +43,6 @@ public struct EngineMessageReplyQuote: Codable, Equatable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(self.text, forKey: .text)
-        try container.encodeIfPresent(self.offset.flatMap(Int32.init(clamping:)), forKey: .offset)
         try container.encode(self.entities, forKey: .entities)
         if let media = self.media {
             let mediaEncoder = PostboxEncoder()
@@ -58,9 +53,6 @@ public struct EngineMessageReplyQuote: Codable, Equatable {
     
     public static func ==(lhs: EngineMessageReplyQuote, rhs: EngineMessageReplyQuote) -> Bool {
         if lhs.text != rhs.text {
-            return false
-        }
-        if lhs.offset != rhs.offset {
             return false
         }
         if lhs.entities != rhs.entities {
@@ -143,15 +135,6 @@ public enum EnqueueMessage {
             return localGroupingKey
         } else {
             return nil
-        }
-    }
-    
-    public var attributes: [MessageAttribute] {
-        switch self {
-        case let .message(_, attributes, _, _, _, _, _, _, _, _):
-            return attributes
-        case let .forward(_, _, _, attributes, _):
-            return attributes
         }
     }
 }
@@ -582,9 +565,7 @@ func enqueueMessages(transaction: Transaction, account: Account, peerId: PeerId,
                         var quote = replyToMessageId.quote
                         let isQuote = quote != nil
                         if let replyMessage = transaction.getMessage(replyToMessageId.messageId) {
-                            if replyMessage.id.namespace == Namespaces.Message.Cloud, let threadId = replyMessage.threadId {
-                                threadMessageId = MessageId(peerId: replyMessage.id.peerId, namespace: Namespaces.Message.Cloud, id: Int32(clamping: threadId))
-                            }
+                            threadMessageId = replyMessage.effectiveReplyThreadMessageId
                             if quote == nil, replyToMessageId.messageId.peerId != peerId {
                                 let nsText = replyMessage.text as NSString
                                 var replyMedia: Media?
@@ -596,7 +577,7 @@ func enqueueMessages(transaction: Transaction, account: Account, peerId: PeerId,
                                         break
                                     }
                                 }
-                                quote = EngineMessageReplyQuote(text: replyMessage.text, offset: nil, entities: messageTextEntitiesInRange(entities: replyMessage.textEntitiesAttribute?.entities ?? [], range: NSRange(location: 0, length: nsText.length), onlyQuoteable: true), media: replyMedia)
+                                quote = EngineMessageReplyQuote(text: replyMessage.text, entities: messageTextEntitiesInRange(entities: replyMessage.textEntitiesAttribute?.entities ?? [], range: NSRange(location: 0, length: nsText.length), onlyQuoteable: true), media: replyMedia)
                             }
                         }
                         attributes.append(ReplyMessageAttribute(messageId: replyToMessageId.messageId, threadMessageId: threadMessageId, quote: quote, isQuote: isQuote))
@@ -723,14 +704,14 @@ func enqueueMessages(transaction: Transaction, account: Account, peerId: PeerId,
                                             threadId = threadIdValue
                                         } else {
                                             if let channel = message.peers[message.id.peerId] as? TelegramChannel, case .group = channel.info {
-                                                threadId = Int64(replyToMessageId.messageId.id)
+                                                threadId = makeMessageThreadId(replyToMessageId.messageId)
                                             }
                                         }
                                     } else {
                                         threadId = threadIdValue
                                     }
                                 } else if let channel = message.peers[message.id.peerId] as? TelegramChannel, case .group = channel.info {
-                                    threadId = Int64(replyToMessageId.messageId.id)
+                                    threadId = makeMessageThreadId(replyToMessageId.messageId)
                                 }
                             }
                         }
@@ -913,7 +894,7 @@ func enqueueMessages(transaction: Transaction, account: Account, peerId: PeerId,
                                 }
                             } else if let attribute = attribute as? ReplyMessageAttribute {
                                 if let threadMessageId = attribute.threadMessageId {
-                                    threadId = Int64(threadMessageId.id)
+                                    threadId = makeMessageThreadId(threadMessageId)
                                 }
                             } else if let attribute = attribute as? SendAsMessageAttribute {
                                 if let peer = transaction.getPeer(attribute.peerId) {

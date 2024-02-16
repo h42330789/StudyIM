@@ -235,26 +235,6 @@ func _internal_fetchAndUpdateCachedPeerData(accountPeerId: PeerId, peerId rawPee
                                         let voiceCallsAvailable = (userFullFlags & (1 << 4)) != 0
                                         let videoCallsAvailable = (userFullFlags & (1 << 13)) != 0
                                         let voiceMessagesAvailable = (userFullFlags & (1 << 20)) == 0
-                                        let readDatesPrivate = (userFullFlags & (1 << 30)) != 0
-                                        let premiumRequired = (userFullFlags & (1 << 29)) != 0
-                                        let translationsDisabled = (userFullFlags & (1 << 23)) != 0
-
-                                        var flags: CachedUserFlags = previous.flags
-                                        if premiumRequired {
-                                            flags.insert(.premiumRequired)
-                                        } else {
-                                            flags.remove(.premiumRequired)
-                                        }
-                                        if readDatesPrivate {
-                                            flags.insert(.readDatesPrivate)
-                                        } else {
-                                            flags.remove(.readDatesPrivate)
-                                        }
-                                        if translationsDisabled {
-                                            flags.insert(.translationHidden)
-                                        } else {
-                                            flags.remove(.translationHidden)
-                                        }
                                     
                                         let callsPrivate = (userFullFlags & (1 << 5)) != 0
                                         let canPinMessages = (userFullFlags & (1 << 7)) != 0
@@ -306,7 +286,6 @@ func _internal_fetchAndUpdateCachedPeerData(accountPeerId: PeerId, peerId rawPee
                                             .withUpdatedPremiumGiftOptions(premiumGiftOptions)
                                             .withUpdatedVoiceMessagesAvailable(voiceMessagesAvailable)
                                             .withUpdatedWallpaper(wallpaper)
-                                            .withUpdatedFlags(flags)
                                 }
                             })
                         }
@@ -452,14 +431,14 @@ func _internal_fetchAndUpdateCachedPeerData(accountPeerId: PeerId, peerId rawPee
                             switch result {
                                 case let .chatFull(fullChat, chats, users):
                                     switch fullChat {
-                                        case let .channelFull(_, _, _, _, _, _, _, _, _, _, _, _, _, notifySettings, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _):
+                                        case let .channelFull(_, _, _, _, _, _, _, _, _, _, _, _, _, notifySettings, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _):
                                             transaction.updateCurrentPeerNotificationSettings([peerId: TelegramPeerNotificationSettings(apiSettings: notifySettings)])
                                         case .chatFull:
                                             break
                                     }
                                     
                                     switch fullChat {
-                                        case let .channelFull(flags, flags2, _, about, participantsCount, adminsCount, kickedCount, bannedCount, _, _, _, _, chatPhoto, _, apiExportedInvite, apiBotInfos, migratedFromChatId, migratedFromMaxId, pinnedMsgId, stickerSet, minAvailableMsgId, _, linkedChatId, location, slowmodeSeconds, slowmodeNextSendDate, statsDc, _, inputCall, ttl, pendingSuggestions, groupcallDefaultJoinAs, themeEmoticon, requestsPending, _, defaultSendAs, allowedReactions, _, wallpaper):
+                                        case let .channelFull(flags, flags2, _, about, participantsCount, adminsCount, kickedCount, bannedCount, _, _, _, _, chatPhoto, _, apiExportedInvite, apiBotInfos, migratedFromChatId, migratedFromMaxId, pinnedMsgId, stickerSet, minAvailableMsgId, _, linkedChatId, location, slowmodeSeconds, slowmodeNextSendDate, statsDc, _, inputCall, ttl, pendingSuggestions, groupcallDefaultJoinAs, themeEmoticon, requestsPending, _, defaultSendAs, allowedReactions, _):
                                             var channelFlags = CachedChannelFlags()
                                             if (flags & (1 << 3)) != 0 {
                                                 channelFlags.insert(.canDisplayParticipants)
@@ -625,9 +604,6 @@ func _internal_fetchAndUpdateCachedPeerData(accountPeerId: PeerId, peerId rawPee
                                                 }
                                                 
                                                 let membersHidden = (flags2 & (1 << 2)) != 0
-                                                let forumViewAsMessages = (flags2 & (1 << 6)) != 0
-                                                
-                                                let wallpaper = wallpaper.flatMap { TelegramWallpaper(apiWallpaper: $0) }
                                                 
                                                 return previous.withUpdatedFlags(channelFlags)
                                                     .withUpdatedAbout(about)
@@ -656,8 +632,6 @@ func _internal_fetchAndUpdateCachedPeerData(accountPeerId: PeerId, peerId rawPee
                                                     .withUpdatedSendAsPeerId(sendAsPeerId)
                                                     .withUpdatedAllowedReactions(.known(mappedAllowedReactions))
                                                     .withUpdatedMembersHidden(.known(PeerMembersHidden(value: membersHidden)))
-                                                    .withUpdatedViewForumAsMessages(.known(forumViewAsMessages))
-                                                    .withUpdatedWallpaper(wallpaper)
                                             })
                                         
                                             if let minAvailableMessageId = minAvailableMessageId, minAvailableMessageIdUpdated {

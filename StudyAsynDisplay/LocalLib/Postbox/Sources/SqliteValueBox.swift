@@ -590,9 +590,6 @@ public final class SqliteValueBox: ValueBox {
         postboxLog("isEncrypted prepare done")
         if statement == nil {
             postboxLog("isEncrypted: sqlite3_prepare_v2 status = \(status) [\(self.databasePath)]")
-            if status == 14 {
-                printOpenFiles()
-            }
             return true
         }
         if status == SQLITE_NOTADB {

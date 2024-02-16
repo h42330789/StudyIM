@@ -3,9 +3,9 @@ import UIKit
 import Display
 import AsyncDisplayKit
 import SwiftSignalKit
-//import TelegramPresentationData
-//import TextFormat
-//import AccountContext
+import TelegramPresentationData
+import TextFormat
+import AccountContext
 
 public enum ItemListMultilineTextBaseFont {
     case `default`

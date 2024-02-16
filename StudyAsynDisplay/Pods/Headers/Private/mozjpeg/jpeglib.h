@@ -1,0 +1,1 @@
+../../../../LocalLib/mozjpeg/Public/mozjpeg/jpeglib.h

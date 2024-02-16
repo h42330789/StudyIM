@@ -3,11 +3,11 @@ import UIKit
 import Display
 import AsyncDisplayKit
 import SwiftSignalKit
-//import TelegramPresentationData
-//import ShimmerEffect
-//import AvatarNode
-//import TelegramCore
-//import AccountContext
+import TelegramPresentationData
+import ShimmerEffect
+import AvatarNode
+import TelegramCore
+import AccountContext
 
 private let avatarFont = avatarPlaceholderFont(size: 16.0)
 

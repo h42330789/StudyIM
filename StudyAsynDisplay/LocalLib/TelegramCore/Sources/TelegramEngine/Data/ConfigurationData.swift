@@ -37,7 +37,6 @@ public enum EngineConfiguration {
     
     public struct UserLimits: Equatable {
         public let maxPinnedChatCount: Int32
-        public let maxPinnedSavedChatCount: Int32
         public let maxArchivedPinnedChatCount: Int32
         public let maxChannelsCount: Int32
         public let maxPublicLinksCount: Int32
@@ -60,7 +59,7 @@ public enum EngineConfiguration {
         public let maxGiveawayChannelsCount: Int32
         public let maxGiveawayCountriesCount: Int32
         public let maxGiveawayPeriodSeconds: Int32
-        public let maxChannelRecommendationsCount: Int32
+        public let minChannelNameColorLevel: Int32
         
         public static var defaultValue: UserLimits {
             return UserLimits(UserLimitsConfiguration.defaultValue)
@@ -68,7 +67,6 @@ public enum EngineConfiguration {
 
         public init(
             maxPinnedChatCount: Int32,
-            maxPinnedSavedChatCount: Int32,
             maxArchivedPinnedChatCount: Int32,
             maxChannelsCount: Int32,
             maxPublicLinksCount: Int32,
@@ -91,10 +89,9 @@ public enum EngineConfiguration {
             maxGiveawayChannelsCount: Int32,
             maxGiveawayCountriesCount: Int32,
             maxGiveawayPeriodSeconds: Int32,
-            maxChannelRecommendationsCount: Int32
+            minChannelNameColorLevel: Int32
         ) {
             self.maxPinnedChatCount = maxPinnedChatCount
-            self.maxPinnedSavedChatCount = maxPinnedSavedChatCount
             self.maxArchivedPinnedChatCount = maxArchivedPinnedChatCount
             self.maxChannelsCount = maxChannelsCount
             self.maxPublicLinksCount = maxPublicLinksCount
@@ -117,7 +114,7 @@ public enum EngineConfiguration {
             self.maxGiveawayChannelsCount = maxGiveawayChannelsCount
             self.maxGiveawayCountriesCount = maxGiveawayCountriesCount
             self.maxGiveawayPeriodSeconds = maxGiveawayPeriodSeconds
-            self.maxChannelRecommendationsCount = maxChannelRecommendationsCount
+            self.minChannelNameColorLevel = minChannelNameColorLevel
         }
     }
 }
@@ -156,7 +153,6 @@ public extension EngineConfiguration.UserLimits {
     init(_ userLimitsConfiguration: UserLimitsConfiguration) {
         self.init(
             maxPinnedChatCount: userLimitsConfiguration.maxPinnedChatCount,
-            maxPinnedSavedChatCount: userLimitsConfiguration.maxPinnedSavedChatCount,
             maxArchivedPinnedChatCount: userLimitsConfiguration.maxArchivedPinnedChatCount,
             maxChannelsCount: userLimitsConfiguration.maxChannelsCount,
             maxPublicLinksCount: userLimitsConfiguration.maxPublicLinksCount,
@@ -179,7 +175,7 @@ public extension EngineConfiguration.UserLimits {
             maxGiveawayChannelsCount: userLimitsConfiguration.maxGiveawayChannelsCount,
             maxGiveawayCountriesCount: userLimitsConfiguration.maxGiveawayCountriesCount,
             maxGiveawayPeriodSeconds: userLimitsConfiguration.maxGiveawayPeriodSeconds,
-            maxChannelRecommendationsCount: userLimitsConfiguration.maxChannelRecommendationsCount
+            minChannelNameColorLevel: userLimitsConfiguration.minChannelNameColorLevel
         )
     }
 }
@@ -506,59 +502,6 @@ public extension TelegramEngine.EngineData.Item {
                 }
                 guard let value = view.values[PreferencesKeys.storiesConfiguration]?.get(Stories.ConfigurationState.self) else {
                     return Stories.ConfigurationState.default
-                }
-                return value
-            }
-        }
-        
-        public struct AudioTranscriptionTrial: TelegramEngineDataItem, PostboxViewDataItem {
-            public typealias Result = AudioTranscription.TrialState
-            
-            public init() {
-            }
-            
-            var key: PostboxViewKey {
-                return .preferences(keys: Set([PreferencesKeys.audioTranscriptionTrialState]))
-            }
-            
-            func extract(view: PostboxView) -> Result {
-                guard let view = view as? PreferencesView else {
-                    preconditionFailure()
-                }
-                guard let value = view.values[PreferencesKeys.audioTranscriptionTrialState]?.get(AudioTranscription.TrialState.self) else {
-                    return AudioTranscription.TrialState.defaultValue
-                }
-                return value
-            }
-        }
-        
-        public struct AvailableColorOptions: TelegramEngineDataItem, PostboxViewDataItem {
-            public typealias Result = EngineAvailableColorOptions
-            
-            public let scope: PeerColorsScope
-            
-            public init(scope: PeerColorsScope) {
-                self.scope = scope
-            }
-            
-            var key: PostboxViewKey {
-                let key = ValueBoxKey(length: 8)
-                switch scope {
-                case .replies:
-                    key.setInt64(0, value: 0)
-                case .profile:
-                    key.setInt64(0, value: 1)
-                }
-                let viewKey: PostboxViewKey = .cachedItem(ItemCacheEntryId(collectionId: Namespaces.CachedItemCollection.peerColorOptions, key: key))
-                return viewKey
-            }
-            
-            func extract(view: PostboxView) -> Result {
-                guard let view = view as? CachedItemView else {
-                    preconditionFailure()
-                }
-                guard let value = view.value?.get(EngineAvailableColorOptions.self) else {
-                    return EngineAvailableColorOptions(hash: 0, options: [])
                 }
                 return value
             }

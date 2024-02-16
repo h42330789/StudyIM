@@ -251,29 +251,21 @@ public struct GlobalPrivacySettings: Equatable, Codable {
     public static var `default` = GlobalPrivacySettings(
         automaticallyArchiveAndMuteNonContacts: false,
         keepArchivedUnmuted: true,
-        keepArchivedFolders: true,
-        hideReadTime: false,
-        nonContactChatsRequirePremium: false
+        keepArchivedFolders: true
     )
 
     public var automaticallyArchiveAndMuteNonContacts: Bool
     public var keepArchivedUnmuted: Bool
     public var keepArchivedFolders: Bool
-    public var hideReadTime: Bool
-    public var nonContactChatsRequirePremium: Bool
 
     public init(
         automaticallyArchiveAndMuteNonContacts: Bool,
         keepArchivedUnmuted: Bool,
-        keepArchivedFolders: Bool,
-        hideReadTime: Bool,
-        nonContactChatsRequirePremium: Bool
+        keepArchivedFolders: Bool
     ) {
         self.automaticallyArchiveAndMuteNonContacts = automaticallyArchiveAndMuteNonContacts
         self.keepArchivedUnmuted = keepArchivedUnmuted
         self.keepArchivedFolders = keepArchivedFolders
-        self.hideReadTime = hideReadTime
-        self.nonContactChatsRequirePremium = nonContactChatsRequirePremium
     }
 }
 

@@ -1,0 +1,6 @@
+framework module GenerateStickerPlaceholderImage {
+  umbrella header "GenerateStickerPlaceholderImage-umbrella.h"
+
+  export *
+  module * { export * }
+}

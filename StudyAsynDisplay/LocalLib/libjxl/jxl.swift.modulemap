@@ -1,0 +1,19 @@
+module "jxl" {
+    export *
+
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/cms_interface.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/codestream_header.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/color_encoding.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/decode.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/decode_cxx.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/encode.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/encode_cxx.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/jxl_export.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/jxl_threads_export.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/memory_manager.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/parallel_runner.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/stats.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/types.h"
+    header "../../../../../bazel-out/ios-x86_64-min12.0-applebin_ios-ios_x86_64-dbg-ST-57558e36bc4b/bin/third-party/libjxl/Public/jxl/version.h"
+
+}

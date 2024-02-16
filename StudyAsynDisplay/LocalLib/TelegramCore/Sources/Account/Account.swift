@@ -183,7 +183,6 @@ public func accountWithId(accountManager: AccountManager<TelegramAccountManagerT
         seedConfiguration: telegramPostboxSeedConfiguration,
         encryptionParameters: encryptionParameters,
         timestampForAbsoluteTimeBasedOperations: Int32(CFAbsoluteTimeGetCurrent() + NSTimeIntervalSince1970),
-        isMainProcess: !supplementary,
         isTemporary: false,
         isReadOnly: false,
         useCopy: false,
@@ -1153,7 +1152,7 @@ public class Account {
             pendingMessageManager?.updatePendingMessageIds(view.ids)
         }))
         
-        self.managedOperationsDisposable.add(managedSecretChatOutgoingOperations(auxiliaryMethods: auxiliaryMethods, postbox: self.postbox, network: self.network, accountPeerId: peerId, mode: .all).start())
+        self.managedOperationsDisposable.add(managedSecretChatOutgoingOperations(auxiliaryMethods: auxiliaryMethods, postbox: self.postbox, network: self.network).start())
         self.managedOperationsDisposable.add(managedCloudChatRemoveMessagesOperations(postbox: self.postbox, network: self.network, stateManager: self.stateManager).start())
         self.managedOperationsDisposable.add(managedAutoremoveMessageOperations(network: self.network, postbox: self.postbox, isRemove: true).start())
         self.managedOperationsDisposable.add(managedAutoremoveMessageOperations(network: self.network, postbox: self.postbox, isRemove: false).start())
@@ -1446,7 +1445,6 @@ public func standaloneStateManager(
         seedConfiguration: telegramPostboxSeedConfiguration,
         encryptionParameters: encryptionParameters,
         timestampForAbsoluteTimeBasedOperations: Int32(CFAbsoluteTimeGetCurrent() + NSTimeIntervalSince1970),
-        isMainProcess: false,
         isTemporary: false,
         isReadOnly: false,
         useCopy: false,
@@ -1524,10 +1522,7 @@ public func standaloneStateManager(
                                 |> map { network -> AccountStateManager? in
                                     Logger.shared.log("StandaloneStateManager", "received network")
                                     
-                                    postbox.mediaBox.fetchResource = { [weak postbox] resource, intervals, parameters -> Signal<MediaResourceDataFetchResult, MediaResourceDataFetchError> in
-                                        guard let postbox = postbox else {
-                                            return .never()
-                                        }
+                                    postbox.mediaBox.fetchResource = { resource, intervals, parameters -> Signal<MediaResourceDataFetchResult, MediaResourceDataFetchError> in
                                         if let result = auxiliaryMethods.fetchResource(
                                             postbox,
                                             resource,

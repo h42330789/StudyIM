@@ -37,10 +37,6 @@ public extension TelegramEngine {
         public func searchStickerSetsRemotely(query: String) -> Signal<FoundStickerSets, NoError> {
             return _internal_searchStickerSetsRemotely(network: self.account.network, query: query)
         }
-        
-        public func searchEmojiSetsRemotely(query: String) -> Signal<FoundStickerSets, NoError> {
-            return _internal_searchEmojiSetsRemotely(postbox: self.account.postbox, network: self.account.network, query: query)
-        }
 
         public func searchStickerSets(query: String) -> Signal<FoundStickerSets, NoError> {
             return _internal_searchStickerSets(postbox: self.account.postbox, query: query)
@@ -107,51 +103,6 @@ public extension TelegramEngine {
         
         public func availableReactions() -> Signal<AvailableReactions?, NoError> {
             return _internal_cachedAvailableReactions(postbox: self.account.postbox)
-        }
-        
-        public func savedMessageTagData() -> Signal<SavedMessageTags?, NoError> {
-            return self.account.postbox.combinedView(keys: [PostboxViewKey.cachedItem(_internal_savedMessageTagsCacheKey())])
-            |> mapToSignal { views -> Signal<SavedMessageTags?, NoError> in
-                guard let views = views.views[PostboxViewKey.cachedItem(_internal_savedMessageTagsCacheKey())] as? CachedItemView else {
-                    return .single(nil)
-                }
-                guard let savedMessageTags = views.value?.get(SavedMessageTags.self) else {
-                    return .single(nil)
-                }
-                return .single(savedMessageTags)
-            }
-        }
-        
-        public func savedMessageTags() -> Signal<([SavedMessageTags.Tag], [Int64: TelegramMediaFile]), NoError> {
-            return self.account.postbox.combinedView(keys: [PostboxViewKey.cachedItem(_internal_savedMessageTagsCacheKey())])
-            |> mapToSignal { views -> Signal<([SavedMessageTags.Tag], [Int64: TelegramMediaFile]), NoError> in
-                guard let views = views.views[PostboxViewKey.cachedItem(_internal_savedMessageTagsCacheKey())] as? CachedItemView else {
-                    return .single(([], [:]))
-                }
-                guard let savedMessageTags = views.value?.get(SavedMessageTags.self) else {
-                    return .single(([], [:]))
-                }
-                return self.account.postbox.transaction { transaction -> ([SavedMessageTags.Tag], [Int64: TelegramMediaFile]) in
-                    var files: [Int64: TelegramMediaFile] = [:]
-                    for tag in savedMessageTags.tags {
-                        if case let .custom(fileId) = tag.reaction {
-                            let mediaId = MediaId(namespace: Namespaces.Media.CloudFile, id: fileId)
-                            if let file = transaction.getMedia(mediaId) as? TelegramMediaFile {
-                                files[fileId] = file
-                            }
-                        }
-                    }
-                    return (savedMessageTags.tags, files)
-                }
-            }
-        }
-        
-        public func refreshSavedMessageTags(subPeerId: EnginePeer.Id?) -> Signal<Never, NoError> {
-            return synchronizeSavedMessageTags(postbox: self.account.postbox, network: self.account.network, peerId: self.account.peerId, threadId: subPeerId?.toInt64())
-        }
-        
-        public func setSavedMessageTagTitle(reaction: MessageReaction.Reaction, title: String?) -> Signal<Never, NoError> {
-            return _internal_setSavedMessageTagTitle(account: self.account, reaction: reaction, title: title)
         }
         
         public func emojiSearchCategories(kind: EmojiSearchCategories.Kind) -> Signal<EmojiSearchCategories?, NoError> {
@@ -243,10 +194,6 @@ public extension TelegramEngine {
 }
 
 public func _internal_resolveInlineStickers(postbox: Postbox, network: Network, fileIds: [Int64]) -> Signal<[Int64: TelegramMediaFile], NoError> {
-    if fileIds.isEmpty {
-        return .single([:])
-    }
-    
     return postbox.transaction { transaction -> [Int64: TelegramMediaFile] in
         var cachedFiles: [Int64: TelegramMediaFile] = [:]
         for fileId in fileIds {
