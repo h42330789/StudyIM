@@ -1,0 +1,6 @@
+framework module InAppPurchaseManager {
+  umbrella header "InAppPurchaseManager-umbrella.h"
+
+  export *
+  module * { export * }
+}

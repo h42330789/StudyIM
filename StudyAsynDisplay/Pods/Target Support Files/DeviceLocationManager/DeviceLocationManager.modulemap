@@ -1,0 +1,6 @@
+framework module DeviceLocationManager {
+  umbrella header "DeviceLocationManager-umbrella.h"
+
+  export *
+  module * { export * }
+}

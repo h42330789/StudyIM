@@ -11,13 +11,9 @@ import FFMpegBinding
 private func readPacketCallback(userData: UnsafeMutableRawPointer?, buffer: UnsafeMutablePointer<UInt8>?, bufferSize: Int32) -> Int32 {
     let context = Unmanaged<SoftwareVideoSource>.fromOpaque(userData!).takeUnretainedValue()
     if let fd = context.fd {
-        let result = read(fd, buffer, Int(bufferSize))
-        if result == 0 {
-            return FFMPEG_CONSTANT_AVERROR_EOF
-        }
-        return Int32(result)
+        return Int32(read(fd, buffer, Int(bufferSize)))
     }
-    return FFMPEG_CONSTANT_AVERROR_EOF
+    return 0
 }
 
 private func seekCallback(userData: UnsafeMutableRawPointer?, offset: Int64, whence: Int32) -> Int64 {

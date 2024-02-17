@@ -1,0 +1,6 @@
+framework module MultiAnimationRenderer {
+  umbrella header "MultiAnimationRenderer-umbrella.h"
+
+  export *
+  module * { export * }
+}

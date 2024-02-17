@@ -4,17 +4,13 @@ import SwiftSignalKit
 import TelegramApi
 import MtProtoKit
 
-public enum GetMessagesResult {
-    case progress
-    case result([Message])
-}
 
 public enum GetMessagesStrategy  {
     case local
     case cloud(skipLocal: Bool)
 }
 
-func _internal_getMessagesLoadIfNecessary(_ messageIds: [MessageId], postbox: Postbox, network: Network, accountPeerId: PeerId, strategy: GetMessagesStrategy = .cloud(skipLocal: false)) -> Signal<GetMessagesResult, NoError> {
+func _internal_getMessagesLoadIfNecessary(_ messageIds: [MessageId], postbox: Postbox, network: Network, accountPeerId: PeerId, strategy: GetMessagesStrategy = .cloud(skipLocal: false)) -> Signal <[Message], NoError> {
     let postboxSignal = postbox.transaction { transaction -> ([Message], Set<MessageId>, SimpleDictionary<PeerId, Peer>) in
         var ids = messageIds
         
@@ -82,8 +78,8 @@ func _internal_getMessagesLoadIfNecessary(_ messageIds: [MessageId], postbox: Po
                 }
             }
             
-            return .single(.progress) |> then(combineLatest(signals) |> mapToSignal { results -> Signal<GetMessagesResult, NoError> in
-                return postbox.transaction { transaction -> GetMessagesResult in
+            return combineLatest(signals) |> mapToSignal { results -> Signal<[Message], NoError> in
+                return postbox.transaction { transaction -> [Message] in
                     for (peer, messages, chats, users) in results {
                         if !messages.isEmpty {
                             var storeMessages: [StoreMessage] = []
@@ -106,14 +102,13 @@ func _internal_getMessagesLoadIfNecessary(_ messageIds: [MessageId], postbox: Po
                         }
                     }
                     
-                    return .result(existMessages + loadedMessages)
+                    return existMessages + loadedMessages
                 }
-            })
+            }
+            
         }
     } else {
-        return postboxSignal
-        |> map {
-            return .result($0.0)
-        }
+        return postboxSignal |> map {$0.0}
     }
+    
 }

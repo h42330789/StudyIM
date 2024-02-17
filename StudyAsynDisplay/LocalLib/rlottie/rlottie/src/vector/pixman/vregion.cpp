@@ -148,10 +148,10 @@ static void _pixman_log_error(const char *function, const char *message)
 #ifdef DEBUG
 
 #define GOOD(reg)                                              \
-//    do {                                                       \
-//        if (!PREFIX(_selfcheck(reg)))                          \
-//            _pixman_log_error(FUNC, "Malformed region " #reg); \
-//    } while (0)
+    do {                                                       \
+        if (!PREFIX(_selfcheck(reg)))                          \
+            _pixman_log_error(FUNC, "Malformed region " #reg); \
+    } while (0)
 
 #else
 

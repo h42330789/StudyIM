@@ -17,7 +17,6 @@ public enum EngineMedia: Equatable {
     case webFile(TelegramMediaWebFile)
     case webpage(TelegramMediaWebpage)
     case story(TelegramMediaStory)
-    case giveaway(TelegramMediaGiveaway)
 }
 
 public extension EngineMedia {
@@ -51,8 +50,6 @@ public extension EngineMedia {
             return webpage.id
         case let .story(story):
             return story.id
-        case let .giveaway(giveaway):
-            return giveaway.id
         }
     }
 }
@@ -88,8 +85,6 @@ public extension EngineMedia {
             self = .webpage(webpage)
         case let story as TelegramMediaStory:
             self = .story(story)
-        case let giveaway as TelegramMediaGiveaway:
-            self = .giveaway(giveaway)
         default:
             preconditionFailure()
         }
@@ -125,8 +120,6 @@ public extension EngineMedia {
             return webpage
         case let .story(story):
             return story
-        case let .giveaway(giveaway):
-            return giveaway
         }
     }
 }

@@ -24,7 +24,7 @@
   ],
   "source_files": "Public/**/*.h",
   "ios": {
-    "vendored_libraries": "Public/**/*.a"
+    "vendored_libraries": "Public/mozjpeg/lib/full/*.a"
   },
   "frameworks": "Foundation"
 }

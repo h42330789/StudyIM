@@ -15,7 +15,7 @@
   "platforms": {
     "ios": "12.0"
   },
-  "source_files": "Source/**/*.swift,h",
+  "source_files": "Sources/**/*.{swift,h}",
   "dependencies": {
     "Display": [
 

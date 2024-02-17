@@ -36,37 +36,8 @@ private class AdMessagesHistoryContextImpl {
             }
             
             struct Invite: Equatable, Codable {
-                enum CodingKeys: String, CodingKey {
-                    case title
-                    case joinHash
-                    case nameColor
-                }
-                
                 var title: String
                 var joinHash: String
-                var nameColor: PeerNameColor?
-                
-                init(title: String, joinHash: String, nameColor: PeerNameColor? = nil) {
-                    self.title = title
-                    self.joinHash = joinHash
-                    self.nameColor = nameColor
-                }
-                
-                init(from decoder: Decoder) throws {
-                    let container = try decoder.container(keyedBy: CodingKeys.self)
-                   
-                    self.title = try container.decode(String.self, forKey: .title)
-                    self.joinHash = try container.decode(String.self, forKey: .joinHash)
-                    self.nameColor = try container.decodeIfPresent(Int32.self, forKey: .nameColor).flatMap { PeerNameColor(rawValue: $0) }
-                }
-                
-                func encode(to encoder: Encoder) throws {
-                    var container = encoder.container(keyedBy: CodingKeys.self)
-                   
-                    try container.encode(self.title, forKey: .title)
-                    try container.encode(self.joinHash, forKey: .joinHash)
-                    try container.encodeIfPresent(self.nameColor?.rawValue, forKey: .nameColor)
-                }
             }
             
             struct WebPage: Equatable, Codable {
@@ -293,9 +264,7 @@ private class AdMessagesHistoryContextImpl {
                     bannedRights: nil,
                     defaultBannedRights: nil,
                     usernames: [],
-                    storiesHidden: nil,
-                    nameColor: invite.nameColor,
-                    backgroundEmojiId: nil
+                    storiesHidden: nil
                 )
             case let .webPage(webPage):
                 author = TelegramChannel(
@@ -314,9 +283,7 @@ private class AdMessagesHistoryContextImpl {
                     bannedRights: nil,
                     defaultBannedRights: nil,
                     usernames: [],
-                    storiesHidden: nil,
-                    nameColor: .blue,
-                    backgroundEmojiId: nil
+                    storiesHidden: nil
                 )
             }
             
@@ -543,7 +510,7 @@ private class AdMessagesHistoryContextImpl {
                                     }
                                 } else if let chatInvite = chatInvite, let chatInviteHash = chatInviteHash {
                                     switch chatInvite {
-                                    case let .chatInvite(flags, title, _, photo, participantsCount, participants, nameColor):
+                                    case let .chatInvite(flags, title, _, photo, participantsCount, participants):
                                         let photo = telegramMediaImageFromApiPhoto(photo).flatMap({ smallestImageRepresentation($0.representations) })
                                         let flags: ExternalJoiningChatState.Invite.Flags = .init(isChannel: (flags & (1 << 0)) != 0, isBroadcast: (flags & (1 << 1)) != 0, isPublic: (flags & (1 << 2)) != 0, isMegagroup: (flags & (1 << 3)) != 0, requestNeeded: (flags & (1 << 6)) != 0, isVerified: (flags & (1 << 7)) != 0, isScam: (flags & (1 << 8)) != 0, isFake: (flags & (1 << 9)) != 0)
                                         
@@ -554,23 +521,20 @@ private class AdMessagesHistoryContextImpl {
                                         
                                         target = .invite(CachedMessage.Target.Invite(
                                             title: title,
-                                            joinHash: chatInviteHash,
-                                            nameColor: PeerNameColor(rawValue: nameColor)
+                                            joinHash: chatInviteHash
                                         ))
                                     case let .chatInvitePeek(chat, _):
                                         if let peer = parseTelegramGroupOrChannel(chat: chat) {
                                             target = .invite(CachedMessage.Target.Invite(
                                                 title: peer.debugDisplayTitle,
-                                                joinHash: chatInviteHash,
-                                                nameColor: peer.nameColor
+                                                joinHash: chatInviteHash
                                             ))
                                         }
                                     case let .chatInviteAlready(chat):
                                         if let peer = parseTelegramGroupOrChannel(chat: chat) {
                                             target = .invite(CachedMessage.Target.Invite(
                                                 title: peer.debugDisplayTitle,
-                                                joinHash: chatInviteHash,
-                                                nameColor: peer.nameColor
+                                                joinHash: chatInviteHash
                                             ))
                                         }
                                     }

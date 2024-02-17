@@ -13,7 +13,9 @@ Pod::Spec.new do |s|
 
     s.public_header_files = ['Public/**/*.h']
     s.source_files  = 'Public/**/*.h'
-    s.ios.vendored_libraries = 'Public/**/*.a'
+    s.ios.vendored_libraries = 'Public/jxl/lib/full/*.a'
+    # 查看.a的架构 lipo -info /xxx/xxx.a
+    # 合并xxx.a + yyy.z 变成 zzz.a 的架构 lipo -create /xxx/xxx.a /yyy/yyy.a -output /zzz/zzz.a
     s.frameworks = "Foundation"
 end
 # 参考 https://github.com/TextureGroup/Texture/blob/master/Texture.podspec

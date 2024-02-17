@@ -6,9 +6,8 @@ platform :ios, '12.0'
  ## https://www.jianshu.com/p/5727a39e8c79
  ## https://stackoverflow.com/questions/76590131/error-while-build-ios-app-in-xcode-sandbox-rsync-samba-13105-deny1-file-w
 target 'StudyAsynDisplay' do
-  ## Comment the next line if you don't want to use dynamic frameworks
+ ## Comment the next line if you don't want to use dynamic frameworks
  ##  use_frameworks!
- ## libjxl\mozjpeg\webp等库包含静态库.a
 use_frameworks! :linkage => :static
 
   ## Pods for StudyAsynDisplay
@@ -56,6 +55,7 @@ use_frameworks! :linkage => :static
   pod "Sunrise", :path => 'LocalLib/Sunrise'
   pod "TinyThumbnail", :path => 'LocalLib/TinyThumbnail'
   pod "FastBlur", :path => 'LocalLib/FastBlur'
+  ## 从生成的内容里同步的 /private/var/tmp/_bazel_flow/77a9618ad4b516ed2b48d93fb9fb04ab/rules_xcodeproj.noindex/build_output_base/execroot/__main__/bazel-out/ios-sim_arm64-min12.0-applebin_ios-ios_sim_arm64-dbg-ST-9bca64169500/bin/Telegram/GeneratedPresentationStrings
   pod "PresentationStrings", :path => 'LocalLib/GeneratedPresentationStrings'
   
   ## TelegramCore依赖引入
@@ -78,69 +78,69 @@ use_frameworks! :linkage => :static
   pod "StringTransliteration", :path => 'LocalLib/StringTransliteration'
   
   ## TextFormat依赖引入
-  ##  pod "TelegramCore", :path => 'LocalLib/TelegramCore'
-  ##  pod "Display", :path => 'LocalLib/Display'
-  ##  pod "TelegramPresentationData", :path => 'LocalLib/TelegramPresentationData'
-  ##  pod "Markdown", :path => 'LocalLib/Markdown'
-  ##  pod "Emoji", :path => 'LocalLib/Emoji'
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## pod "Display", :path => 'LocalLib/Display'
+  ## pod "TelegramPresentationData", :path => 'LocalLib/TelegramPresentationData'
+  ## pod "Markdown", :path => 'LocalLib/Markdown'
+  ## pod "Emoji", :path => 'LocalLib/Emoji'
 
   ## ProgressNavigationButtonNode依赖引入
-  ##  pod "Display", :path => 'LocalLib/Display'
-  ##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
+  ## pod "Display", :path => 'LocalLib/Display'
+  ## pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
   pod "ActivityIndicator", :path => 'LocalLib/ActivityIndicator'
   
   ## SwitchNode依赖引入
-  ##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
-  ##  pod "Display", :path => 'LocalLib/Display'
+  ## pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
+  ## pod "Display", :path => 'LocalLib/Display'
     pod "LegacyComponents", :path => 'LocalLib/LegacyComponents'
     
   ## AnimatedStickerNode依赖引入
-  ##  pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
-  ##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
-  ##  pod "Display", :path => 'LocalLib/Display'
+  ## pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+  ## pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
+  ## pod "Display", :path => 'LocalLib/Display'
     pod "YuvConversion", :path => 'LocalLib/YuvConversion'
     pod "GZip", :path => 'LocalLib/GZip'
     pod "RLottieBinding", :path => 'LocalLib/rlottie'
     pod "MediaResources", :path => 'LocalLib/MediaResources'
     pod "UniversalMediaPlayer", :path => 'LocalLib/MediaPlayer'
-  ##    pod "ManagedFile", :path => 'LocalLib/ManagedFile'
-  ##    pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## od "ManagedFile", :path => 'LocalLib/ManagedFile'
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
     pod "AnimationCompression", :path => 'LocalLib/AnimationCompression'
     pod "MetalImageView", :path => 'LocalLib/MetalImageView'
     pod "WebPBinding", :path => 'LocalLib/WebPBinding'
     
     ## TelegramAnimatedStickerNode依赖引入
-    ##  pod "Postbox", :path => 'LocalLib/Postbox'
-    ##  pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+    ## pod "Postbox", :path => 'LocalLib/Postbox'
+    ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
       pod "StickerResources", :path => 'LocalLib/StickerResources'
-  ##      pod "MediaResources", :path => 'LocalLib/MediaResources'
+  ## pod "MediaResources", :path => 'LocalLib/MediaResources'
       pod "LocalMediaResources", :path => 'LocalLib/LocalMediaResources'
       pod "Tuples", :path => 'LocalLib/Tuples'
-  ##      pod "AnimatedStickerNode", :path => 'LocalLib/AnimatedStickerNode'
-  ##      pod "RLottieBinding", :path => 'LocalLib/rlottie'
-  ##      pod "YuvConversion", :path => 'LocalLib/YuvConversion'
-  ##      pod "GZip", :path => 'LocalLib/GZip'
-  ##      pod "ManagedFile", :path => 'LocalLib/ManagedFile'
-  ##      pod "UniversalMediaPlayer", :path => 'LocalLib/MediaPlayer'
+  ## pod "AnimatedStickerNode", :path => 'LocalLib/AnimatedStickerNode'
+  ## pod "RLottieBinding", :path => 'LocalLib/rlottie'
+  ## pod "YuvConversion", :path => 'LocalLib/YuvConversion'
+  ## pod "GZip", :path => 'LocalLib/GZip'
+  ## pod "ManagedFile", :path => 'LocalLib/ManagedFile'
+  ## pod "UniversalMediaPlayer", :path => 'LocalLib/MediaPlayer'
       pod "SoftwareVideo", :path => 'LocalLib/SoftwareVideo'
-  ##    pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
 
-  # AccountContext依赖引入
+  ## AccountContext依赖引入
   ##  pod "TelegramAudio", :path => 'LocalLib/TelegramAudio'
   ##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
-  #  pod "TemporaryCachedPeerDataManager", :path => 'LocalLib/TemporaryCachedPeerDataManager'
-  #  pod "DeviceLocationManager", :path => 'LocalLib/DeviceLocationManager'
+   pod "TemporaryCachedPeerDataManager", :path => 'LocalLib/TemporaryCachedPeerDataManager'
+   pod "DeviceLocationManager", :path => 'LocalLib/DeviceLocationManager'
   ##  pod "UniversalMediaPlayer", :path => 'LocalLib/MediaPlayer'
   ##  pod "TelegramPresentationData", :path => 'LocalLib/TelegramPresentationData'
   ##  pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
   ##  pod "Postbox", :path => 'LocalLib/Postbox'
   ##  pod "TelegramCore", :path => 'LocalLib/TelegramCore'
-  #  pod "MusicAlbumArtResources", :path => 'LocalLib/MusicAlbumArtResources'
+   pod "MusicAlbumArtResources", :path => 'LocalLib/MusicAlbumArtResources'
   ##  pod "RangeSet", :path => 'LocalLib/RangeSet'
-  #  pod "InAppPurchaseManager", :path => 'LocalLib/InAppPurchaseManager'
+   pod "InAppPurchaseManager", :path => 'LocalLib/InAppPurchaseManager'
   ##  pod "TextFormat", :path => 'LocalLib/TextFormat'
-  #  pod "AnimationCache", :path => 'LocalLib/AnimationCache'
-  #  pod "MultiAnimationRenderer", :path => 'LocalLib/MultiAnimationRenderer'
+   pod "AnimationCache", :path => 'LocalLib/TelegramUI/Components/AnimationCache'
+   pod "MultiAnimationRenderer", :path => 'LocalLib/TelegramUI/Components/MultiAnimationRenderer'
   
   ## StringPluralization依赖引入
   pod "NumberPluralizationForm", :path => 'LocalLib/NumberPluralizationForm'
@@ -165,7 +165,7 @@ use_frameworks! :linkage => :static
   ## pod 'SwiftSignalKit', :path => 'LocalLib/SwiftSignalKit'
   ## pod 'AsyncDisplayKit', :path => 'LocalLib/AsyncDisplayKit'
   ## pod 'Display', :path => 'LocalLib/Display'
-  ## pod 'TelegramAudio', :path => 'LocalLib/TelegramAudio'
+  pod 'TelegramAudio', :path => 'LocalLib/TelegramAudio'
   pod 'FFMpegBinding', :path => 'LocalLib/FFMpegBinding'
   pod 'RingBuffer', :path => 'LocalLib/RingBuffer'
   ## pod 'YuvConversion', :path => 'LocalLib/YuvConversion'
@@ -195,46 +195,75 @@ use_frameworks! :linkage => :static
  ## pod "Display", :path => 'LocalLib/Display'
  
  ## LocalMediaResources引入
- ##   pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
- ##   pod "Postbox", :path => 'LocalLib/Postbox'
- ##  pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+ ## pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+ ## pod "Postbox", :path => 'LocalLib/Postbox'
+ ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
    pod "ImageCompression", :path => 'LocalLib/ImageCompression'
    pod "PersistentStringHash", :path => 'LocalLib/PersistentStringHash'
    
    ## Reachability引入
-   ##   pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+   ## pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
   pod "LegacyReachability", :path => 'LocalLib/Reachability/LegacyReachability'
   
   ## ImageCompression引入
   pod "MozjpegBinding", :path => 'LocalLib/MozjpegBinding'
   
   ## AvatarNode引入
-  ##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
-  ##  pod "Display", :path => 'LocalLib/Display'
-  ##  pod "TelegramCore", :path => 'LocalLib/TelegramCore'
-  ##  pod "Postbox", :path => 'LocalLib/Postbox'
-  ##  pod "TelegramPresentationData", :path => 'LocalLib/TelegramPresentationData'
-  ##  pod "AnimationUI", :path => 'LocalLib/AnimationUI'
-  ##  pod "TelegramCore", :path => 'LocalLib/TelegramCore'
-  ##  pod "AppBundle", :path => 'LocalLib/AppBundle'
-  #  pod "AccountContext", :path => 'LocalLib/AccountContext'
-  ##  pod "Emoji", :path => 'LocalLib/Emoji'
-  ##  pod "TinyThumbnail", :path => 'LocalLib/TinyThumbnail'
-  ##  pod "FastBlur", :path => 'LocalLib/FastBlur'
+  ## pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
+  ## pod "Display", :path => 'LocalLib/Display'
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## pod "Postbox", :path => 'LocalLib/Postbox'
+  ## pod "TelegramPresentationData", :path => 'LocalLib/TelegramPresentationData'
+  ## pod "AnimationUI", :path => 'LocalLib/AnimationUI'
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## pod "AppBundle", :path => 'LocalLib/AppBundle'
+  ## pod "AccountContext", :path => 'LocalLib/AccountContext'
+  ## pod "Emoji", :path => 'LocalLib/Emoji'
+  ## pod "TinyThumbnail", :path => 'LocalLib/TinyThumbnail'
+  ## pod "FastBlur", :path => 'LocalLib/FastBlur'
   pod "ComponentFlow", :path => 'LocalLib/ComponentFlow'
   pod "AvatarStoryIndicatorComponent", :path => 'LocalLib/TelegramUI/Stories/AvatarStoryIndicatorComponent'
   pod "DirectMediaImageCache", :path => 'LocalLib/DirectMediaImageCache'
+
+  ## MusicAlbumArtResources 引入
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+  pod "UrlEscaping", :path => 'LocalLib/UrlEscaping'
+
+  ## TemporaryCachedPeerDataManager 引入
+  pod "TelegramStringFormatting", :path => 'LocalLib/TelegramStringFormatting'
+  ## pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## pod "Postbox", :path => 'LocalLib/Postbox'
+
+  ## TelegramStringFormatting 引入
+  ## pod "TelegramCore", :path => 'LocalLib/TelegramCore'
+  ## pod "Display", :path => 'LocalLib/Display'
+  pod "PlatformRestrictionMatching", :path => 'LocalLib/PlatformRestrictionMatching'
+  pod "LocalizedPeerData", :path => 'LocalLib/LocalizedPeerData'
+  ## pod "TextFormat", :path => 'LocalLib/TextFormat'
+  ## pod "Markdown", :path => 'LocalLib/Markdown'
+  ## pod "TelegramUIPreferences", :path => 'LocalLib/TelegramUIPreferences'
+  ## pod "TelegramPresentationData", :path => 'LocalLib/TelegramPresentationData'
+  ## pod "AppBundle", :path => 'LocalLib/AppBundle'
+
+  ## AnimationCache 引入
+  ## pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+  ## pod "CryptoUtils", :path => 'LocalLib/CryptoUtils'
+  ## pod "ManagedFile", :path => 'LocalLib/ManagedFile'
+  pod "ImageDCT", :path => 'LocalLib/TelegramUI/Components/AnimationCache/ImageDCT'
   
   ## MozjpegBinding引入
   pod "mozjpeg", :path => 'LocalLib/mozjpeg'
   pod "jxl", :path => 'LocalLib/libjxl'
-  # libjxl+mozjpeg+webp x86
   
+  ###======== 待解决问题 ============
+  # libjxl+mozjpeg+webp, 需要自动生成，目前是使用了模拟器生成的内容
   # FFMpegBinding引入，ffmpeg改为ffmpeg-kit-ios-full代替
   # pod "ffmpeg", :path => 'LocalLib/ffmpeg'
   pod 'ffmpeg-kit-ios-full', '= 6.0'
   
-  # 三方库
+  ## 三方库
   pod 'GDPerformanceView-Swift'
   pod 'SnapKit'
   pod 'Kingfisher'

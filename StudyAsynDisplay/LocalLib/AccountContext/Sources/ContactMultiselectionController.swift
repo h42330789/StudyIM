@@ -72,7 +72,6 @@ public enum ContactMultiselectionControllerMode {
 }
 
 public enum ContactListFilter {
-    case excludeWithoutPhoneNumbers
     case excludeSelf
     case exclude([EnginePeer.Id])
     case disable([EnginePeer.Id])

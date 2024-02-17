@@ -26,7 +26,7 @@
     "Public/**/*.h"
   ],
   "ios": {
-    "vendored_libraries": "Public/**/*.a"
+    "vendored_libraries": "Public/webp/lib/full/*.a"
   },
   "static_framework": true,
   "frameworks": [

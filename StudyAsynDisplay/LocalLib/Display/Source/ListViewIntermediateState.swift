@@ -2,33 +2,9 @@ import Foundation
 import UIKit
 import SwiftSignalKit
 
-public enum ListViewCenterScrollPositionOverflow: Equatable {
+public enum ListViewCenterScrollPositionOverflow {
     case top
     case bottom
-    case custom((ListViewItemNode) -> CGFloat)
-    
-    public static func ==(lhs: ListViewCenterScrollPositionOverflow, rhs: ListViewCenterScrollPositionOverflow) -> Bool {
-        switch lhs {
-        case .top:
-            if case .top = rhs {
-                return true
-            } else {
-                return false
-            }
-        case .bottom:
-            if case .bottom = rhs {
-                return true
-            } else {
-                return false
-            }
-        case .custom:
-            if case .custom = rhs {
-                return true
-            } else {
-                return false
-            }
-        }
-    }
 }
 
 public enum ListViewScrollPosition: Equatable {
@@ -240,12 +216,12 @@ struct PendingNode {
 }
 
 enum ListViewStateNode {
-    case Node(index: Int, frame: CGRect, referenceNode: QueueLocalObject<ListViewItemNode>?, newNode: QueueLocalObject<ListViewItemNode>?)
+    case Node(index: Int, frame: CGRect, referenceNode: QueueLocalObject<ListViewItemNode>?)
     case Placeholder(frame: CGRect)
     
     var index: Int? {
         switch self {
-        case let .Node(index, _, _, _):
+        case .Node(let index, _, _):
             return index
         case .Placeholder(_):
             return nil
@@ -255,15 +231,15 @@ enum ListViewStateNode {
     var frame: CGRect {
         get {
             switch self {
-            case let .Node(_, frame, _, _):
+            case .Node(_, let frame, _):
                 return frame
             case .Placeholder(let frame):
                 return frame
             }
         } set(value) {
             switch self {
-            case let .Node(index, _, referenceNode, newNode):
-                self = .Node(index: index, frame: value, referenceNode: referenceNode, newNode: newNode)
+            case let .Node(index, _, referenceNode):
+                self = .Node(index: index, frame: value, referenceNode: referenceNode)
             case .Placeholder(_):
                 self = .Placeholder(frame: value)
             }
@@ -313,7 +289,7 @@ struct ListViewState {
         if let (fixedIndex, fixedPosition) = self.scrollPosition {
             for node in self.nodes {
                 if let index = node.index, index == fixedIndex {
-                    var offset: CGFloat
+                    let offset: CGFloat
                     switch fixedPosition {
                         case let .bottom(additionalOffset):
                             offset = (self.visibleSize.height - self.insets.bottom) - node.frame.maxY + additionalOffset
@@ -325,23 +301,10 @@ struct ListViewState {
                                 offset = self.insets.top + floor((contentAreaHeight - node.frame.size.height) / 2.0) - node.frame.minY
                             } else {
                                 switch overflow {
-                                case .top:
-                                    offset = self.insets.top - node.frame.minY
-                                case .bottom:
-                                    offset = (self.visibleSize.height - self.insets.bottom) - node.frame.maxY
-                                case let .custom(getOverflow):
-                                    if Thread.isMainThread, case let .Node(_, _, referenceNode, newNode) = node, let listNode = referenceNode?.syncWith({ $0 }) ?? newNode?.syncWith({ $0 }) {
-                                        let overflow = getOverflow(listNode)
-                                        if overflow == 0.0 {
-                                            offset = self.insets.top - node.frame.minY
-                                        } else {
-                                            offset = (self.visibleSize.height - self.insets.bottom) - node.frame.maxY
-                                            offset += overflow
-                                            offset -= floor((self.visibleSize.height - self.insets.bottom - self.insets.top) * 0.5)
-                                        }
-                                    } else {
+                                    case .top:
                                         offset = self.insets.top - node.frame.minY
-                                    }
+                                    case .bottom:
+                                        offset = (self.visibleSize.height - self.insets.bottom) - node.frame.maxY
                                 }
                             }
                         case .visible:
@@ -754,7 +717,7 @@ struct ListViewState {
         let nodeFrame = CGRect(origin: nodeOrigin, size: CGSize(width: layout.size.width, height: animated ? 0.0 : layout.size.height))
         
         operations.append(.InsertNode(index: insertionIndex, offsetDirection: offsetDirection, animated: animated, node: node, layout: layout, apply: apply))
-        self.nodes.insert(.Node(index: itemIndex, frame: nodeFrame, referenceNode: nil, newNode: node), at: insertionIndex)
+        self.nodes.insert(.Node(index: itemIndex, frame: nodeFrame, referenceNode: nil), at: insertionIndex)
         
         if !animated {
             switch offsetDirection {
@@ -799,7 +762,7 @@ struct ListViewState {
     
     mutating func removeNodeAtIndex(_ index: Int, direction: ListViewItemOperationDirectionHint?, animated: Bool, operations: inout [ListViewStateOperation]) {
         let node = self.nodes[index]
-        if case let .Node(_, _, referenceNode, _) = node {
+        if case let .Node(_, _, referenceNode) = node {
             let nodeFrame = node.frame
             self.nodes.remove(at: index)
             let offsetDirection: ListViewInsertionOffsetDirection

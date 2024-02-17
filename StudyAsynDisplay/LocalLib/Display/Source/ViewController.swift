@@ -227,10 +227,6 @@ public protocol CustomViewControllerNavigationDataSummary: AnyObject {
     }
     
     private var navigationBarOrigin: CGFloat = 0.0
-    
-    open var interactiveNavivationGestureEdgeWidth: InteractiveTransitionGestureRecognizerEdgeWidth? {
-        return nil
-    }
 
     open func navigationLayout(layout: ContainerViewLayout) -> NavigationLayout {
         let statusBarHeight: CGFloat = layout.statusBarHeight ?? 0.0
@@ -571,7 +567,7 @@ public protocol CustomViewControllerNavigationDataSummary: AnyObject {
         (self.navigationController as? NavigationController)?.pushViewController(controller)
     }
     
-    open func replace(with controller: ViewController) {
+    public func replace(with controller: ViewController) {
         if let navigationController = self.navigationController as? NavigationController {
             var controllers = navigationController.viewControllers
             controllers.removeAll(where: { $0 === self })

@@ -34,7 +34,7 @@
     "rlottie/src/lottie/rapidjson/msinttypes/**/*"
   ],
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "$(inherited) -Dpixman_region_selfcheck=1 -DLOTTIE_DISABLE_ARM_NEON=1 -DLOTTIE_THREAD_SAFE=1 -DLOTTIE_IMAGE_MODULE_DISABLED=1"
+    "GCC_PREPROCESSOR_DEFINITIONS": "pixman_region_selfcheck(x)=1 LOTTIE_DISABLE_ARM_NEON=1 LOTTIE_THREAD_SAFE=1 LOTTIE_IMAGE_MODULE_DISABLED=1"
   },
   "libraries": "c++"
 }

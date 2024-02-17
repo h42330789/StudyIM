@@ -13,7 +13,8 @@ Pod::Spec.new do |s|
     # 使用编译后的内容
     s.public_header_files = ['Public/**/*.h']
     s.source_files  = ["Public/**/*.h"]
-    s.ios.vendored_libraries = 'Public/**/*.a'
+    # s.ios.vendored_libraries = 'Public/webp/lib/x86/*.a'
+    s.ios.vendored_libraries = 'Public/webp/lib/full/*.a'
     s.static_framework = true
     # s.ios.vendored_frameworks = 'StaticLibraryFolder/StaticLibrary.framework'
 

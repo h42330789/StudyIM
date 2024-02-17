@@ -57,8 +57,7 @@ extension Api.MessageMedia {
                     return collectPreCachedResources(for: document)
                 }
                 return nil
-            case let .messageMediaWebPage(flags, webPage):
-                let _ = flags
+            case let .messageMediaWebPage(webPage):
                 var result: [(MediaResource, Data)]?
                 switch webPage {
                     case let .webPage(_, _, _, _, _, _, _, _, _, photo, _, _, _, _, _, _, document, _, _):
@@ -182,7 +181,7 @@ extension Api.Chat {
                 return PeerId(namespace: Namespaces.Peer.CloudGroup, id: PeerId.Id._internalFromInt64Value(id))
             case let .chatForbidden(id, _):
                 return PeerId(namespace: Namespaces.Peer.CloudGroup, id: PeerId.Id._internalFromInt64Value(id))
-            case let .channel(_, _, id, _, _, _, _, _, _, _, _, _, _, _, _, _, _):
+            case let .channel(_, _, id, _, _, _, _, _, _, _, _, _, _, _, _):
                 return PeerId(namespace: Namespaces.Peer.CloudChannel, id: PeerId.Id._internalFromInt64Value(id))
             case let .channelForbidden(_, id, _, _, _):
                 return PeerId(namespace: Namespaces.Peer.CloudChannel, id: PeerId.Id._internalFromInt64Value(id))
@@ -193,7 +192,7 @@ extension Api.Chat {
 extension Api.User {
     var peerId: PeerId {
         switch self {
-            case let .user(_, _, id, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _):
+            case let .user(_, _, id, _, _, _, _, _, _, _, _, _, _, _, _, _, _):
                 return PeerId(namespace: Namespaces.Peer.CloudUser, id: PeerId.Id._internalFromInt64Value(id))
             case let .userEmpty(id):
                 return PeerId(namespace: Namespaces.Peer.CloudUser, id: PeerId.Id._internalFromInt64Value(id))

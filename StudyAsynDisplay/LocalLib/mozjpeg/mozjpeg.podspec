@@ -13,7 +13,8 @@ Pod::Spec.new do |s|
 
     s.public_header_files = ['Public/**/*.h']
     s.source_files  = 'Public/**/*.h'
-    s.ios.vendored_libraries = 'Public/**/*.a'
+    # s.ios.vendored_libraries = 'Public/mozjpeg/lib/x86/*.a'
+    s.ios.vendored_libraries = 'Public/mozjpeg/lib/full/*.a'
     s.frameworks = "Foundation"
 end
 # 参考 https://github.com/TextureGroup/Texture/blob/master/Texture.podspec

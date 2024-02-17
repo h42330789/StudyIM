@@ -683,11 +683,6 @@ final class MutableMessageHistoryView {
                     hasChanges = true
                 }
             }
-            if !transaction.currentUpdatedPeers.isEmpty {
-                if loadedState.updatePeers(postbox: postbox, updatedPeers: transaction.currentUpdatedPeers) {
-                    hasChanges = true
-                }
-            }
         }
         
         if hasChanges {

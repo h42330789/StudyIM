@@ -1,0 +1,6 @@
+framework module AnimationCache {
+  umbrella header "AnimationCache-umbrella.h"
+
+  export *
+  module * { export * }
+}

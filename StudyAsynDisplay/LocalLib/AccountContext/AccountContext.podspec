@@ -14,19 +14,19 @@ Pod::Spec.new do |s|
 
     s.dependency "TelegramAudio"
     s.dependency "AsyncDisplayKit"
-    # s.dependency "TemporaryCachedPeerDataManager"
-    # s.dependency "DeviceLocationManager"
+    s.dependency "TemporaryCachedPeerDataManager"
+    s.dependency "DeviceLocationManager"
     s.dependency "UniversalMediaPlayer"
     s.dependency "TelegramPresentationData"
     s.dependency "SwiftSignalKit"
     s.dependency "Postbox"
     s.dependency "TelegramCore"
-    # s.dependency "MusicAlbumArtResources"
+    s.dependency "MusicAlbumArtResources"
     s.dependency "RangeSet"
-    # s.dependency "InAppPurchaseManager"
+    s.dependency "InAppPurchaseManager"
     s.dependency "TextFormat"
-    # s.dependency "AnimationCache"
-    # s.dependency "MultiAnimationRenderer"
+    s.dependency "AnimationCache"
+    s.dependency "MultiAnimationRenderer"
    
     s.libraries = 'swiftCoreGraphics'
   

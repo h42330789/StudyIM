@@ -10,14 +10,18 @@ public struct PixelDimensions: Equatable {
         self.width = width
         self.height = height
     }
-    
+}
+
 #if os(iOS)
-    public init(_ size: CGSize) {
+
+public extension PixelDimensions {
+    init(_ size: CGSize) {
         self.init(width: Int32(size.width), height: Int32(size.height))
     }
     
-    public var cgSize: CGSize {
-        return CGSize(width: CGFloat(self.width), height: CGFloat(self.height))
-    }
-#endif
+    var cgSize: CGSize {
+		return CGSize(width: CGFloat(self.width), height: CGFloat(self.height))
+	}
 }
+
+#endif

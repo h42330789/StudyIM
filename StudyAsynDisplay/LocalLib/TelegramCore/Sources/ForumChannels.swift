@@ -253,12 +253,7 @@ func _internal_createForumChannelTopic(account: Account, peerId: PeerId, title: 
     }
 }
 
-public enum FetchForumChannelTopicResult {
-    case progress
-    case result(EngineMessageHistoryThread.Info?)
-}
-
-func _internal_fetchForumChannelTopic(account: Account, peerId: PeerId, threadId: Int64) -> Signal<FetchForumChannelTopicResult, NoError> {
+func _internal_fetchForumChannelTopic(account: Account, peerId: PeerId, threadId: Int64) -> Signal<EngineMessageHistoryThread.Info?, NoError> {
     return account.postbox.transaction { transaction -> (info: EngineMessageHistoryThread.Info?, inputChannel: Api.InputChannel?) in
         if let data = transaction.getMessageHistoryThreadInfo(peerId: peerId, threadId: threadId)?.data.get(MessageHistoryThreadData.self) {
             return (data.info, nil)
@@ -266,20 +261,20 @@ func _internal_fetchForumChannelTopic(account: Account, peerId: PeerId, threadId
             return (nil, transaction.getPeer(peerId).flatMap(apiInputChannel))
         }
     }
-    |> mapToSignal { info, _ -> Signal<FetchForumChannelTopicResult, NoError> in
+    |> mapToSignal { info, _ -> Signal<EngineMessageHistoryThread.Info?, NoError> in
         if let info = info {
-            return .single(.result(info))
+            return .single(info)
         } else {
-            return .single(.progress) |> then(resolveForumThreads(accountPeerId: account.peerId, postbox: account.postbox, network: account.network, ids: [MessageId(peerId: peerId, namespace: Namespaces.Message.Cloud, id: Int32(clamping: threadId))])
-            |> mapToSignal { _ -> Signal<FetchForumChannelTopicResult, NoError> in
-                return account.postbox.transaction { transaction -> FetchForumChannelTopicResult in
+            return resolveForumThreads(accountPeerId: account.peerId, postbox: account.postbox, network: account.network, ids: [MessageId(peerId: peerId, namespace: Namespaces.Message.Cloud, id: Int32(clamping: threadId))])
+            |> mapToSignal { _ -> Signal<EngineMessageHistoryThread.Info?, NoError> in
+                return account.postbox.transaction { transaction -> EngineMessageHistoryThread.Info?  in
                     if let data = transaction.getMessageHistoryThreadInfo(peerId: peerId, threadId: threadId)?.data.get(MessageHistoryThreadData.self) {
-                        return .result(data.info)
+                        return data.info
                     } else {
-                        return .result(nil)
+                        return nil
                     }
                 }
-            })
+            }
         }
     }
 }

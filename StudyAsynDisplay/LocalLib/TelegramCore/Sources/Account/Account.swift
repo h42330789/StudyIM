@@ -224,10 +224,9 @@ public func accountWithId(accountManager: AccountManager<TelegramAccountManagerT
                                 )!, forKey: id as NSNumber)
                             }
                             
+                            let data = NSKeyedArchiver.archivedData(withRootObject: dict)
                             transaction.setState(backupState)
-                            if let data = try? NSKeyedArchiver.archivedData(withRootObject: dict, requiringSecureCoding: false) {
-                                transaction.setKeychainEntry(data, forKey: "persistent:datacenterAuthInfoById")
-                            }
+                            transaction.setKeychainEntry(data, forKey: "persistent:datacenterAuthInfoById")
                         }
                         
                         let appConfig = transaction.getPreferencesEntry(key: PreferencesKeys.appConfiguration)?.get(AppConfiguration.self) ?? .defaultValue
@@ -838,7 +837,7 @@ public func accountBackupData(postbox: Postbox) -> Signal<AccountBackupData?, No
         guard let authInfoData = transaction.keychainEntryForKey("persistent:datacenterAuthInfoById") else {
             return nil
         }
-        guard let authInfo = MTDeprecated.unarchiveDeprecated(with: authInfoData) as? NSDictionary else {
+        guard let authInfo = NSKeyedUnarchiver.unarchiveObject(with: authInfoData) as? NSDictionary else {
             return nil
         }
         guard let datacenterAuthInfo = authInfo.object(forKey: state.masterDatacenterId as NSNumber) as? MTDatacenterAuthInfo else {
@@ -1165,38 +1164,38 @@ public class Account {
         let extractedExpr1: [Signal<AccountRunningImportantTasks, NoError>] = [
             managedSynchronizeChatInputStateOperations(postbox: self.postbox, network: self.network) |> map { inputStates in
                 if inputStates {
-                    //print("inputStates: true")
+                    print("inputStates: true")
                 }
                 return inputStates ? AccountRunningImportantTasks.other : []
             },
             self.pendingMessageManager.hasPendingMessages |> map { hasPendingMessages in
                 if !hasPendingMessages.isEmpty {
-                    //print("hasPendingMessages: true")
+                    print("hasPendingMessages: true")
                 }
                 return !hasPendingMessages.isEmpty ? AccountRunningImportantTasks.pendingMessages : []
             },
             (self.pendingStoryManager?.hasPending ?? .single(false)) |> map { hasPending in
                 if hasPending {
-                    //print("hasPending: true")
+                    print("hasPending: true")
                 }
                 return hasPending ? AccountRunningImportantTasks.pendingMessages : []
             },
             self.pendingUpdateMessageManager.updatingMessageMedia |> map { updatingMessageMedia in
                 if !updatingMessageMedia.isEmpty {
-                    //print("updatingMessageMedia: true")
+                    print("updatingMessageMedia: true")
                 }
                 return !updatingMessageMedia.isEmpty ? AccountRunningImportantTasks.pendingMessages : []
             },
             self.pendingPeerMediaUploadManager.uploadingPeerMedia |> map { uploadingPeerMedia in
                 if !uploadingPeerMedia.isEmpty {
-                    //print("uploadingPeerMedia: true")
+                    print("uploadingPeerMedia: true")
                 }
                 return !uploadingPeerMedia.isEmpty ? AccountRunningImportantTasks.pendingMessages : []
             },
             self.accountPresenceManager.isPerformingUpdate() |> map { presenceUpdate in
                 if presenceUpdate {
-                    //print("accountPresenceManager isPerformingUpdate: true")
-                    //return []
+                    print("accountPresenceManager isPerformingUpdate: true")
+                    return []
                 }
                 return presenceUpdate ? AccountRunningImportantTasks.other : []
             },

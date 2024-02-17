@@ -12,14 +12,15 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = "12.0"
 
     s.public_header_files = 'PublicHeaders/**/*.h'
+    # s.source_files =  ['rlottie/src/**/*.cpp', 'rlottie/src/**/*.h', 'rlottie/inc/**/*.h', 'PublicHeaders/**/*.h', 'LottieInstance.mm', 'config.h','boost/**/*.{h,hpp}']
     s.source_files =  ['rlottie/src/**/*.cpp', 'rlottie/src/**/*.h', 'rlottie/inc/**/*.h', 'PublicHeaders/**/*.h', 'LottieInstance.mm', 'config.h']
     s.exclude_files = ["rlottie/src/vector/vdrawhelper_neon.cpp", "rlottie/src/vector/stb/**/*", "rlottie/src/lottie/rapidjson/msinttypes/**/*"]
 
     # s.pod_target_xcconfig = {
-    #     'HEADER_SEARCH_PATHS' => '$(inherited) -Dpixman_region_selfcheck(x)=1 -DLOTTIE_DISABLE_ARM_NEON=1 -DLOTTIE_THREAD_SAFE=1 -DLOTTIE_IMAGE_MODULE_DISABLED=1'
+    #     'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) pixman_region_selfcheck(x)=1 LOTTIE_DISABLE_ARM_NEON=1 LOTTIE_THREAD_SAFE=1 LOTTIE_IMAGE_MODULE_DISABLED=1'
     # }
     s.pod_target_xcconfig = {
-        'HEADER_SEARCH_PATHS' => '$(inherited) -Dpixman_region_selfcheck=1 -DLOTTIE_DISABLE_ARM_NEON=1 -DLOTTIE_THREAD_SAFE=1 -DLOTTIE_IMAGE_MODULE_DISABLED=1'
+        'GCC_PREPROCESSOR_DEFINITIONS' => 'pixman_region_selfcheck(x)=1 LOTTIE_DISABLE_ARM_NEON=1 LOTTIE_THREAD_SAFE=1 LOTTIE_IMAGE_MODULE_DISABLED=1'
     }
     s.libraries = 'c++'
 end

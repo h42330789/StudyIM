@@ -191,22 +191,10 @@ private final class MultipartUploadManager {
         }
     }
     
-    deinit {
-        let uploadingParts = self.uploadingParts
-        let dataDisposable = self.dataDisposable
-        
-        self.queue.async {
-            for (_, (_, disposable)) in uploadingParts {
-                disposable.dispose()
-            }
-            dataDisposable.dispose()
-        }
-    }
-    
     func start() {
         self.queue.async {
             self.dataDisposable.set((self.dataSignal
-            |> deliverOn(self.queue)).startStrict(next: { [weak self] data in
+            |> deliverOn(self.queue)).start(next: { [weak self] data in
                 if let strongSelf = self {
                     strongSelf.resourceData = data
                     strongSelf.checkState()
@@ -288,11 +276,11 @@ private final class MultipartUploadManager {
                         self.headerPartState = .uploading
                         let part = self.uploadPart(UploadPart(fileId: self.fileId, index: partIndex, data: partData, bigTotalParts: currentBigTotalParts, bigPart: self.bigParts))
                         |> deliverOn(self.queue)
-                        self.uploadingParts[0] = (partSize, part.startStrict(error: { [weak self] _ in
+                        self.uploadingParts[0] = (partSize, part.start(error: { [weak self] _ in
                             self?.completed(nil)
                         }, completed: { [weak self] in
                             if let strongSelf = self {
-                                strongSelf.uploadingParts.removeValue(forKey: 0)?.1.dispose()
+                                let _ = strongSelf.uploadingParts.removeValue(forKey: 0)
                                 strongSelf.headerPartState = .ready
                                 strongSelf.checkState()
                             }
@@ -362,11 +350,11 @@ private final class MultipartUploadManager {
                                     break
                             }
                         }
-                        self.uploadingParts[nextOffset] = (partSize, part.startStrict(error: { [weak self] _ in
+                        self.uploadingParts[nextOffset] = (partSize, part.start(error: { [weak self] _ in
                             self?.completed(nil)
                         }, completed: { [weak self] in
                             if let strongSelf = self {
-                                strongSelf.uploadingParts.removeValue(forKey: nextOffset)?.1.dispose()
+                                let _ = strongSelf.uploadingParts.removeValue(forKey: nextOffset)
                                 strongSelf.uploadedParts[partOffset] = partSize
                                 if partIndex == 0 {
                                     strongSelf.headerPartState = .ready
