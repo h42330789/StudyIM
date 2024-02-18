@@ -18,6 +18,11 @@ PODS:
   - ActivityIndicator (1.0.0):
     - AsyncDisplayKit
     - Display
+  - AlertUI (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - SwiftSignalKit
+    - TextNodeWithEntities
   - AnimatedStickerNode (1.0.0):
     - AnimationCompression
     - AsyncDisplayKit
@@ -103,6 +108,23 @@ PODS:
     - SwiftSignalKit
     - UIKitRuntimeUtils
   - Emoji (1.0.0)
+  - EmojiTextAttachmentView (1.0.0):
+    - AccountContext
+    - AnimatedStickerNode
+    - AnimationCache
+    - AsyncDisplayKit
+    - Display
+    - GenerateStickerPlaceholderImage
+    - LottieAnimationCache
+    - MultiAnimationRenderer
+    - Postbox
+    - ShimmerEffect
+    - SwiftSignalKit
+    - TelegramAnimatedStickerNode
+    - TelegramCore
+    - TelegramUIPreferences
+    - VideoAnimationCache
+    - YuvConversion
   - EncryptionProvider (1.0.0)
   - FastBlur (1.0.0)
   - ffmpeg-kit-ios-full (6.0)
@@ -125,6 +147,12 @@ PODS:
     - TelegramCore
     - TelegramStringFormatting
     - TelegramUIPreferences
+  - InvisibleInkDustNode (1.0.0):
+    - AppBundle
+    - AsyncDisplayKit
+    - Display
+    - LegacyComponents
+    - SwiftSignalKit
   - ItemListUI (1.0.0):
     - AccountContext
     - AnimatedStickerNode
@@ -164,6 +192,14 @@ PODS:
     - TelegramCore
   - Lottie (1.0.0):
     - Display
+  - LottieAnimationCache (1.0.0):
+    - AnimationCache
+    - AsyncDisplayKit
+    - Display
+    - GZip
+    - RLottieBinding
+    - SwiftSignalKit
+    - WebPBinding
   - ManagedAnimationNode (1.0.0):
     - AppBundle
     - AsyncDisplayKit
@@ -202,6 +238,10 @@ PODS:
     - MtProtoKit
   - NumberPluralizationForm (1.0.0)
   - ObjCRuntimeUtils (1.0.0)
+  - OverlayStatusController (1.0.0):
+    - Display
+    - OverlayStatusControllerImpl
+  - OverlayStatusControllerImpl (1.0.0)
   - PersistentStringHash (1.0.0)
   - PlatformRestrictionMatching (1.0.0):
     - Postbox
@@ -216,6 +256,16 @@ PODS:
     - sqlcipher
     - StringTransliteration
     - SwiftSignalKit
+  - PresentationDataUtils (1.0.0):
+    - AccountContext
+    - AlertUI
+    - Display
+    - ItemListUI
+    - OverlayStatusController
+    - SolidRoundedButtonNode
+    - SwiftSignalKit
+    - TelegramPresentationData
+    - UrlWhitelist
   - PresentationStrings (1.0.0):
     - AppBundle
     - NumberPluralizationForm
@@ -246,6 +296,13 @@ PODS:
     - SwiftSignalKit
     - TelegramCore
     - UniversalMediaPlayer
+  - SolidRoundedButtonNode (1.0.0):
+    - AsyncDisplayKit
+    - Display
+    - HierarchyTrackingLayer
+    - ManagedAnimationNode
+    - ShimmerEffect
+    - SwiftSignalKit
   - sqlcipher (1.0.0)
   - SSignalKit (1.0.0)
   - StickerResources (1.0.0):
@@ -338,6 +395,15 @@ PODS:
     - Markdown
     - TelegramCore
     - TelegramPresentationData
+  - TextNodeWithEntities (1.0.0):
+    - AnimationCache
+    - AsyncDisplayKit
+    - Display
+    - EmojiTextAttachmentView
+    - InvisibleInkDustNode
+    - MultiAnimationRenderer
+    - SwiftSignalKit
+    - TextFormat
   - TinyThumbnail (1.0.0)
   - Tuples (1.0.0)
   - UIKitRuntimeUtils (1.0.0):
@@ -356,6 +422,12 @@ PODS:
     - TextFormat
     - YuvConversion
   - UrlEscaping (1.0.0)
+  - UrlWhitelist (1.0.0)
+  - VideoAnimationCache (1.0.0):
+    - AnimatedStickerNode
+    - AnimationCache
+    - Display
+    - SwiftSignalKit
   - webp (1.0.0)
   - WebPBinding (1.0.0):
     - webp
@@ -364,6 +436,7 @@ PODS:
 DEPENDENCIES:
   - AccountContext (from `LocalLib/AccountContext`)
   - ActivityIndicator (from `LocalLib/ActivityIndicator`)
+  - AlertUI (from `LocalLib/AlertUI`)
   - AnimatedStickerNode (from `LocalLib/AnimatedStickerNode`)
   - AnimationCache (from `LocalLib/TelegramUI/Components/AnimationCache`)
   - AnimationCompression (from `LocalLib/AnimationCompression`)
@@ -383,6 +456,7 @@ DEPENDENCIES:
   - DirectMediaImageCache (from `LocalLib/DirectMediaImageCache`)
   - Display (from `LocalLib/Display`)
   - Emoji (from `LocalLib/Emoji`)
+  - EmojiTextAttachmentView (from `LocalLib/TelegramUI/Components/EmojiTextAttachmentView`)
   - EncryptionProvider (from `LocalLib/EncryptionProvider`)
   - FastBlur (from `LocalLib/FastBlur`)
   - ffmpeg-kit-ios-full (= 6.0)
@@ -395,6 +469,7 @@ DEPENDENCIES:
   - ImageCompression (from `LocalLib/ImageCompression`)
   - ImageDCT (from `LocalLib/TelegramUI/Components/AnimationCache/ImageDCT`)
   - InAppPurchaseManager (from `LocalLib/InAppPurchaseManager`)
+  - InvisibleInkDustNode (from `LocalLib/InvisibleInkDustNode`)
   - ItemListUI (from `LocalLib/ItemListUI`)
   - jxl (from `LocalLib/libjxl`)
   - Kingfisher
@@ -403,6 +478,7 @@ DEPENDENCIES:
   - LocalizedPeerData (from `LocalLib/LocalizedPeerData`)
   - LocalMediaResources (from `LocalLib/LocalMediaResources`)
   - Lottie (from `LocalLib/lottie-ios`)
+  - LottieAnimationCache (from `LocalLib/TelegramUI/Components/LottieAnimationCache`)
   - ManagedAnimationNode (from `LocalLib/ManagedAnimationNode`)
   - ManagedFile (from `LocalLib/ManagedFile`)
   - Markdown (from `LocalLib/Markdown`)
@@ -418,9 +494,12 @@ DEPENDENCIES:
   - NetworkLogging (from `LocalLib/NetworkLogging`)
   - NumberPluralizationForm (from `LocalLib/NumberPluralizationForm`)
   - ObjCRuntimeUtils (from `LocalLib/ObjCRuntimeUtils`)
+  - OverlayStatusController (from `LocalLib/OverlayStatusController`)
+  - OverlayStatusControllerImpl (from `LocalLib/OverlayStatusController/Impl`)
   - PersistentStringHash (from `LocalLib/PersistentStringHash`)
   - PlatformRestrictionMatching (from `LocalLib/PlatformRestrictionMatching`)
   - Postbox (from `LocalLib/Postbox`)
+  - PresentationDataUtils (from `LocalLib/PresentationDataUtils`)
   - PresentationStrings (from `LocalLib/GeneratedPresentationStrings`)
   - ProgressNavigationButtonNode (from `LocalLib/ProgressNavigationButtonNode`)
   - RangeSet (from `LocalLib/RangeSet`)
@@ -431,6 +510,7 @@ DEPENDENCIES:
   - ShimmerEffect (from `LocalLib/ShimmerEffect`)
   - SnapKit
   - SoftwareVideo (from `LocalLib/SoftwareVideo`)
+  - SolidRoundedButtonNode (from `LocalLib/SolidRoundedButtonNode`)
   - sqlcipher (from `LocalLib/sqlcipher`)
   - SSignalKit (from `LocalLib/SSignalKit`)
   - StickerResources (from `LocalLib/StickerResources`)
@@ -449,11 +529,14 @@ DEPENDENCIES:
   - TelegramUIPreferences (from `LocalLib/TelegramUIPreferences`)
   - TemporaryCachedPeerDataManager (from `LocalLib/TemporaryCachedPeerDataManager`)
   - TextFormat (from `LocalLib/TextFormat`)
+  - TextNodeWithEntities (from `LocalLib/TelegramUI/Components/TextNodeWithEntities`)
   - TinyThumbnail (from `LocalLib/TinyThumbnail`)
   - Tuples (from `LocalLib/Tuples`)
   - UIKitRuntimeUtils (from `LocalLib/UIKitRuntimeUtils`)
   - UniversalMediaPlayer (from `LocalLib/MediaPlayer`)
   - UrlEscaping (from `LocalLib/UrlEscaping`)
+  - UrlWhitelist (from `LocalLib/UrlWhitelist`)
+  - VideoAnimationCache (from `LocalLib/TelegramUI/Components/VideoAnimationCache`)
   - webp (from `LocalLib/webp`)
   - WebPBinding (from `LocalLib/WebPBinding`)
   - YuvConversion (from `LocalLib/YuvConversion`)
@@ -470,6 +553,8 @@ EXTERNAL SOURCES:
     :path: LocalLib/AccountContext
   ActivityIndicator:
     :path: LocalLib/ActivityIndicator
+  AlertUI:
+    :path: LocalLib/AlertUI
   AnimatedStickerNode:
     :path: LocalLib/AnimatedStickerNode
   AnimationCache:
@@ -508,6 +593,8 @@ EXTERNAL SOURCES:
     :path: LocalLib/Display
   Emoji:
     :path: LocalLib/Emoji
+  EmojiTextAttachmentView:
+    :path: LocalLib/TelegramUI/Components/EmojiTextAttachmentView
   EncryptionProvider:
     :path: LocalLib/EncryptionProvider
   FastBlur:
@@ -528,6 +615,8 @@ EXTERNAL SOURCES:
     :path: LocalLib/TelegramUI/Components/AnimationCache/ImageDCT
   InAppPurchaseManager:
     :path: LocalLib/InAppPurchaseManager
+  InvisibleInkDustNode:
+    :path: LocalLib/InvisibleInkDustNode
   ItemListUI:
     :path: LocalLib/ItemListUI
   jxl:
@@ -542,6 +631,8 @@ EXTERNAL SOURCES:
     :path: LocalLib/LocalMediaResources
   Lottie:
     :path: LocalLib/lottie-ios
+  LottieAnimationCache:
+    :path: LocalLib/TelegramUI/Components/LottieAnimationCache
   ManagedAnimationNode:
     :path: LocalLib/ManagedAnimationNode
   ManagedFile:
@@ -572,12 +663,18 @@ EXTERNAL SOURCES:
     :path: LocalLib/NumberPluralizationForm
   ObjCRuntimeUtils:
     :path: LocalLib/ObjCRuntimeUtils
+  OverlayStatusController:
+    :path: LocalLib/OverlayStatusController
+  OverlayStatusControllerImpl:
+    :path: LocalLib/OverlayStatusController/Impl
   PersistentStringHash:
     :path: LocalLib/PersistentStringHash
   PlatformRestrictionMatching:
     :path: LocalLib/PlatformRestrictionMatching
   Postbox:
     :path: LocalLib/Postbox
+  PresentationDataUtils:
+    :path: LocalLib/PresentationDataUtils
   PresentationStrings:
     :path: LocalLib/GeneratedPresentationStrings
   ProgressNavigationButtonNode:
@@ -596,6 +693,8 @@ EXTERNAL SOURCES:
     :path: LocalLib/ShimmerEffect
   SoftwareVideo:
     :path: LocalLib/SoftwareVideo
+  SolidRoundedButtonNode:
+    :path: LocalLib/SolidRoundedButtonNode
   sqlcipher:
     :path: LocalLib/sqlcipher
   SSignalKit:
@@ -632,6 +731,8 @@ EXTERNAL SOURCES:
     :path: LocalLib/TemporaryCachedPeerDataManager
   TextFormat:
     :path: LocalLib/TextFormat
+  TextNodeWithEntities:
+    :path: LocalLib/TelegramUI/Components/TextNodeWithEntities
   TinyThumbnail:
     :path: LocalLib/TinyThumbnail
   Tuples:
@@ -642,6 +743,10 @@ EXTERNAL SOURCES:
     :path: LocalLib/MediaPlayer
   UrlEscaping:
     :path: LocalLib/UrlEscaping
+  UrlWhitelist:
+    :path: LocalLib/UrlWhitelist
+  VideoAnimationCache:
+    :path: LocalLib/TelegramUI/Components/VideoAnimationCache
   webp:
     :path: LocalLib/webp
   WebPBinding:
@@ -652,6 +757,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AccountContext: 354a785a39975a7e74963769afee71a441637b27
   ActivityIndicator: c978b545e6afc201ff326a65e5ecc502460c9ae4
+  AlertUI: 4ea5c2397b2776ea58c518b2b8d6c993df6bd061
   AnimatedStickerNode: 6e4765731dc7be07507b04644a5826ce55e15d70
   AnimationCache: 4cebc8c72aee80342f597602ba9527f4e446549a
   AnimationCompression: 422d30b4d1df035d40fb8f00083e4c67cc61493b
@@ -671,6 +777,7 @@ SPEC CHECKSUMS:
   DirectMediaImageCache: be954c78d3ab187d05d978430d2a186f5b448859
   Display: 614e441be95aa8721656242168a950858e9187a7
   Emoji: 9a9bec440c1848281f5a3ea52cb4dedea27bbc9c
+  EmojiTextAttachmentView: b8bbb21dda0dac7f1a9e7c9fb68fd17536655862
   EncryptionProvider: 8403dafee9a8d8afe03c43f803fd1737083401b6
   FastBlur: 01c8d64be0fc6f8ea7bf5f89be5e3d2c3cd0b6a8
   ffmpeg-kit-ios-full: 0099a769d22114dde52cdc238397941c32f75d27
@@ -683,6 +790,7 @@ SPEC CHECKSUMS:
   ImageCompression: 9a565cd7a14a37e87b2f93ed18624641427c99d3
   ImageDCT: 8cb3ad8729b1de29ede464cef022afe081fc22bc
   InAppPurchaseManager: 7c1441b84c2d36d3261c73c38a85f17c6bee6a61
+  InvisibleInkDustNode: be5b038e886f785dec6576986bddb906349f5c96
   ItemListUI: ae4c2f9c7436056b5c655847c263b6fe4eefb28a
   jxl: efc5f9a2a26886c8688ecb15e320575af14e8a64
   Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
@@ -691,6 +799,7 @@ SPEC CHECKSUMS:
   LocalizedPeerData: 0213ea776838a1d1404e561c2eabb46b1187d027
   LocalMediaResources: ecd938b73185b4515a4a75902f68823a1b6939b1
   Lottie: 5967ef9946a7f3287701743644c76cbb3322ed46
+  LottieAnimationCache: f63aa52728dfd80a71ec705d7a3698bc182f4873
   ManagedAnimationNode: 58efc7942d42fa5b5eb5446be2b79c098520c82a
   ManagedFile: 09b520b75107ff61a1817e4fb360b3102d4968f7
   Markdown: d2995a605760e551d8ae61b9e320d88f57d7dc71
@@ -706,9 +815,12 @@ SPEC CHECKSUMS:
   NetworkLogging: c22c817752a0436342157d6c235c269af5872cb8
   NumberPluralizationForm: 1bcdcd383f75cd7535349e8e3d765fc3457600d1
   ObjCRuntimeUtils: 8fc18e7c3c50ba7f1ccda0c5e38f0fdf5a629469
+  OverlayStatusController: b24309064285a069abb27612c6dfd4fe0c6c15e2
+  OverlayStatusControllerImpl: b1cf1245d21a1611eec430d2127211f6176e96f0
   PersistentStringHash: d9c4ebc3e63890226cc32e74932e8a3655921265
   PlatformRestrictionMatching: 3fdde532e4ee774bd2b2333c177f024774f0c5ba
   Postbox: f6b6a0fc97a9435a3e6de827fbdb4831f3987bd3
+  PresentationDataUtils: 994def4e3fa92b1f76414c50b313de5738f7cad8
   PresentationStrings: 4c03267d24a81ae6a9e14e3867bcda0d1c362c5f
   ProgressNavigationButtonNode: 330394b423e23859206c489551cf3adbc465d7fc
   RangeSet: 2a376438d0ecc89437a0d975f07054086ce43450
@@ -719,6 +831,7 @@ SPEC CHECKSUMS:
   ShimmerEffect: 3c0454792bf33ef95545d5b3fa94ef96fffdb33a
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SoftwareVideo: d9e5e111a8295bfc168e91fd2c99ea8ef87767c8
+  SolidRoundedButtonNode: 56670e3e17d5bc97c3dea64c3dee6c626d1e9f38
   sqlcipher: 5222a552270c24e5df34014f440597b2bcbb59fe
   SSignalKit: 521361b34129bf90a4db49c7c03e0f71f0f868b5
   StickerResources: 8adebe72e1caab0a7043ee3eaaaf609a584aaee7
@@ -737,15 +850,18 @@ SPEC CHECKSUMS:
   TelegramUIPreferences: 97234b73163c131bd106f77bc80504c23f3ae314
   TemporaryCachedPeerDataManager: 56660a1e84eb662d8e5557be1eb33af81442e827
   TextFormat: 56fc9b6473c91e059e91986d94b1e13fb87aef39
+  TextNodeWithEntities: e2b9eadf4fe3b907c78bb685024ca5565821a4a2
   TinyThumbnail: 19f099814c913b248eca753b10790ab2cdfcb8ba
   Tuples: 883240aadbd5ab23cc5fe00768d6203eee2d9c42
   UIKitRuntimeUtils: 95590f673bad3d2a7d47025849f602812ac36e68
   UniversalMediaPlayer: a2ffe4525280ec91e35ab5a02dc9d1307211c896
   UrlEscaping: c858f0a47949676393a5bcbd7709e3fef0b37b0f
+  UrlWhitelist: 6aab45a8ac0acbae106c57c4bbc39c290565749f
+  VideoAnimationCache: 9d113bee65f430919b3ca282d693295f19c1b03b
   webp: 21d7b51c5f5d9470ac17d1bd7326af625eb67987
   WebPBinding: d6da3e61dda7579e300ca9e6c3dfbde33a8c4c4c
   YuvConversion: 38fe0f0c2bb6e8db2750b4c5fdf232046372f3f0
 
-PODFILE CHECKSUM: b03df8a16e0d9669cb6dc844c13e33d3ea7c1c75
+PODFILE CHECKSUM: 03b27c66806e181ce461e692022d1d65ec96d5e6
 
 COCOAPODS: 1.12.1

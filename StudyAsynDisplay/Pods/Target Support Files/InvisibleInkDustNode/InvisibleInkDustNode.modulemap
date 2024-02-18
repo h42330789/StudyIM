@@ -1,0 +1,6 @@
+framework module InvisibleInkDustNode {
+  umbrella header "InvisibleInkDustNode-umbrella.h"
+
+  export *
+  module * { export * }
+}
