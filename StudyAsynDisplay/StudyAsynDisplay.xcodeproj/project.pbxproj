@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5265109B2B822D8300C76FD8 /* MyChatFolderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5265109A2B822D8300C76FD8 /* MyChatFolderVC.swift */; };
+		5265109E2B824C3300C76FD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 526510A02B824C3300C76FD8 /* Localizable.strings */; };
 		52CDDAA22B7BB7F40008C4D0 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CDDAA12B7BB7F40008C4D0 /* RootViewController.swift */; };
 		52CDDAA42B7BB9E10008C4D0 /* NormalDisplayTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CDDAA32B7BB9E10008C4D0 /* NormalDisplayTextVC.swift */; };
 		52CDDAA62B7BBED10008C4D0 /* NormalDisplayListViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CDDAA52B7BBED10008C4D0 /* NormalDisplayListViewVC.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5265109A2B822D8300C76FD8 /* MyChatFolderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatFolderVC.swift; sourceTree = "<group>"; };
+		5265109F2B824C3300C76FD8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		52CDDAA12B7BB7F40008C4D0 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		52CDDAA32B7BB9E10008C4D0 /* NormalDisplayTextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalDisplayTextVC.swift; sourceTree = "<group>"; };
 		52CDDAA52B7BBED10008C4D0 /* NormalDisplayListViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalDisplayListViewVC.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 		52F2DC3F2AF3DE16001CAEF0 /* StudyAsynDisplay */ = {
 			isa = PBXGroup;
 			children = (
+				526510A02B824C3300C76FD8 /* Localizable.strings */,
 				52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */,
 				52F2DC492AF3DE19001CAEF0 /* Assets.xcassets */,
 				52F2DC4B2AF3DE19001CAEF0 /* LaunchScreen.storyboard */,
@@ -126,6 +131,7 @@
 				52CDDAA32B7BB9E10008C4D0 /* NormalDisplayTextVC.swift */,
 				52CDDAA52B7BBED10008C4D0 /* NormalDisplayListViewVC.swift */,
 				52CDDAA72B7CFC9E0008C4D0 /* NormalTableViewVC.swift */,
+				5265109A2B822D8300C76FD8 /* MyChatFolderVC.swift */,
 			);
 			path = StudyAsynDisplay;
 			sourceTree = "<group>";
@@ -282,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52F2DC4D2AF3DE19001CAEF0 /* LaunchScreen.storyboard in Resources */,
+				5265109E2B824C3300C76FD8 /* Localizable.strings in Resources */,
 				52F2DC4A2AF3DE19001CAEF0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,6 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5265109B2B822D8300C76FD8 /* MyChatFolderVC.swift in Sources */,
 				52CDDAA22B7BB7F40008C4D0 /* RootViewController.swift in Sources */,
 				52CDDAA82B7CFC9E0008C4D0 /* NormalTableViewVC.swift in Sources */,
 				52CDDAA42B7BB9E10008C4D0 /* NormalDisplayTextVC.swift in Sources */,
@@ -485,6 +493,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		526510A02B824C3300C76FD8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5265109F2B824C3300C76FD8 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		52F2DC4B2AF3DE19001CAEF0 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

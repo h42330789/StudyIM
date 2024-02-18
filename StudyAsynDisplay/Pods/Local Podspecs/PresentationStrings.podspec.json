@@ -26,6 +26,9 @@
     "Sources/**/*.{h,m}",
     "PublicHeaders/**/*.h"
   ],
+  "resources": [
+    "Resources/*.data"
+  ],
   "dependencies": {
     "NumberPluralizationForm": [
 

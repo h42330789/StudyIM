@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
 
     s.public_header_files = ['PublicHeaders/**/*.h']
     s.source_files  = ["Sources/**/*.{h,m}", "PublicHeaders/**/*.h"]
+    s.resources = ["Resources/*.data"]
     
     s.dependency "NumberPluralizationForm"
     s.dependency "AppBundle"

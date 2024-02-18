@@ -252,6 +252,8 @@ use_frameworks! :linkage => :static
   ## pod "CryptoUtils", :path => 'LocalLib/CryptoUtils'
   ## pod "ManagedFile", :path => 'LocalLib/ManagedFile'
   pod "ImageDCT", :path => 'LocalLib/TelegramUI/Components/AnimationCache/ImageDCT'
+  ## 暂时只引入图片声音等资源文件
+  pod "TelegramUI", :path => 'LocalLib/TelegramUI'
   
   ## MozjpegBinding引入
   pod "mozjpeg", :path => 'LocalLib/mozjpeg'

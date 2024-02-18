@@ -21,7 +21,9 @@ class RootViewController: UIViewController {
     var list: [UIViewController.Type] = [
         NormalDisplayTextVC.self,
         NormalTableViewVC.self,
-        NormalDisplayListViewVC.self]
+        NormalDisplayListViewVC.self,
+        MyChatFolderVC.self
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +48,14 @@ extension RootViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc = list[indexPath.row].init()
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vcClz = list[indexPath.row]
+        if vcClz is MyChatFolderVC.Type {
+            let vc = MyChatFolderVC.create()
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = vcClz.init()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
 }
