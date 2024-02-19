@@ -19,6 +19,7 @@ class RootViewController: UIViewController {
     }()
     
     var list: [UIViewController.Type] = [
+        TestStringVC.self,
         NormalDisplayTextVC.self,
         NormalTableViewVC.self,
         NormalDisplayListViewVC.self,
