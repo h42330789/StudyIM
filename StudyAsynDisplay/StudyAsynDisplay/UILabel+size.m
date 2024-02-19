@@ -8,6 +8,60 @@
 #import "UILabel+size.h"
 #import <CoreText/CoreText.h>
 
+@implementation NSString (TrimmingAdditions)
+
+- (NSString *)trimWhitespaceWithType:(TrimmingType)type {
+    return [self trimWithType:type characterInset:[NSCharacterSet whitespaceCharacterSet]];
+}
+- (NSString *)trimWhitespaceAndNewLineWithType:(TrimmingType)type {
+    return [self trimWithType:type characterInset:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+- (NSString *)trimWithType:(TrimmingType)type characterInset:(NSCharacterSet *)characterSet {
+    switch (type) {
+        case leading:
+            return [self stringByTrimmingLeadingCharactersInSet:characterSet];
+        case trailing:
+            return [self stringByTrimmingTrailingCharactersInSet:characterSet];
+        case leadingAndTrailing:
+            return [self stringByTrimmingCharactersInSet:characterSet];
+        case all:
+            return [self stringByReplacingOccurrencesOfString:@" " withString:@""];
+    }
+}
+- (NSString *)stringByTrimmingLeadingCharactersInSet:(NSCharacterSet *)characterSet {
+    NSUInteger location = 0;
+    NSUInteger length = [self length];
+    unichar charBuffer[length];
+    [self getCharacters:charBuffer];
+
+    for (NSInteger i= 0; i < length; i++) {
+        if (![characterSet characterIsMember:charBuffer[i]]) {
+            location = i;
+            break;
+        }
+    }
+
+    return [self substringWithRange:NSMakeRange(location, length - location)];
+}
+
+- (NSString *)stringByTrimmingTrailingCharactersInSet:(NSCharacterSet *)characterSet {
+    NSUInteger location = 0;
+    NSUInteger length = [self length];
+    unichar charBuffer[length];
+    [self getCharacters:charBuffer];
+
+    for (NSInteger i = length; i > 0; i--) {
+        if (![characterSet characterIsMember:charBuffer[i - 1]]) {
+            length = i;
+            break;
+        }
+    }
+
+    return [self substringWithRange:NSMakeRange(location, length - location)];
+}
+
+@end
+
 @implementation UILabel (size)
 - (CGSize)calculateSize:(CGSize)size
 {
