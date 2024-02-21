@@ -733,7 +733,7 @@ SPEC CHECKSUMS:
   TelegramCore: 583b17b1fa538ed0a9984e8025154e7d14d9ed73
   TelegramPresentationData: 11a0e25bf2bb05d704e15e559f78e9027beece25
   TelegramStringFormatting: bb41332474a7690220c661b5e3e05289fd0cd687
-  TelegramUI: d90e5a44a927333a92f0d49e22f2ac4e21b7dcb4
+  TelegramUI: 63efb9ff55bb0eba01bfc8115b63df20a25185fa
   TelegramUIPreferences: 97234b73163c131bd106f77bc80504c23f3ae314
   TemporaryCachedPeerDataManager: 56660a1e84eb662d8e5557be1eb33af81442e827
   TextFormat: 56fc9b6473c91e059e91986d94b1e13fb87aef39
@@ -746,6 +746,6 @@ SPEC CHECKSUMS:
   WebPBinding: d6da3e61dda7579e300ca9e6c3dfbde33a8c4c4c
   YuvConversion: 38fe0f0c2bb6e8db2750b4c5fdf232046372f3f0
 
-PODFILE CHECKSUM: b03df8a16e0d9669cb6dc844c13e33d3ea7c1c75
+PODFILE CHECKSUM: 31003aae84f6cda952b40c3b14d6491f701c5151
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.3

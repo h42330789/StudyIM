@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 
         PerformanceMonitor.shared().performanceViewConfigurator.options = [.all]
-        PerformanceMonitor.shared().performanceViewConfigurator.style = .custom(backgroundColor: .black, borderColor: .black, borderWidth: 1, cornerRadius: 5, textColor: .white, font: UIFont.systemFont(ofSize: 14))
+        PerformanceMonitor.shared().performanceViewConfigurator.style = .custom(backgroundColor: .black.withAlphaComponent(0.2), borderColor: .black, borderWidth: 1, cornerRadius: 5, textColor: .white, font: UIFont.systemFont(ofSize: 14))
         PerformanceMonitor.shared().start()
         if let monitorView = PerformanceMonitor.shared().performanceViewConfigurator as? UIView {
             window.addSubview(monitorView)

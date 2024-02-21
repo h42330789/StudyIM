@@ -17,7 +17,8 @@
   },
   "resources": [
     "Resources/**/*.*",
-    "Sounds/**/*.*"
+    "Sounds/**/*.*",
+    "Images.xcassets"
   ],
   "libraries": "swiftCoreGraphics"
 }

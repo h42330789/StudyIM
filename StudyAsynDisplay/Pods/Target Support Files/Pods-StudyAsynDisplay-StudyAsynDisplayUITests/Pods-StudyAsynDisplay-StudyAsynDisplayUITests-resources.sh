@@ -325,6 +325,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Resources/Ye7DfT2kCVIKAAAAhzXfrkdOjxs.tgv"
   install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Sounds/MessageSent.mp3"
   install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Sounds/notification.mp3"
+  install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Images.xcassets"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.bundle"
@@ -555,6 +556,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Resources/Ye7DfT2kCVIKAAAAhzXfrkdOjxs.tgv"
   install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Sounds/MessageSent.mp3"
   install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Sounds/notification.mp3"
+  install_resource "${PODS_ROOT}/../LocalLib/TelegramUI/Images.xcassets"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

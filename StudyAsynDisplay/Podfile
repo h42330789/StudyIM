@@ -1,6 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 # Specs satisfying the `ffmpeg-kit-ios-full (= 6.0), ffmpeg-kit-ios-full` dependency were found, but they required a higher minimum deployment target.
 # platform :ios, '12.0'变platform :ios, '13.0'，再改回12.0
+install! 'cocoapods', :disable_input_output_paths => true
 platform :ios, '12.0'
  ## https://juejin.cn/post/6866766361218482189
  ## https://www.jianshu.com/p/5727a39e8c79

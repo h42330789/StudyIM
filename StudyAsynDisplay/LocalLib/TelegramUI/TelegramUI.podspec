@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
     s.source = { :git => 'https://github.com/SwiftSignalKit/SwiftSignalKit.git', :tag => '5.6.0' }
   
     s.ios.deployment_target = '12.0'
-    s.resources = ['Resources/**/*.*', "Sounds/**/*.*"]
+    s.resources = ['Resources/**/*.*', "Sounds/**/*.*", "Images.xcassets"]
 
     s.libraries = 'swiftCoreGraphics'
   

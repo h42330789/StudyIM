@@ -227,3 +227,4 @@ ${PODS_ROOT}/../LocalLib/TelegramUI/Resources/WebEmbed/YoutubeUserScript.js
 ${PODS_ROOT}/../LocalLib/TelegramUI/Resources/Ye7DfT2kCVIKAAAAhzXfrkdOjxs.tgv
 ${PODS_ROOT}/../LocalLib/TelegramUI/Sounds/MessageSent.mp3
 ${PODS_ROOT}/../LocalLib/TelegramUI/Sounds/notification.mp3
+${PODS_ROOT}/../LocalLib/TelegramUI/Images.xcassets
