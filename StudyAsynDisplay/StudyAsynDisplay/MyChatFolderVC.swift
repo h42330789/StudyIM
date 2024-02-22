@@ -15,7 +15,9 @@ import AnimatedStickerNode
 import TelegramAnimatedStickerNode
 
 private final class MyChatFolderArguments {
+    typealias SuggestBlock = (String) -> Void
     var addNew: CommnoEmptyAction? = nil
+    var addSuggest: SuggestBlock? = nil
 }
 public func defaultItemTheme() -> ItemListPresentationData {
     // 上下文主题信息
@@ -28,6 +30,17 @@ public func defaultItemTheme() -> ItemListPresentationData {
 class MyChatFolderVC: ItemListController {
     
     static func create() -> MyChatFolderVC {
+//        let originDataSignal = Atomic(value: ["All Chats"])
+//        let originDataSignal = ValuePromise(["All Chats"], ignoreRepeated: true)
+//        let state2 = Signal<String, NoError> { subscriber in
+//            subscriber.putNext("")
+//            return EmptyDisposable
+//        }
+        let originList = ["All Chats"]
+        let stateValue = Atomic(value: originList)
+        let statePromise = ValuePromise(originList, ignoreRepeated: true)
+        
+               
         
         // 上下文主题信息
 //        let theme = defaultPresentationTheme
@@ -44,18 +57,29 @@ class MyChatFolderVC: ItemListController {
         // 交互回调
         let arguments = MyChatFolderArguments()
         arguments.addNew = {
-                print("addNew")
+            // 获取原始数据
+            statePromise.set(stateValue.modify { old in
+                    return old + ["test"]
+            })
+            
         }
-
+        arguments.addSuggest = { title in
+            // 获取原始数据
+            print("arguments -- suggest -- Add")
+            statePromise.set(stateValue.modify { old in
+                    return old + [title]
+            })
+        }
         // 数据配置信号
-        let statePromise = ValuePromise("test", ignoreRepeated: true)
-        let statePromise2 = ValuePromise("aaa", ignoreRepeated: true)
-        let stateSignal2 = combineLatest(queue: .mainQueue(), statePromise.get(),statePromise2.get())
-        |> map { state, state2 -> (ItemListControllerState, (ItemListNodeState, MyChatFolderArguments)) in
+        let sugguestList = ValuePromise([
+            SuggestedOriginData(title:"Unread", desc:"New messages frmo all chats."),
+            SuggestedOriginData(title:"Personal", desc:"Only messages from personal chats.")], ignoreRepeated: true)
+        let stateSignal = combineLatest(queue: .mainQueue(), statePromise.get(), sugguestList.get())
+        |> map { dataList, suggestDataList -> (ItemListControllerState, (ItemListNodeState, MyChatFolderArguments)) in
             // controller配置
             let controllerState = ItemListControllerState(presentationData: defaultItemTheme(), title: .text("MyTitle"), leftNavigationButton: nil, rightNavigationButton: nil, backNavigationButton: ItemListBackButton(title: "MyBack"), animateChanges: false)
             // 数据配置
-            let enties = MyChatFolderVC.createEnties()
+            let enties = MyChatFolderVC.createEnties(dataList: dataList, suggestList: suggestDataList)
             let listState = ItemListNodeState(presentationData: defaultItemTheme(), entries: enties, style: .blocks, animateChanges: true)
             
             return (controllerState, (listState, arguments))
@@ -64,7 +88,7 @@ class MyChatFolderVC: ItemListController {
         }
         
         // 主题+主题变更+数据
-        let vc = MyChatFolderVC(presentationData: defaultItemTheme(), updatedPresentationData: updateDateSignal, state: stateSignal2, tabBarItem: nil)
+        let vc = MyChatFolderVC(presentationData: defaultItemTheme(), updatedPresentationData: updateDateSignal, state: stateSignal, tabBarItem: nil)
         
         // 由于没有在Display上下文里管理，需要手动设置layout
         let boundsSize = UIScreen.main.bounds.size
@@ -91,15 +115,33 @@ class MyChatFolderVC: ItemListController {
     // MARK: - 创建数据 
     // Data -> UIDataModel -> UIModel -> Node
     // hello -> MyCreateFolderListEntry -> MyChatFolderSettingsHeaderItem -> MyChatFolderSettingsHeaderNode
-    static func createEnties() -> [MyCreateFolderListEntry] {
-        return [
-            .screenHeader("Create folders for different groups of chats and quickly switch between them."),
-            .listHeader("FOLDERS"),
-            .addItem(text: "Create a Folder"),
-            .listItem(index: 0, title: "All Chats", isAllChats: true, originData: ""),
-            .listItem(index: 1, title: "Fd1", isAllChats: false, originData: "aaa"),
-            .listFooter("Tap 'Edit' to change the order or delete folders.")
-        ]
+    static func createEnties(dataList: [String], suggestList: [SuggestedOriginData]) -> [MyCreateFolderListEntry] {
+        var entryList: [MyCreateFolderListEntry] = []
+        entryList.append(.screenHeader("Create folders for different groups of chats and quickly switch between them."))
+        entryList.append(.listHeader("FOLDERS"))
+        entryList.append(.addItem(text: "Create a Folder"))
+        for (index, item) in dataList.enumerated() {
+            entryList.append(.listItem(index: index, title: item, isAllChats: item == "All Chats", originData: item))
+        }
+        entryList.append(.listFooter("Tap 'Edit' to change the order or delete folders."))
+        let sugestFilterList = suggestList.filter({ dataList.contains($0.title) == false })
+        if sugestFilterList.count > 0 {
+            entryList.append(.suggestedListHeader("RECOMMENDED FOLDERS"))
+            for (index, item) in sugestFilterList.enumerated() {
+                entryList.append(.suggestedListItem(index: index, title: item.title, desc: item.desc, originData: item.title))
+            }
+        }
+        return entryList
+    }
+}
+
+struct SuggestedOriginData: Equatable {
+    var title: String
+    var desc: String
+    
+    init(title: String, desc: String) {
+        self.title = title
+        self.desc = desc
     }
 }
 
@@ -110,6 +152,8 @@ enum MyCreateFolderListEntry: ItemListNodeEntry {
     case addItem(text: String) // 添加
     case listItem(index: Int, title: String, isAllChats: Bool, originData: String) // 条目, originData要遵循Codable, Equatable
     case listFooter(String) // 列表底部内容
+    case suggestedListHeader(String) // 列表标题
+    case suggestedListItem(index: Int, title: String, desc: String, originData: String) // 条目, originData要遵循Codable, Equatable
     
     // 分组section排序
     var section: ItemListSectionId {
@@ -118,6 +162,8 @@ enum MyCreateFolderListEntry: ItemListNodeEntry {
             return 0
         case .listHeader, .addItem, .listItem, .listFooter:
             return 1
+        case .suggestedListHeader, .suggestedListItem:
+            return 2
         }
     }
     // 排序id
@@ -133,14 +179,20 @@ enum MyCreateFolderListEntry: ItemListNodeEntry {
             return 102 + index
         case .listFooter:
             return 1001
+        case .suggestedListHeader:
+            return 1002
+        case let .suggestedListItem(index, _, _, _):
+            return 1003 + index
         }
     }
     enum MyChatFolderEntryStableId: Hashable {
         case screenHeader
         case listHeader
         case addItem
-        case listItem(String)
+        case listItem(Int,String)
         case listFooter
+        case suggestedListHeader
+        case suggestedListItem(String)
     }
     // 固定id
     var stableId: MyChatFolderEntryStableId {
@@ -151,10 +203,14 @@ enum MyCreateFolderListEntry: ItemListNodeEntry {
             return .listHeader
         case .addItem:
             return .addItem
-        case let .listItem(_, _,_, originData):
-            return .listItem(originData)
+        case let .listItem(index, _,_, originData):
+            return .listItem(index,originData)
         case .listFooter:
             return .listFooter
+        case .suggestedListHeader:
+            return .suggestedListHeader
+        case let .suggestedListItem(_, _,_, originData):
+            return .suggestedListItem(originData)
         }
     }
     // 排序
@@ -181,6 +237,14 @@ enum MyCreateFolderListEntry: ItemListNodeEntry {
             }
         case let .listFooter(text):
             return MyChatFolderListHeaderItem(text: text, sectionId: self.section)
+        case let .suggestedListHeader(text):
+            return MyChatFolderListHeaderItem(text: text, sectionId: self.section)
+        case let .suggestedListItem(_, title, desc, _):
+            return MyChatFolderSuggestedListItem(text: title, sectionId: self.section, desc: desc) {
+                if let arguments = arguments as? MyChatFolderArguments {
+                    arguments.addSuggest?(title)
+                }
+            }
         }
     }
 }
@@ -547,7 +611,7 @@ class MyChatFolderListAddNode: ListViewItemNode {
             let titleAttribute = NSAttributedString(string: item.text, font: titleFont, textColor: .blue)
             let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attributedString: titleAttribute, backgroundColor: nil, maximumNumberOfLines: 1, truncationType: .end, constrainedSize: CGSize(width: params.width - params.leftInset - params.rightInset, height: CGFloat.greatestFiniteMagnitude), alignment: .natural, cutout: nil, insets: .zero))
             
-            let separatorHeight = UIScreenPixel
+            let separatorHeight: CGFloat = 1//UIScreenPixel
             
             let insets = itemListNeighborsGroupedInsets(neighbors, params)
             let contentSize = CGSize(width: params.width, height: titleLayout.size.height + verticalInset * 2)
@@ -725,7 +789,7 @@ class MyChatFolderListItemNode: ListViewItemNode {
         self.backgroundNode = ASDisplayNode(isLayerBacked: true, backgroundColor: .white)
         self.highlightedBackgroundNode = ASDisplayNode(isLayerBacked: true, backgroundColor: UIColor(red: 232.0/255, green: 232.0/255, blue: 231.0/255, alpha: 1))
         self.containerNode = ASDisplayNode()
-        self.topStripeNode = ASDisplayNode(isLayerBacked: true, backgroundColor: .gray)
+        self.topStripeNode = ASDisplayNode(isLayerBacked: true, backgroundColor: UIColor(red: 236.0/255, green: 236.0/255, blue: 238.0/255, alpha: 1))
         
         self.maskNode = ASImageNode()
         
@@ -761,7 +825,7 @@ class MyChatFolderListItemNode: ListViewItemNode {
             let titleAttribute = NSAttributedString(string: item.text, font: titleFont, textColor: .black)
             let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attributedString: titleAttribute, backgroundColor: nil, maximumNumberOfLines: 1, truncationType: .end, constrainedSize: CGSize(width: params.width - params.leftInset - params.rightInset, height: CGFloat.greatestFiniteMagnitude), alignment: .natural, cutout: nil, insets: .zero))
             
-            let separatorHeight = UIScreenPixel
+            let separatorHeight: CGFloat = 1//UIScreenPixel
             
             let insets = itemListNeighborsGroupedInsets(neighbors, params)
             let contentSize = CGSize(width: params.width, height: titleLayout.size.height + verticalInset * 2)
@@ -824,7 +888,7 @@ class MyChatFolderListItemNode: ListViewItemNode {
                 let arrowSize = arrowImage?.size ?? CGSize(width: 20, height: 20)
                 self.arrowNode.image = arrowImage
                 self.arrowNode.isHidden = item.isAllChats
-                self.arrowNode.frame = CGRect(x: params.width - params.rightInset - 7 - arrowSize.width , y: layout.contentSize.height.center(otherHeight: arrowSize.height), size: arrowSize)
+                self.arrowNode.frame = CGRect(x: params.width - params.rightInset - 7 - arrowSize.width , y: layout.height.halfDis(other: arrowSize.height), size: arrowSize)
                 
             })
         }
@@ -852,4 +916,230 @@ class MyChatFolderListItemNode: ListViewItemNode {
             }
         }
     }
+}
+
+// MARK: - UIModel + SuggestedListLtem
+class MyChatFolderSuggestedListItem: ListViewItem, ItemListItem {
+    let text: String
+    let desc: String
+    // sectionId是实现ItemListItem的必须的内容
+    public let sectionId: ItemListSectionId
+    var action: CommnoEmptyAction?
+    
+    public init(text: String, sectionId: ItemListSectionId, desc: String, action: CommnoEmptyAction? = nil) {
+        self.text = text
+        self.sectionId = sectionId
+        self.desc = desc
+        self.action = action
+    }
+    
+
+    // MARK: ListViewItem
+    public func nodeConfiguredForParams(async: @escaping (@escaping () -> Void) -> Void, params: ListViewItemLayoutParams, synchronousLoads: Bool, previousItem: ListViewItem?, nextItem: ListViewItem?, completion: @escaping (ListViewItemNode, @escaping () -> (Signal<Void, NoError>?, (ListViewItemApply) -> Void)) -> Void) {
+        async {
+            let node = MyChatFolderSuggestedListItemNode()
+            let neighbors = itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem)
+            let (layout, apply) = node.asyncLayout()(self, params, neighbors)
+            
+            node.contentSize = layout.contentSize
+            node.insets = layout.insets
+            
+            Queue.mainQueue().async {
+                completion(node, {
+                    return (nil, { _ in apply(false) })
+                })
+            }
+        }
+    }
+    
+    public func updateNode(async: @escaping (@escaping () -> Void) -> Void, node: @escaping () -> ListViewItemNode, params: ListViewItemLayoutParams, previousItem: ListViewItem?, nextItem: ListViewItem?, animation: ListViewItemUpdateAnimation, completion: @escaping (ListViewItemNodeLayout, @escaping (ListViewItemApply) -> Void) -> Void) {
+        Queue.mainQueue().async {
+            guard let nodeValue = node() as? MyChatFolderSuggestedListItemNode else {
+                assertionFailure()
+                return
+            }
+            
+            let makeLayout = nodeValue.asyncLayout()
+            
+            var animated = true
+            if case .None = animation {
+                animated = false
+            }
+            
+            async {
+                let (layout, apply) = makeLayout(self, params, itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem))
+                Queue.mainQueue().async {
+                    completion(layout, { _ in
+                        apply(animated)
+                    })
+                }
+            }
+        }
+    }
+}
+// MARK: Node Cell
+
+class MyChatFolderSuggestedListItemNode: ListViewItemNode {
+    private var item: MyChatFolderSuggestedListItem?
+    
+    private let backgroundNode: ASDisplayNode // 背景
+    private let topStripeNode: ASDisplayNode // 顶部分隔线
+    
+    private let maskNode: ASImageNode //
+    
+    private let titleNode: TextNode
+    private let descNode: TextNode
+    
+    private let buttonBackgroundNode: ASImageNode
+    private let buttonTitleNode: TextNode
+    private let buttonNode: HighlightTrackingButtonNode
+    
+    public init() {
+        
+        self.backgroundNode = ASDisplayNode(isLayerBacked: true, backgroundColor: .white)
+        self.topStripeNode = ASDisplayNode(isLayerBacked: true, backgroundColor: UIColor(red: 236.0/255, green: 236.0/255, blue: 238.0/255, alpha: 1))
+        
+        self.maskNode = ASImageNode()
+        
+        self.titleNode = TextNode()
+        self.titleNode.isUserInteractionEnabled = false
+        
+        self.descNode = TextNode()
+        self.descNode.isUserInteractionEnabled = false
+        
+        self.buttonBackgroundNode = ASImageNode()
+        self.buttonBackgroundNode.isUserInteractionEnabled = false
+        self.buttonTitleNode = TextNode()
+        self.buttonTitleNode.isUserInteractionEnabled = false
+        self.buttonNode = HighlightTrackingButtonNode()
+        
+        
+       
+        super.init(layerBacked: false, dynamicBounce: false)
+        
+        self.addSubnode(self.titleNode)
+        self.addSubnode(self.descNode)
+        self.addSubnode(self.buttonBackgroundNode)
+        self.addSubnode(self.buttonTitleNode)
+        self.addSubnode(self.buttonNode)
+        
+        self.buttonNode.addTarget(self, action: #selector(self.buttonPressed), forControlEvents: .touchUpInside)
+        self.buttonNode.highligthedChanged = {[weak self] highlighted in
+            guard let self = self else {
+                return
+            }
+            if highlighted {
+                // 点击按钮时
+                self.buttonBackgroundNode.layer.removeAnimation(forKey: "opacity")
+                self.buttonBackgroundNode.alpha = 0.7
+            } else {
+                self.buttonBackgroundNode.alpha = 1.0
+                self.buttonBackgroundNode.layer.animateAlpha(from: 0.7, to: 1.0, duration: 0.3)
+            }
+        }
+  
+    }
+    
+    @objc func buttonPressed() {
+        self.item?.action?()
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if self.buttonNode.slopFrame.contains(point) {
+            return self.buttonNode.view
+        } else {
+            return super.hitTest(point, with: event)
+        }
+    }
+    
+    override public var canBeSelected: Bool {
+        return false
+    }
+    
+    public func asyncLayout() -> (_ item: MyChatFolderSuggestedListItem, _ params: ListViewItemLayoutParams, _ neighbors: ItemListNeighbors) -> (ListViewItemNodeLayout, (Bool) -> Void) {
+        let makeTitleLayout = TextNode.asyncLayout(self.titleNode)
+        let makeDescLayout = TextNode.asyncLayout(self.descNode)
+        let makeButtonTitleLayout = TextNode.asyncLayout(self.buttonTitleNode)
+        
+        return {item, params, neighbors in
+            let leftInset = 16.0 + params.leftInset
+            let rightInset = 16.0 + params.rightInset
+            let buttonHeight: CGFloat = 28.0
+            let maxWidth: CGFloat = params.width - params.rightInset - 20 - leftInset - rightInset
+            
+            // button
+            let buttonFont = Font.semibold(14)
+            let buttonAttribute = NSAttributedString(string: "ADD", font: buttonFont, textColor: .white)
+            let (buttonTitleLayout, buttonTitleApply) = makeButtonTitleLayout(TextNodeLayoutArguments(attributedString: buttonAttribute, backgroundColor: nil, maximumNumberOfLines: 1, truncationType: .end, constrainedSize: CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude), alignment: .natural, cutout: nil, insets: .zero))
+            
+            
+            
+            // 计算layout
+            let titleFont = Font.regular(14)
+            // 上下的间距
+            let verticalInset = 11.0
+            // button所占的位置
+            let additionalTextRightInset: CGFloat = buttonTitleLayout.size.width + 14.0 * 2.0
+            
+            let titleAttribute = NSAttributedString(string: item.text, font: titleFont, textColor: .black)
+            let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attributedString: titleAttribute, backgroundColor: nil, maximumNumberOfLines: 1, truncationType: .end, constrainedSize: CGSize(width: maxWidth - additionalTextRightInset, height: CGFloat.greatestFiniteMagnitude), alignment: .natural, cutout: nil, insets: .zero))
+            
+            // 描述
+            let descFont = Font.regular(12)
+            let descAttribute = NSAttributedString(string: item.desc, font: descFont, textColor: .lightGray)
+            let (descLayout, descApply) = makeDescLayout(TextNodeLayoutArguments(attributedString: descAttribute, backgroundColor: nil, maximumNumberOfLines: 1, truncationType: .end, constrainedSize: CGSize(width: params.width - params.rightInset - 40.0 - leftInset, height: CGFloat.greatestFiniteMagnitude), alignment: .natural, cutout: nil, insets: .zero))
+            
+            let separatorHeight: CGFloat = 1//UIScreenPixel
+            let titleSpacing: CGFloat = 3.0
+            let height = verticalInset * 2.0 + titleLayout.size.height + titleSpacing + descLayout.size.height
+            let contentSize = CGSize(width: params.width, height: height)
+            let insets = itemListNeighborsGroupedInsets(neighbors, params)
+            
+            let layout = ListViewItemNodeLayout(contentSize: contentSize, insets: insets)
+            
+            // 返回layout
+            return (layout, { [weak self] animated in
+                guard let self = self else {
+                    return
+                }
+                
+                // 赋值
+                self.item = item
+                let _ = titleApply()
+                let _ = descApply()
+                let _ = buttonTitleApply()
+                
+                // 背景
+                self.backgroundNode.insertIfNeed(superNode: self, at: 0)
+                self.topStripeNode.insertIfNeed(superNode: self, at: 1)
+                self.maskNode.insertIfNeed(superNode: self)
+                
+                let hasCorners = itemListHasRoundedBlockLayout(params)
+                let (hasTopCorners, hasBottomCorners) = neighbors.isFirstOrLastRow
+                self.topStripeNode.isHidden = hasTopCorners
+                
+                self.maskNode.image = hasCorners ? PresentationResourcesItemList.cornersImage(defaultItemTheme().theme, top: hasTopCorners, bottom: hasBottomCorners) : nil
+                
+                self.backgroundNode.frame = CGRect(x: 0, y: -min(insets.top, separatorHeight), width: params.width, height: layout.height + min(insets.top, separatorHeight) + min(insets.bottom, separatorHeight))
+                self.maskNode.frame = self.backgroundNode.frame.insetBy(dx: params.leftInset, dy: 0)
+                self.topStripeNode.frame = CGRect(x: leftInset, y: -min(insets.top, separatorHeight), width: layout.width-leftInset, height: separatorHeight)
+                
+                let titleFrame = CGRect(x: leftInset, y: 11, size: titleLayout.size)
+                self.titleNode.frame = titleFrame
+                
+                let descFrame = CGRect(x: leftInset, y: titleFrame.maxY + titleSpacing, size: descLayout.size)
+                self.descNode.frame = descFrame
+                
+                let buttonSize = CGSize(width: buttonTitleLayout.width + 14*2, height: buttonHeight)
+                let buttonFrame = CGRect(x: params.width - rightInset - buttonSize.width, y: layout.height.halfDis(other: buttonSize.height), size: buttonSize)
+                self.buttonNode.frame = buttonFrame
+                self.buttonBackgroundNode.frame = buttonFrame
+                self.buttonBackgroundNode.image = generateStretchableFilledCircleImage(diameter: buttonHeight, color: UIColor.systemBlue)
+                
+                self.buttonTitleNode.frame = CGRect(x: buttonFrame.minX + buttonFrame.width.halfDis(other: buttonTitleLayout.width), y: buttonFrame.minY + buttonFrame.height.halfDis(other: buttonTitleLayout.height), size: buttonTitleLayout.size)
+                
+            })
+        }
+    }
+    
 }

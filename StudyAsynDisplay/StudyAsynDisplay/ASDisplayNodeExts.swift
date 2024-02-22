@@ -7,6 +7,10 @@
 
 
 import AsyncDisplayKit
+import Display
+import ItemListUI
+
+
 typealias CommnoEmptyAction = () -> Void
 extension ASDisplayNode {
     convenience init(isLayerBacked: Bool, backgroundColor: UIColor? = nil) {
@@ -46,7 +50,51 @@ extension CGRect {
 }
 
 extension CGFloat {
-    func center(otherHeight: CGFloat) -> CGFloat {
-       return (self - otherHeight)/2
+    func halfDis(other: CGFloat) -> CGFloat {
+       return (self - other)/2
+    }
+}
+
+extension ItemListNeighbors {
+    var isFirstRow: Bool {
+        switch self.top {
+            case .sameSection(false):
+                // 当前组的非第一条，相当于indexPath.row > 0
+                return false
+            default:
+                // 当前组组效果的第一条 ，相当于indexPath.row == 0
+                return true
+        }
+    }
+    var isLastRow: Bool {
+        switch self.bottom {
+            case .sameSection(false):
+                // 同一组不是最后一条，相当于 indexPath.row < (count - 1)
+                return false
+            default:
+                // 同一组最后一条，相当于 indexPath.row == (count - 1)
+                return true
+        }
+    }
+    var isFirstOrLastRow: (isFirst: Bool, isLast: Bool) {
+        return (self.isFirstRow, self.isLastRow)
+    }
+}
+
+extension TextNodeLayout {
+    var width: CGFloat {
+        return self.size.width
+    }
+    var height: CGFloat {
+        return self.size.height
+    }
+}
+
+extension ListViewItemNodeLayout {
+    var width: CGFloat {
+        return self.contentSize.width
+    }
+    var height: CGFloat {
+        return self.contentSize.height
     }
 }
