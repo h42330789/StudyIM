@@ -9,6 +9,7 @@
 import AsyncDisplayKit
 import Display
 import ItemListUI
+import SwiftSignalKit
 
 
 typealias CommnoEmptyAction = () -> Void
@@ -97,4 +98,20 @@ extension ListViewItemNodeLayout {
     var height: CGFloat {
         return self.contentSize.height
     }
+}
+
+extension ValuePromise {
+    var rawValue: T {
+        // 通过get获取signal，调用start()获取最新的值并添加subscriber
+        var valueObj: T!
+        let valueDispose = self.get().start { value in
+            valueObj = value
+            
+        }
+        // 销毁了dispose，将valueDispose对应的subscriber也会被销毁
+        valueDispose.dispose()
+        // 返回获取的值
+        return valueObj
+    }
+    
 }
