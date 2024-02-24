@@ -115,3 +115,27 @@ extension ValuePromise {
     }
     
 }
+
+extension Promise {
+    var rawValue: T? {
+        get {
+            // 通过get获取signal，调用start()获取最新的值并添加subscriber
+            var valueObj: T? = nil
+            let valueDispose = self.get().start { value in
+                // 如果当前值为空时不会走这个回调，如果值不为空时会走这个回调
+                valueObj = value
+            }
+            // 销毁了dispose，后续value值变化也不会触发上面的赋值操作
+            valueDispose.dispose()
+            // 返回获取的值
+            return valueObj
+        } set {
+            if let val = newValue {
+                self.set(Signal {subscriber in
+                    subscriber.putNext(val)
+                    return EmptyDisposable
+                })
+            }
+        }
+    }
+}

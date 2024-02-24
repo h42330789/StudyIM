@@ -16,32 +16,136 @@ class StudySwiftSignalVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-//        let signal = Signal<String, Error>({ subscriber in
-//            subscriber.putNext("aa")
-//            subscriber.putCompletion()
-//            subscriber.putNext("bb")
-//            return EmptyDisposable
-//        })
-//        let disposeBag = signal.start(next: { data in
-//            print("start: \(data)")
-//        }, error: { error in
-//            print("start: \(error)")
-//        }, completed: {
-//            print("start: completed")
-//        })
-//        disposeBag.dispose()
-//        let disposeBag2 = signal.start(next: { data in
-//            print("start2: \(data)")
-//        }, error: { error in
-//            print("start2: \(error)")
-//        }, completed: {
-//            print("start2: completed")
-//        })
-//        disposeBag2.dispose()
+//        testSignal()
+//        testPromise1()
+        testPromise2()
+//        testValuePromise1()
+//        testValuePromise2()
+//        testValuePromise3()
+    }
+    
+    func testSignal() {
+        print("======testSignal======")
+        //        let signal = Signal<String, Error>({ subscriber in
+        //            subscriber.putNext("aa")
+        //            subscriber.putCompletion()
+        //            subscriber.putNext("bb")
+        //            return EmptyDisposable
+        //        })
+        //        let disposeBag = signal.start(next: { data in
+        //            print("start: \(data)")
+        //        }, error: { error in
+        //            print("start: \(error)")
+        //        }, completed: {
+        //            print("start: completed")
+        //        })
+        //        disposeBag.dispose()
+        //        let disposeBag2 = signal.start(next: { data in
+        //            print("start2: \(data)")
+        //        }, error: { error in
+        //            print("start2: \(error)")
+        //        }, completed: {
+        //            print("start2: completed")
+        //        })
+        //        disposeBag2.dispose()
+    }
+    
+    func testPromise1() {
+        print("======testPromise1======")
         
-        testValuePromise1()
-        testValuePromise2()
-        testValuePromise3()
+        let promise1 = Promise<String>()
+        // 由于第一次获取时，没有值，不会触发回调
+        var promise1Value: String? = nil
+        let dispose0 = promise1.get().start(next: { list in
+            print("\(Date()) dispose0 get1--\(list)")
+            promise1Value = list
+        })
+        dispose0.dispose()
+        let promise1Value2 = promise1.rawValue
+        print("\(Date()) promise1Value--\(promise1Value ?? "nil") promise1Value2:\(promise1Value2 ?? "nil")")
+        // 由于第一次获取时，没有值，不会触发回调
+        let dispose1 = promise1.get().start(next: { list in
+            print("\(Date()) dispose1 get1--\(list)")
+        })
+        // 设置Signal后，会立即执行signal的generator, 通过next拿到generatoer里设置的putNext()的值
+        // 获取到值后，会回调执行所有get()创建的subscriber
+        promise1.set(Signal<String, NoError> { subscriber in
+            // 会触发此刻已经存在的所有get()创建的所有监听者
+            print("\(Date()) 设置值--aaa")
+            subscriber.putNext("aaaa")
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2, execute: {
+                // 会触发此刻已经存在的所有get()创建的所有监听者
+                print("\(Date()) 设置值--bbb")
+                subscriber.putNext("bbb")
+            })
+            return MetaDisposable()
+        })
+        // 由于promise里已经有值了，直接获取存在的值
+        let dispose2 = promise1.get().start(next: { list in
+            print("\(Date()) dispose2 get2--\(list)")
+        })
+        let promise1Value3 = promise1.rawValue
+        print("\(Date()) promise1Value3:\(promise1Value3 ?? "nil")")
+        /**
+         ======testPromise1======
+         2024-02-24 08:23:38 +0000 promise1Value--nil promise1Value2:nil
+         2024-02-24 08:23:38 +0000 设置值--aaa
+         2024-02-24 08:23:38 +0000 dispose1 get1--aaaa
+         2024-02-24 08:23:38 +0000 dispose2 get2--aaaa
+         2024-02-24 08:23:38 +0000 promise1Value3:aaaa
+         2024-02-24 08:23:40 +0000 设置值--bbb
+         2024-02-24 08:23:40 +0000 dispose1 get1--bbb
+         2024-02-24 08:23:40 +0000 dispose2 get2--bbb
+         */
+    }
+
+    func testPromise2() {
+        print("======testPromise2======")
+        
+        let networkPromise = Promise<String>()
+       
+        // 设置Signal后，会立即执行signal的generator, 通过next拿到generatoer里设置的putNext()的值
+        // 获取到值后，会回调执行所有get()创建的subscriber
+        networkPromise.set(Signal<String, NoError> { subscriber in
+            // 这里可以设置默认值，如果有的话
+            if let defaultVal = UserDefaults.standard.string(forKey: "net1") {
+                print("设置默认数据----")
+                subscriber.putNext(defaultVal)
+            }
+            guard let url = URL(string: "https://reqres.in/api/users/2") else {
+                subscriber.putCompletion()
+                return EmptyDisposable
+            }
+            let request = URLRequest(url: url)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: {data, response, error in
+                if let data = data {
+                    // 数据请求成功
+                    var respStr = String(data: data, encoding: .utf8) ?? "--"
+                    respStr = "response--Data"
+                    UserDefaults.standard.setValue(respStr, forKey: "net1")
+                    print("网络请求成功----")
+                    subscriber.putNext(respStr)
+                } else {
+                    // 如果有错误
+                    subscriber.putCompletion()
+                }
+            })
+            // 开始请求
+            task.resume()
+            // 发起网络请求
+            return ActionDisposable {
+                // 如果销毁了，可以将网络请求取消
+                task.cancel()
+            }
+        })
+        // 监听数据，有数据变化才刷新
+        let uiDispose = (networkPromise.get() |> distinctUntilChanged
+        ).start(next: { str in
+            // 网络请求后有数据变化，更新UI
+            print("更新UI: \(str)")
+        }, completed: {
+            print("更新UI: completed")
+        })
     }
     
     func testValuePromise1() {

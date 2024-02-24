@@ -36,9 +36,7 @@ class MyChatFolderVC: ItemListController {
 //            subscriber.putNext("")
 //            return EmptyDisposable
 //        }
-        let originList = ["All Chats"]
-        let stateValue = Atomic(value: originList)
-        let statePromise = ValuePromise(originList, ignoreRepeated: true)
+        let statePromise = ValuePromise(["All Chats"], ignoreRepeated: true)
         
                
         
@@ -58,17 +56,13 @@ class MyChatFolderVC: ItemListController {
         let arguments = MyChatFolderArguments()
         arguments.addNew = {
             // 获取原始数据
-            statePromise.set(stateValue.modify { old in
-                    return old + ["test"]
-            })
+            statePromise.set(statePromise.rawValue + ["test"])
             
         }
         arguments.addSuggest = { title in
             // 获取原始数据
             print("arguments -- suggest -- Add")
-            statePromise.set(stateValue.modify { old in
-                    return old + [title]
-            })
+            statePromise.set(statePromise.rawValue + ["test"])
         }
         // 数据配置信号
         let sugguestList = ValuePromise([
