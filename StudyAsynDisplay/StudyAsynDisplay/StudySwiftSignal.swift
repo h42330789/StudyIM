@@ -101,17 +101,13 @@ class StudySwiftSignalVC: UIViewController {
 
     func testPromise2() {
         print("======testPromise2======")
-        
+        // 这里可以设置默认值，如果有的话
         let networkPromise = Promise<String>()
+        networkPromise.rawValue = UserDefaults.standard.string(forKey: "net1")
        
         // 设置Signal后，会立即执行signal的generator, 通过next拿到generatoer里设置的putNext()的值
         // 获取到值后，会回调执行所有get()创建的subscriber
         networkPromise.set(Signal<String, NoError> { subscriber in
-            // 这里可以设置默认值，如果有的话
-            if let defaultVal = UserDefaults.standard.string(forKey: "net1") {
-                print("设置默认数据----")
-                subscriber.putNext(defaultVal)
-            }
             guard let url = URL(string: "https://reqres.in/api/users/2") else {
                 subscriber.putCompletion()
                 return EmptyDisposable
