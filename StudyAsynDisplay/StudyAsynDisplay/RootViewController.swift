@@ -24,7 +24,8 @@ class RootViewController: UIViewController {
         NormalTableViewVC.self,
         NormalDisplayListViewVC.self,
         MyChatFolderVC.self,
-        StudySwiftSignalVC.self
+        StudySwiftSignalVC.self,
+        ArrayTestVC.self
     ]
     
     override func viewDidLoad() {

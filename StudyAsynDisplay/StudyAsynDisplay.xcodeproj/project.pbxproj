@@ -23,6 +23,8 @@
 		5714A2392B8335FA00CAFEFB /* TestStringVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5714A2382B8335FA00CAFEFB /* TestStringVC.swift */; };
 		5714A23D2B833B6F00CAFEFB /* UILabel+size.m in Sources */ = {isa = PBXBuildFile; fileRef = 5714A23C2B833B6F00CAFEFB /* UILabel+size.m */; };
 		5714A2422B85D54300CAFEFB /* ASDisplayNodeExts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5714A2412B85D54300CAFEFB /* ASDisplayNodeExts.swift */; };
+		576022862B8DF360001132AB /* ArrayExts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576022852B8DF35F001132AB /* ArrayExts.swift */; };
+		576022882B8DF377001132AB /* ArrayTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576022872B8DF377001132AB /* ArrayTestVC.swift */; };
 		8FA90E6AEE3396C34468E96C /* Pods_StudyAsynDisplayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C628DE2F638F13CD739721D9 /* Pods_StudyAsynDisplayTests.framework */; };
 		B3269B22BE3E49C16B1D9070 /* Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CBD42DAAE4C62C44268D7D /* Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework */; };
 		E69EE300CB5DAD0BA7DE56F5 /* Pods_StudyAsynDisplay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F395AF7D8611B162BC0904E8 /* Pods_StudyAsynDisplay.framework */; };
@@ -68,6 +70,8 @@
 		5714A23B2B833B6F00CAFEFB /* UILabel+size.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+size.h"; sourceTree = "<group>"; };
 		5714A23C2B833B6F00CAFEFB /* UILabel+size.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+size.m"; sourceTree = "<group>"; };
 		5714A2412B85D54300CAFEFB /* ASDisplayNodeExts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASDisplayNodeExts.swift; sourceTree = "<group>"; };
+		576022852B8DF35F001132AB /* ArrayExts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExts.swift; sourceTree = "<group>"; };
+		576022872B8DF377001132AB /* ArrayTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTestVC.swift; sourceTree = "<group>"; };
 		59CBD42DAAE4C62C44268D7D /* Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6B130A0CCAB3E8899FFDDA /* Pods-StudyAsynDisplay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyAsynDisplay.debug.xcconfig"; path = "Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay.debug.xcconfig"; sourceTree = "<group>"; };
 		636EBCABD8245F807913B922 /* Pods-StudyAsynDisplay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyAsynDisplay.release.xcconfig"; path = "Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay.release.xcconfig"; sourceTree = "<group>"; };
@@ -148,6 +152,8 @@
 				5714A23C2B833B6F00CAFEFB /* UILabel+size.m */,
 				5714A2412B85D54300CAFEFB /* ASDisplayNodeExts.swift */,
 				526510A12B87AC5700C76FD8 /* StudySwiftSignal.swift */,
+				576022852B8DF35F001132AB /* ArrayExts.swift */,
+				576022872B8DF377001132AB /* ArrayTestVC.swift */,
 			);
 			path = StudyAsynDisplay;
 			sourceTree = "<group>";
@@ -463,8 +469,10 @@
 				52CDDAA22B7BB7F40008C4D0 /* RootViewController.swift in Sources */,
 				5714A2422B85D54300CAFEFB /* ASDisplayNodeExts.swift in Sources */,
 				526510A22B87AC5700C76FD8 /* StudySwiftSignal.swift in Sources */,
+				576022882B8DF377001132AB /* ArrayTestVC.swift in Sources */,
 				52CDDAA82B7CFC9E0008C4D0 /* NormalTableViewVC.swift in Sources */,
 				5714A2392B8335FA00CAFEFB /* TestStringVC.swift in Sources */,
+				576022862B8DF360001132AB /* ArrayExts.swift in Sources */,
 				52CDDAA42B7BB9E10008C4D0 /* NormalDisplayTextVC.swift in Sources */,
 				5714A23D2B833B6F00CAFEFB /* UILabel+size.m in Sources */,
 				52F2DC412AF3DE16001CAEF0 /* AppDelegate.swift in Sources */,
