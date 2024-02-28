@@ -140,6 +140,7 @@
 		52F2DC3F2AF3DE16001CAEF0 /* StudyAsynDisplay */ = {
 			isa = PBXGroup;
 			children = (
+				5714A23A2B833AC500CAFEFB /* StudyAsynDisplay-Bridging-Header.h */,
 				526510A02B824C3300C76FD8 /* Localizable.strings */,
 				52F2DC402AF3DE16001CAEF0 /* AppDelegate.swift */,
 				52F2DC492AF3DE19001CAEF0 /* Assets.xcassets */,
@@ -187,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				5714A2382B8335FA00CAFEFB /* TestStringVC.swift */,
-				5714A23A2B833AC500CAFEFB /* StudyAsynDisplay-Bridging-Header.h */,
 				5714A23B2B833B6F00CAFEFB /* UILabel+size.h */,
 				5714A23C2B833B6F00CAFEFB /* UILabel+size.m */,
 				576022852B8DF35F001132AB /* ArrayExts.swift */,
