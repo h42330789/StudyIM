@@ -18,10 +18,105 @@ class StudySwiftSignalVC: UIViewController {
         
 //        testSignal()
 //        testPromise1()
-        testPromise2()
+//        testPromise2()
 //        testValuePromise1()
 //        testValuePromise2()
 //        testValuePromise3()
+        testSignalCombineLatest()
+    }
+    
+    func testSignalCombineLatest() {
+        print("======testSignalCombineLatest======")
+        /**
+         combineLatest(queue:xxx, s1,s2,...): 第一个参数是queue，可以为空，信号，最少2个，最多可以有19个信号组合在一起
+         combineLatest(queue:xxx, s1,t1,s2,t2): 第一个参数是queue，将2个信息组合在一起，还可以额外增加v1，v2
+         combineLatest(queue:xxx, [s1,s2]]), 组合任何信号的数组
+         内部会有一个Atomic，atomic里是一个[index:value]的字典，，用来存放signal里存值
+         每次signal有值有都会存放在这里，这个state的数量与signal的数量一致时，没产生一个新的值都会触发
+         */
+        // 本质上都是调用的内部方法：combineLatestAny([xx,xx], combine:xxx,initialValues:[xx:xx],queue:xxx)，同时将signal转换为signalOfAny
+        // signalOfAny本质是个中间信号，调用signalOfAny生成信号的start，就会触发原始信号的start，然后将原始信号的next，error，completed转发出来
+        
+        // ---- combineLatest(queue:xx, s1,v1,s2,v2)
+        let s1 = Signal<String, NoError> { subcriber in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.2, execute: {
+                print("======s1-send======")
+                subcriber.putNext("A")
+            })
+            return MetaDisposable()
+        }
+        let s2 = Signal<Int, NoError> { subcriber in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.1, execute: {
+                print("======s2-send======")
+                subcriber.putNext(99)
+            })
+            return MetaDisposable()
+        }
+        // 有初始化值时，初始值会触发一次，任何一次修改都会触发一次
+        let _ = combineLatest(s1, "B", s2, 100).start(next: { val1, val2 in
+            print("======combineLatest--s1-s2--======")
+            print(val1, val2)
+        })
+        // ---- combineLatest(queue:xx, s1,s2...), 最多可以传19个signal
+        let s3 = Signal<String, NoError> { subcriber in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.4, execute: {
+                print("======s3-send======")
+                subcriber.putNext("X")
+            })
+            return MetaDisposable()
+        }
+        let s4 = Signal<Int, NoError> { subcriber in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: {
+                print("======s4-send======")
+                subcriber.putNext(88)
+            })
+            return MetaDisposable()
+        }
+        // 没有初始值时，需要所有的signal都产生了值才会再combine里触发
+        let _ = combineLatest(s3, s4).start(next: { val1, val2 in
+            print("======combineLatest--s3-s4======")
+            print(val1, val2)
+        })
+        // ---- combineLatest(queue:xx, [s1,s2...])
+        // 需要signal里的类型值是一样的，要是不一样，只能设置类型为Any
+        let s5 = Signal<Any, NoError> { subcriber in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.4, execute: {
+                print("======s5-send======")
+                subcriber.putNext("aaa")
+            })
+            return MetaDisposable()
+        }
+        let s6 = Signal<Any, NoError> { subcriber in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: {
+                print("======s6-send======")
+                subcriber.putNext(111)
+            })
+            return MetaDisposable()
+        }
+        // 没有初始值时，需要所有的signal都产生了值才会再combine里触发
+        let _ = combineLatest([s5, s6]).start(next: { valueList in
+            print("======combineLatest--s5-s6======")
+            print(valueList)
+        })
+        /**
+        ======testSignalCombineLatest======
+        ======combineLatest--s1-s2--======
+        B 100
+        ======s2-send======
+        ======combineLatest--s1-s2--======
+        B 99
+        ======s1-send======
+        ======combineLatest--s1-s2--======
+        A 99
+        ======s6-send======
+        ======s4-send======
+        ======s3-send======
+        ======s5-send======
+        ======combineLatest--s3-s4======
+        X 88
+        ======combineLatest--s5-s6======
+        ["aaa", 111]
+        */
     }
     
     func testSignal() {
