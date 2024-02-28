@@ -22,7 +22,83 @@ class StudySwiftSignalVC: UIViewController {
 //        testValuePromise1()
 //        testValuePromise2()
 //        testValuePromise3()
-        testSignalCombineLatest()
+//        testSignalCombineLatest()
+        testSignalTake()
+    }
+    
+    func testSignalTake() {
+        print("======testSignalTake======")
+        // 输入一个count生成一个新的signal -> signal的信号
+        // public func take<T, E>(_ count: Int) -> ((Signal<T, E>) -> Signal<T, E>) {xxxx}
+        // s1 |> take(2) 就会变成 let cloure = take(2) let s2 = clouse(s1)
+        // take(xxx)里会把count存入一个Atomic，每次接受原始信号s1时这个值会+1，直到值与count相等时，调用putCompletion,停止调用
+        let s1 = Signal<String, NoError> { subcriber in
+            subcriber.putNext("aaa")
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.2, execute: {
+                print("======s1-send======")
+                subcriber.putNext("bb")
+            })
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.1, execute: {
+                print("======s1-send======")
+                subcriber.putNext("cc")
+            })
+            return MetaDisposable()
+        }
+        let s2 = s1 |> take(2)
+        let _ = s2.start(next: { val in
+            print("s2-s1-take: \(val)")
+        })
+        
+        let s3 = Signal<Int, NoError> { subcriber in
+            subcriber.putNext(111)
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.2, execute: {
+                print("======s3-send======")
+                subcriber.putNext(222)
+            })
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.1, execute: {
+                print("======s3-send======")
+                subcriber.putNext(333)
+            })
+            return MetaDisposable()
+        }
+        let cloure: ((Signal<Int, NoError>) -> Signal<Int, NoError>) = take(1)
+        let s4 = cloure(s3)
+        let _ = s4.start(next: { val in
+            print("s4-s3-take: \(val)")
+        })
+        // take(until
+        let s5 = Signal<String, NoError> { subcriber in
+            subcriber.putNext("xxx")
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.2, execute: {
+                print("======s5-send======")
+                subcriber.putNext("yyy")
+            })
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.1, execute: {
+                print("======s5-send======")
+                subcriber.putNext("zzz")
+            })
+            return MetaDisposable()
+        }
+        let s6 = s5 |> take(until: { val in
+            // passthrough: 为true时都会触发next，complete为true时，以后就都不再执行next
+            return SignalTakeAction(passthrough: val != "zzz", complete: val == "zzz")
+        })
+        let _ = s6.start(next: { val in
+            print("s6-s5-take: \(val)")
+        })
+        /**
+         ======testSignalTake======
+         s2-s1-take: aaa
+         s4-s3-take: 111
+         s5-s1-take: xxx
+         ======s1-send======
+         ======s3-send======
+         s2-s1-take: cc
+         ======s5-send======
+         ======s1-send======
+         ======s5-send======
+         ======s3-send======
+         */
     }
     
     func testSignalCombineLatest() {
