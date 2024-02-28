@@ -51,13 +51,16 @@ class MyChatFolderVC: ItemListController {
             let disposable = MetaDisposable()
             return disposable
         }
-        
+        var getCurrentVCBlock: (() -> UIViewController?)?
         // 交互回调
         let arguments = MyChatFolderArguments()
         arguments.addNew = {
             // 获取原始数据
-            statePromise.set(statePromise.rawValue + ["test"])
-            
+//            statePromise.set(statePromise.rawValue + ["test"])
+            // 这里要从本controller，push到下一个新的controler
+            // 但是在这个地方里，拿不到本controller
+            let currentVC = getCurrentVCBlock?()
+            currentVC?.navigationController?.pushViewController(EditChatFolderVC.create(), animated: true)
         }
         arguments.addSuggest = { title in
             // 获取原始数据
@@ -102,7 +105,9 @@ class MyChatFolderVC: ItemListController {
 //            insets.right += inset
 //        }
         vc.containerLayoutUpdated(layout, transition: .immediate)
-        
+        getCurrentVCBlock = { [weak vc] in
+            return vc
+        }
         return vc
     }
     

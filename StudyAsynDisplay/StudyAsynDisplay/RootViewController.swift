@@ -20,12 +20,12 @@ class RootViewController: UIViewController {
     
     var list: [UIViewController.Type] = [
         TestStringVC.self,
+        ArrayTestVC.self,
         NormalDisplayTextVC.self,
         NormalTableViewVC.self,
         NormalDisplayListViewVC.self,
-        MyChatFolderVC.self,
         StudySwiftSignalVC.self,
-        ArrayTestVC.self
+        MyChatFolderVC.self
     ]
     
     override func viewDidLoad() {
