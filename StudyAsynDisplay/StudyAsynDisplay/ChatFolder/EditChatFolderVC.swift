@@ -11,9 +11,23 @@ import AsyncDisplayKit
 import Display
 import AnimatedStickerNode
 import TelegramAnimatedStickerNode
+import TelegramPresentationData
 
 class EditChatFolderVCArguments {
+    var updateState: ((((EditChatFolderStateModel) -> EditChatFolderStateModel)) -> Void)? // 更新数据
+    var clearFocus: (() -> Void)? // 关闭键盘
+    var focusOnName: (() -> Void)? // 然后焦点还要再name输入框里
+}
+
+struct EditChatFolderStateModel: Equatable {
+    var name: String?
     
+    var isComplete: Bool {
+        if (self.name ?? "").isEmpty {
+            return false
+        }
+        return true
+    }
 }
 
 
@@ -24,7 +38,7 @@ class EditChatFolderVC: ItemListController {
         self.view.backgroundColor = .white
     }
     
-    static func create() -> EditChatFolderVC {
+    static func create(inName: String? = nil) -> EditChatFolderVC {
 
         // 主题更新信息
         let updateDateSignal: Signal<ItemListPresentationData, NoError> = Signal { subscriber in
@@ -33,16 +47,85 @@ class EditChatFolderVC: ItemListController {
         }
         var getCurrentVCBlock: (() -> UIViewController?)?
         // 交互回调
+        
+        // 用于传递和记录本页面生成的值
+        let initState = EditChatFolderStateModel(name: inName)
+        let promise = ValuePromise(initState, ignoreRepeated: true)
+        
+        // 参数及交互回调
         let arguments = EditChatFolderVCArguments()
-       
+        arguments.updateState = { f in
+            let oldState = promise.rawValue
+            let newState = f(oldState)
+            promise.set(newState)
+        }
+        arguments.clearFocus = {
+            // 关闭输入键盘
+            let currentVC = getCurrentVCBlock?()
+            currentVC?.view.endEditing(true)
+        }
+        arguments.focusOnName = {
+            guard let currentVC = getCurrentVCBlock?() as? ItemListController else {
+                return
+            }
+            currentVC.forEachItemNode { itemNode in
+                // 遍历所有node，如果是name输入的node，让focus
+                if let itemNode = itemNode as? MyEditFolerNameInputItemNode {
+                    itemNode.focus()
+                }
+            }
+        }
         // 数据配置信号
-        let stateSignal = Signal<String, NoError>.single("")
+        let stateSignal = promise.get()
         |> deliverOnMainQueue
-        |> map { val -> (ItemListControllerState, (ItemListNodeState, EditChatFolderVCArguments)) in
+        |> map { state -> (ItemListControllerState, (ItemListNodeState, EditChatFolderVCArguments)) in
+            print("stateSignal--> map")
             // controller配置
-            let controllerState = ItemListControllerState(presentationData: defaultItemTheme(), title: .text("MyCreateTitle"), leftNavigationButton: nil, rightNavigationButton: nil, backNavigationButton: ItemListBackButton(title: "MyBack"), animateChanges: false)
+            // 左侧按钮
+            let leftNavigationButton = ItemListNavigationButton(content: .text("取消"), style: .regular, enabled: true, action: {
+//                if let attemptNavigationImpl {
+//                    attemptNavigationImpl({ value in
+//                        if value {
+//                            dismissImpl?()
+//                        }
+//                    })
+//                } else {
+//                    dismissImpl?()
+//                }
+                getCurrentVCBlock?()?.navigationController?.popViewController(animated: true)
+            })
+            // 右侧按钮
+            let rightNavigationButton = ItemListNavigationButton(content: .text( (inName != nil) ? "完成" : "创建"), style: .bold, enabled: state.isComplete, action: {
+//                applyImpl?(false, {
+//                    dismissImpl?()
+//                })
+                // 将state里的值放到信号里去
+                
+                if let name = promise.rawValue.name, name.isNotEmpty {
+                    var list = MyChatFolderVC.statePromise.rawValue
+                    if inName != nil {
+                        // 修改
+                        list = list.map {
+                            if $0 == inName {
+                                return name
+                            } else {
+                                return $0
+                            }
+                        }
+                    } else {
+                        // 添加
+                        list.append(name)
+                    }
+                    
+                    MyChatFolderVC.statePromise.set(list)
+                }
+                
+                getCurrentVCBlock?()?.navigationController?.popViewController(animated: true)
+            })
+            // 有了leftNavBtn, backNavBtn就不会生效了
+            let controllerState = ItemListControllerState(presentationData: defaultItemTheme(), title: .text("MyCreateTitle"), leftNavigationButton: leftNavigationButton, rightNavigationButton: rightNavigationButton, backNavigationButton: ItemListBackButton(title: "MyBack"), animateChanges: false)
             // 数据配置
-            let enties = EditChatFolderVC.createEnties()
+            let enties = EditChatFolderVC.createEnties(state: state)
             let listState = ItemListNodeState(presentationData: defaultItemTheme(), entries: enties, style: .blocks, animateChanges: true)
             
             return (controllerState, (listState, arguments))
@@ -80,8 +163,9 @@ class EditChatFolderVC: ItemListController {
     // MARK: - 创建数据
     // Data -> UIDataModel -> UIModel -> Node
     // hello -> MyEditFolderListEntry -> MyEditFolerScreenItem -> MyEditFolerScreenHeaderNode
-    static func createEnties() -> [MyEditFolderListEntry] {
-        return [.screenHeader, .nameHeader("FOLDER NAME"), .name(placeholder: "Folder Name", value: "")]
+    static func createEnties(state: EditChatFolderStateModel) -> [MyEditFolderListEntry] {
+        print("EditChatFolderVC-createEnties")
+        return [.screenHeader, .nameHeader("FOLDER NAME"), .name(placeholder: "Folder Name", value: state.name ?? "")]
     }
 }
  enum MyEditFolderSection: Int32 {
@@ -141,7 +225,28 @@ class EditChatFolderVC: ItemListController {
         case let .nameHeader(title):
             return MyEditFolderSectionHeaderItem(text: title, sectionId: self.section)
         case let .name(placeholder, value):
-            return MyEditFolerNameInputItem(text: value, placeholder: placeholder, sectionId: self.section)
+            return MyEditFolerNameInputItem(text: value, placeholder: placeholder, sectionId: self.section, textUpdated: { text in
+                guard let arguments = arguments as? EditChatFolderVCArguments else {
+                    return
+                }
+                arguments.updateState?({ oldState in
+                    var newState = oldState
+                    newState.name = text
+                    return newState
+                })
+            }, action: {
+                guard let arguments = arguments as? EditChatFolderVCArguments else {
+                    return
+                }
+                // 让焦点保留在名称输入框里
+                arguments.clearFocus?()
+            }, cleared: {
+                guard let arguments = arguments as? EditChatFolderVCArguments else {
+                    return
+                }
+                // 让焦点保留在名称输入框里
+                arguments.focusOnName?()
+            })
         }
     }
         
@@ -158,6 +263,7 @@ class MyEditFolerScreenItem: ListViewItem, ItemListItem {
     }
     
     public func nodeConfiguredForParams(async: @escaping (@escaping () -> Void) -> Void, params: ListViewItemLayoutParams, synchronousLoads: Bool, previousItem: ListViewItem?, nextItem: ListViewItem?, completion: @escaping (ListViewItemNode, @escaping () -> (Signal<Void, NoError>?, (ListViewItemApply) -> Void)) -> Void) {
+        print("MyEditFolerScreenItem-nodeConfiguredForParams")
         async {
             let node = MyEditFolerScreenHeaderNode()
             let (layout, apply) = node.asyncLayout()(self, params, itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem))
@@ -174,6 +280,7 @@ class MyEditFolerScreenItem: ListViewItem, ItemListItem {
     }
     
     public func updateNode(async: @escaping (@escaping () -> Void) -> Void, node: @escaping () -> ListViewItemNode, params: ListViewItemLayoutParams, previousItem: ListViewItem?, nextItem: ListViewItem?, animation: ListViewItemUpdateAnimation, completion: @escaping (ListViewItemNodeLayout, @escaping (ListViewItemApply) -> Void) -> Void) {
+        print("MyEditFolerScreenItem-updateNode")
         Queue.mainQueue().async {
             guard let nodeValue = node() as? MyEditFolerScreenHeaderNode else {
                 assertionFailure()
@@ -281,6 +388,7 @@ public class MyEditFolderSectionHeaderItem: ListViewItem, ItemListItem {
     }
     
     public func nodeConfiguredForParams(async: @escaping (@escaping () -> Void) -> Void, params: ListViewItemLayoutParams, synchronousLoads: Bool, previousItem: ListViewItem?, nextItem: ListViewItem?, completion: @escaping (ListViewItemNode, @escaping () -> (Signal<Void, NoError>?, (ListViewItemApply) -> Void)) -> Void) {
+        print("MyEditFolderSectionHeaderItem-nodeConfiguredForParams")
         async {
             let node = MyEditFolerSectionHeaderItemNode()
             let (layout, apply) = node.asyncLayout()(self, params, itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem))
@@ -297,6 +405,7 @@ public class MyEditFolderSectionHeaderItem: ListViewItem, ItemListItem {
     }
     
     public func updateNode(async: @escaping (@escaping () -> Void) -> Void, node: @escaping () -> ListViewItemNode, params: ListViewItemLayoutParams, previousItem: ListViewItem?, nextItem: ListViewItem?, animation: ListViewItemUpdateAnimation, completion: @escaping (ListViewItemNodeLayout, @escaping (ListViewItemApply) -> Void) -> Void) {
+        print("MyEditFolderSectionHeaderItem-updateNode")
         Queue.mainQueue().async {
             guard let nodeValue = node() as? MyEditFolerSectionHeaderItemNode else {
                 assertionFailure()
@@ -389,15 +498,26 @@ public class MyEditFolerSectionHeaderItemNode: ListViewItemNode {
 public class MyEditFolerNameInputItem: ListViewItem, ItemListItem {
     let text: String
     let placeholder: String
+    let maxLength: NSInteger = 10
+    let textUpdated: (String) -> Void
+    var cleared: (() -> Void)? = nil
+    var action:(() -> Void)
     public let sectionId: ItemListSectionId
     
-    public init(text: String, placeholder: String, sectionId: ItemListSectionId) {
+    public init(text: String, placeholder: String, sectionId: ItemListSectionId,
+                textUpdated: @escaping (String) -> Void,
+                action: @escaping () -> Void,
+                cleared: (() -> Void)? = nil) {
         self.text = text
         self.placeholder = placeholder
         self.sectionId = sectionId
+        self.textUpdated = textUpdated
+        self.cleared = cleared
+        self.action = action
     }
     
     public func nodeConfiguredForParams(async: @escaping (@escaping () -> Void) -> Void, params: ListViewItemLayoutParams, synchronousLoads: Bool, previousItem: ListViewItem?, nextItem: ListViewItem?, completion: @escaping (ListViewItemNode, @escaping () -> (Signal<Void, NoError>?, (ListViewItemApply) -> Void)) -> Void) {
+        print("MyEditFolerNameInputItem-nodeConfiguredForParams")
         async {
             let node = MyEditFolerNameInputItemNode()
             let (layout, apply) = node.asyncLayout()(self, params, itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem))
@@ -414,6 +534,7 @@ public class MyEditFolerNameInputItem: ListViewItem, ItemListItem {
     }
     
     public func updateNode(async: @escaping (@escaping () -> Void) -> Void, node: @escaping () -> ListViewItemNode, params: ListViewItemLayoutParams, previousItem: ListViewItem?, nextItem: ListViewItem?, animation: ListViewItemUpdateAnimation, completion: @escaping (ListViewItemNodeLayout, @escaping (ListViewItemApply) -> Void) -> Void) {
+        print("MyEditFolerNameInputItem-updateNode")
         Queue.mainQueue().async {
             if let nodeValue = node() as? MyEditFolerNameInputItemNode {
             
@@ -432,7 +553,7 @@ public class MyEditFolerNameInputItem: ListViewItem, ItemListItem {
     }
 }
 
-public class MyEditFolerNameInputItemNode: ListViewItemNode, UITextFieldDelegate, ItemListItemNode {
+public class MyEditFolerNameInputItemNode: ListViewItemNode, UITextFieldDelegate, ItemListItemNode, ItemListItemFocusableNode {
     private let backgroundNode: ASDisplayNode
     private let topStripeNode: ASDisplayNode
     private let maskNode: ASImageNode
@@ -452,7 +573,7 @@ public class MyEditFolerNameInputItemNode: ListViewItemNode, UITextFieldDelegate
     public init() {
         self.backgroundNode = ASDisplayNode()
         self.backgroundNode.isLayerBacked = true
-        
+        // 分隔线
         self.topStripeNode = ASDisplayNode()
         self.topStripeNode.isLayerBacked = true
         
@@ -460,13 +581,14 @@ public class MyEditFolerNameInputItemNode: ListViewItemNode, UITextFieldDelegate
         
         self.titleNode = TextNode()
         self.measureTitleSizeNode = TextNode()
-        self.textNode = TextFieldNode()
         
+        self.textNode = TextFieldNode()
+        // 清空图标
         self.clearIconNode = ASImageNode()
         self.clearIconNode.isLayerBacked = true
         self.clearIconNode.displayWithoutProcessing = true
         self.clearIconNode.displaysAsynchronously = false
-        
+        // 清空按钮
         self.clearButtonNode = HighlightableButtonNode()
         
         super.init(layerBacked: false, dynamicBounce: false)
@@ -490,26 +612,179 @@ public class MyEditFolerNameInputItemNode: ListViewItemNode, UITextFieldDelegate
         }
     }
     
-    @objc func clearButtonPressed() {
-        
+    public override func didLoad() {
+        super.didLoad()
+        // 只有设置了代理和添加了事件方法才会有回调
+        self.textNode.clipsToBounds = true
+        self.textNode.textField.delegate = self
+        self.textNode.textField.addTarget(self, action: #selector(self.textFieldTextChanged(_:)), for: .editingChanged)
     }
     
+    
     public func asyncLayout() -> (_ item: MyEditFolerNameInputItem, _ params: ListViewItemLayoutParams, _ neighbors: ItemListNeighbors) -> (ListViewItemNodeLayout, () -> Void) {
-        let makeTitleLayout = TextNode.asyncLayout(self.titleNode)
-        let makeMeasureTitleSizeLayout = TextNode.asyncLayout(self.measureTitleSizeNode)
+        let makeTitleLayout = self.titleNode.makeLayout
+        let makeMeasureTitleSizeLayout = self.measureTitleSizeNode.makeLayout
         
         let currentItem = self.item
         
         return { item, params, neighbors in
+            // 布局计算
+            let clearIcon = PresentationResourcesItemList.itemListClearInputIcon(defaultItemTheme().theme)
+            // 左的间距
+            let leftInset: CGFloat = 16.0 + params.leftInset
+            // 左侧额外加了clearBtn的间距
+            var rightInset: CGFloat = 16.0 + params.rightInset + 32
             
-            let layout = ListViewItemNodeLayout(contentSize: .zero, insets: .zero)
+            let titleString = NSMutableAttributedString(string: "文件名")
+            titleString.addAttributes([NSAttributedString.Key.font: Font.regular(12)], range: NSMakeRange(0, titleString.length))
+            
+            let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attrStr: titleString, maxWidth: params.width - 32 - leftInset - rightInset))
+            
+            let (measureTitleLayout, measureTitleSizeApply) = makeMeasureTitleSizeLayout(TextNodeLayoutArguments(attrStr: NSAttributedString(string: "A", font: Font.regular(11)), maxWidth: params.width - 32 - leftInset - rightInset))
+            
+            let separatorHeight = UIScreenPixel
+            let contentSize = CGSize(width: params.width, height: max(titleLayout.height, measureTitleLayout.height) + 22.0)
+            let insets = itemListNeighborsGroupedInsets(neighbors, params)
+            
+            let layout = ListViewItemNodeLayout(contentSize: contentSize, insets: insets)
+            
+            let placehoderAttr = NSAttributedString(string: item.placeholder, font: Font.regular(13), textColor: .lightGray)
+            
             return (layout, { [weak self] in
                 guard let self = self else {
                     return
                 }
+                self.item = item
+                
+                self.topStripeNode.backgroundColor = .lightGray
+                self.backgroundNode.backgroundColor = .white
+                
+                self.textNode.textField.textColor = .black
+                // 键盘颜色风格
+                self.textNode.textField.keyboardAppearance = .default
+                self.textNode.textField.tintColor = .blue
+                
+                // 展示
+                let _ = titleApply()
+                self.titleNode.frame = CGRect(x: leftInset, y: layout.height => titleLayout.height, size: titleLayout.size)
+                let _ = measureTitleSizeApply()
+                
+                let capitalizationType: UITextAutocapitalizationType = .sentences
+                let autocorrectionType: UITextAutocorrectionType = .default
+                let keyboardType: UIKeyboardType = .default
+                
+                self.textNode.textField.keyboardType = keyboardType
+                self.textNode.textField.autocapitalizationType = capitalizationType
+                self.textNode.textField.autocorrectionType = autocorrectionType
+                self.textNode.textField.returnKeyType = .done
+                self.textNode.textField.textAlignment = .natural
+                
+                if self.textNode.textField.text != item.text {
+                    self.textNode.textField.text = item.text
+                }
+                
+                self.textNode.frame = CGRect(x: leftInset + titleLayout.width, y: 0, size: CGSize(width: params.width - leftInset - rightInset - titleLayout.width, height: layout.height))
+                
+                // 清除按钮
+                self.clearIconNode.image = clearIcon
+                let clearIconSize = clearIcon?.size ?? .zero
+                let buttonSize = CGSize(width: 38, height: layout.height)
+                self.clearButtonNode.frame = CGRect(x: params.width - params.rightInset - buttonSize.width + (buttonSize.width => clearIconSize.width), y: 0, size: buttonSize)
+                self.clearIconNode.frame = CGRect(x: params.width - params.rightInset - buttonSize.width + (buttonSize.width => clearIconSize.width), y: layout.height => clearIconSize.height, size: clearIconSize)
+                
+                //
+                self.updateClearButtonVisibility()
+                self.backgroundNode.insertIfNeed(superNode: self, at: 0)
+                self.topStripeNode.insertIfNeed(superNode: self, at: 1)
+                self.maskNode.insertIfNeed(superNode: self, at: 2)
+                
+                self.maskNode.image = PresentationResourcesItemList.cornersImage(defaultItemTheme().theme, top: true, bottom: true)
+                self.backgroundNode.frame = CGRect(x: 0, y: -min(insets.top, separatorHeight), size: CGSize(width: params.width, height: layout.height + min(insets.top, separatorHeight) + min(insets.bottom, separatorHeight)))
+                self.maskNode.frame = self.backgroundNode.frame.insetBy(dx: params.leftInset, dy: 0)
+                
+                self.textNode.textField.attributedPlaceholder = placehoderAttr
+                
             })
         }
+        
+        
+    }
+    // MARK: clear按钮的显示控制
+    func updateClearButtonVisibility() {
+        guard let item = self.item else {
+            return
+        }
+        let isHidden = item.text.isEmpty
+        self.clearIconNode.isHidden = isHidden
+        self.clearButtonNode.isHidden = isHidden
     }
     
     
+    // MARK: - UITextFieldDelegate
+    // MARK: 复制粘贴等非正常输入的场景会回调，正常输入也会回调
+    @objc private func textFieldTextChanged(_ textField: UITextField) {
+        self.textUpdated(self.textNode.textField.text ?? "")
+    }
+    
+    @objc public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let item = self.item {
+            let newText = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
+            
+            // 超过最大长度后不允许再输入
+            if item.maxLength != 0 && newText.count > item.maxLength {
+                self.textNode.layer.addShakeAnimation()
+                let hapticFeedback = HapticFeedback()
+                hapticFeedback.error()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0, execute: {
+                    let _ = hapticFeedback
+                })
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    @objc public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.item?.action()
+        return false
+    }
+    
+    @objc public func textFieldDidBeginEditing(_ textField: UITextField) {
+        //self.item?.updatedFocus?(true)
+//        if self.item?.selectAllOnFocus == true {
+//            DispatchQueue.main.async {
+//                let startPosition = self.textNode.textField.beginningOfDocument
+//                let endPosition = self.textNode.textField.endOfDocument
+//                self.textNode.textField.selectedTextRange = self.textNode.textField.textRange(from: startPosition, to: endPosition)
+//            }
+//        }
+        self.updateClearButtonVisibility()
+    }
+    
+    @objc public func textFieldDidEndEditing(_ textField: UITextField) {
+//        self.item?.updatedFocus?(false)
+        self.updateClearButtonVisibility()
+    }
+    // MARK: - 文字内容变化
+    private func textUpdated(_ text: String) {
+        self.item?.textUpdated(text)
+    }
+    // MARK: 清空按钮
+    @objc func clearButtonPressed() {
+        self.textNode.textField.text = ""
+        self.textUpdated("")
+        self.item?.cleared?()
+    }
+    
+    // MARK: - ItemListItemFocusableNode
+    public func focus() {
+        if !self.textNode.textField.isFirstResponder {
+            self.textNode.textField.becomeFirstResponder()
+        }
+    }
+    
+    public func selectAll() {
+        self.textNode.textField.selectAll(nil)
+    }
 }

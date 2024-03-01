@@ -100,5 +100,38 @@ extension ListViewItemNodeLayout {
 }
 
 extension TextNodeLayoutArguments {
+    convenience init(attrStr: NSAttributedString, lines: Int = 0, maxWidth: CGFloat = CGFloat.greatestFiniteMagnitude, maxHeight: CGFloat = CGFloat.greatestFiniteMagnitude) {
+        self.init(attributedString: attrStr, backgroundColor: nil, maximumNumberOfLines: lines, truncationType: .end, constrainedSize: CGSize(width: maxWidth, height: maxHeight), alignment: .natural, cutout: nil, insets: UIEdgeInsets())
+    }
+}
 
+extension TextNode {
+    var makeLayout: ((TextNodeLayoutArguments) -> (TextNodeLayout, () -> TextNode)) {
+        return TextNode.asyncLayout(self)
+    }
+}
+
+precedencegroup PipeRight {
+    associativity: left
+    higherThan: DefaultPrecedence
+}
+infix operator => : PipeRight
+public func => <T>(value: T, otherVal: T) -> T {
+    var result: Any
+    if T.self is Int.Type {
+        result = ((value as! Int) - (otherVal as! Int))/2
+    } else if T.self is Float.Type {
+        result = ((value as! Float) - (otherVal as! Float))/2
+    } else if T.self is CGFloat.Type {
+        result = ((value as! CGFloat) - (otherVal as! CGFloat))/2
+    } else {
+        result = value
+    }
+    return result as! T
+}
+
+extension String {
+    var isNotEmpty: Bool {
+        return self.isEmpty == false
+    }
 }

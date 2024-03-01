@@ -17,6 +17,7 @@ import TelegramAnimatedStickerNode
 private final class MyChatFolderArguments {
     typealias SuggestBlock = (String) -> Void
     var addNew: CommnoEmptyAction? = nil
+    var openPreset: ((String) -> Void)? = nil
     var addSuggest: SuggestBlock? = nil
 }
 public func defaultItemTheme() -> ItemListPresentationData {
@@ -28,7 +29,7 @@ public func defaultItemTheme() -> ItemListPresentationData {
     return ItemListPresentationData(presentationData)
 }
 class MyChatFolderVC: ItemListController {
-    
+    static let statePromise = ValuePromise(["All Chats"], ignoreRepeated: true)
     static func create() -> MyChatFolderVC {
 //        let originDataSignal = Atomic(value: ["All Chats"])
 //        let originDataSignal = ValuePromise(["All Chats"], ignoreRepeated: true)
@@ -36,7 +37,6 @@ class MyChatFolderVC: ItemListController {
 //            subscriber.putNext("")
 //            return EmptyDisposable
 //        }
-        let statePromise = ValuePromise(["All Chats"], ignoreRepeated: true)
         
                
         
@@ -56,22 +56,25 @@ class MyChatFolderVC: ItemListController {
         let arguments = MyChatFolderArguments()
         arguments.addNew = {
             // 获取原始数据
-//            statePromise.set(statePromise.rawValue + ["test"])
-            // 这里要从本controller，push到下一个新的controler
             // 但是在这个地方里，拿不到本controller
             let currentVC = getCurrentVCBlock?()
             currentVC?.navigationController?.pushViewController(EditChatFolderVC.create(), animated: true)
         }
+        arguments.openPreset = { title in
+            // 编辑文件夹详情
+            let currentVC = getCurrentVCBlock?()
+            currentVC?.navigationController?.pushViewController(EditChatFolderVC.create(inName: title), animated: true)
+        }
         arguments.addSuggest = { title in
             // 获取原始数据
             print("arguments -- suggest -- Add")
-            statePromise.set(statePromise.rawValue + ["test"])
+            statePromise.set(statePromise.rawValue + [title])
         }
         // 数据配置信号
         let sugguestList = ValuePromise([
             SuggestedOriginData(title:"Unread", desc:"New messages frmo all chats."),
             SuggestedOriginData(title:"Personal", desc:"Only messages from personal chats.")], ignoreRepeated: true)
-        let stateSignal = combineLatest(queue: .mainQueue(), statePromise.get(), sugguestList.get())
+        let stateSignal = combineLatest(queue: .mainQueue(), MyChatFolderVC.statePromise.get(), sugguestList.get())
         |> map { dataList, suggestDataList -> (ItemListControllerState, (ItemListNodeState, MyChatFolderArguments)) in
             // controller配置
             let controllerState = ItemListControllerState(presentationData: defaultItemTheme(), title: .text("MyTitle"), leftNavigationButton: nil, rightNavigationButton: nil, backNavigationButton: ItemListBackButton(title: "MyBack"), animateChanges: false)
@@ -230,9 +233,11 @@ enum MyCreateFolderListEntry: ItemListNodeEntry {
                     arguments.addNew?()
                 }
             }
-        case let .listItem(_, title, isAllChats, originData):
+        case let .listItem(_, title, isAllChats, _):
             return MyChatFolderListItem(text: title, sectionId: self.section, isAllChats: isAllChats) {
-                print(originData)
+                if let arguments = arguments as? MyChatFolderArguments {
+                    arguments.openPreset?(title)
+                }
             }
         case let .listFooter(text):
             return MyChatFolderListHeaderItem(text: text, sectionId: self.section)
