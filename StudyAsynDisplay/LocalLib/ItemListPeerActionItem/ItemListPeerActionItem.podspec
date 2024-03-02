@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
     s.dependency "Display"
     s.dependency "TelegramPresentationData"
     s.dependency "ItemListUI"
-    s.dependency "PresentationDataUtils"
+    # s.dependency "PresentationDataUtils"
   
     s.libraries = 'swiftCoreGraphics'
   end
