@@ -49,6 +49,16 @@ extension CGRect {
     }
 }
 
+extension CGSize {
+    func changeHeight(height: CGFloat) -> CGSize {
+        return CGSize(width: self.width, height: height)
+    }
+    func changeWidth(width: CGFloat) -> CGSize {
+        return CGSize(width: width, height: self.height)
+    }
+}
+
+
 extension CGFloat {
     func halfDis(other: CGFloat) -> CGFloat {
        return (self - other)/2
@@ -100,8 +110,8 @@ extension ListViewItemNodeLayout {
 }
 
 extension TextNodeLayoutArguments {
-    convenience init(attrStr: NSAttributedString, lines: Int = 0, maxWidth: CGFloat = CGFloat.greatestFiniteMagnitude, maxHeight: CGFloat = CGFloat.greatestFiniteMagnitude) {
-        self.init(attributedString: attrStr, backgroundColor: nil, maximumNumberOfLines: lines, truncationType: .end, constrainedSize: CGSize(width: maxWidth, height: maxHeight), alignment: .natural, cutout: nil, insets: UIEdgeInsets())
+    convenience init(attrStr: NSAttributedString, lines: Int = 0, maxWidth: CGFloat = CGFloat.greatestFiniteMagnitude, maxHeight: CGFloat = CGFloat.greatestFiniteMagnitude, alignment: NSTextAlignment = .natural, insets: UIEdgeInsets = .zero) {
+        self.init(attributedString: attrStr, backgroundColor: nil, maximumNumberOfLines: lines, truncationType: .end, constrainedSize: CGSize(width: maxWidth, height: maxHeight), alignment: alignment, cutout: nil, insets: insets)
     }
 }
 

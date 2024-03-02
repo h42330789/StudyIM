@@ -17,10 +17,13 @@ class EditChatFolderVCArguments {
     var updateState: ((((EditChatFolderStateModel) -> EditChatFolderStateModel)) -> Void)? // 更新数据
     var clearFocus: (() -> Void)? // 关闭键盘
     var focusOnName: (() -> Void)? // 然后焦点还要再name输入框里
+    var openAddIncludePeer: (() -> Void)? // 添加选chat
 }
 
 struct EditChatFolderStateModel: Equatable {
     var name: String?
+    var isAddNew: Bool
+    var chatList: [String] = []
     
     var isComplete: Bool {
         if (self.name ?? "").isEmpty {
@@ -49,7 +52,7 @@ class EditChatFolderVC: ItemListController {
         // 交互回调
         
         // 用于传递和记录本页面生成的值
-        let initState = EditChatFolderStateModel(name: inName)
+        let initState = EditChatFolderStateModel(name: inName, isAddNew: inName == nil)
         let promise = ValuePromise(initState, ignoreRepeated: true)
         
         // 参数及交互回调
@@ -75,6 +78,11 @@ class EditChatFolderVC: ItemListController {
                 }
             }
         }
+        arguments.openAddIncludePeer = {
+            var oldState = promise.rawValue
+            oldState.chatList.append("test\(oldState.chatList.count+1)")
+            promise.set(oldState)
+        }
         // 数据配置信号
         let stateSignal = promise.get()
         |> deliverOnMainQueue
@@ -95,7 +103,7 @@ class EditChatFolderVC: ItemListController {
                 getCurrentVCBlock?()?.navigationController?.popViewController(animated: true)
             })
             // 右侧按钮
-            let rightNavigationButton = ItemListNavigationButton(content: .text( (inName != nil) ? "完成" : "创建"), style: .bold, enabled: state.isComplete, action: {
+            let rightNavigationButton = ItemListNavigationButton(content: .text( state.isAddNew ? "完成" : "创建"), style: .bold, enabled: state.isComplete, action: {
 //                applyImpl?(false, {
 //                    dismissImpl?()
 //                })
@@ -103,7 +111,7 @@ class EditChatFolderVC: ItemListController {
                 
                 if let name = promise.rawValue.name, name.isNotEmpty {
                     var list = MyChatFolderVC.statePromise.rawValue
-                    if inName != nil {
+                    if state.isAddNew {
                         // 修改
                         list = list.map {
                             if $0 == inName {
@@ -165,22 +173,57 @@ class EditChatFolderVC: ItemListController {
     // hello -> MyEditFolderListEntry -> MyEditFolerScreenItem -> MyEditFolerScreenHeaderNode
     static func createEnties(state: EditChatFolderStateModel) -> [MyEditFolderListEntry] {
         print("EditChatFolderVC-createEnties")
-        return [.screenHeader, .nameHeader("FOLDER NAME"), .name(placeholder: "Folder Name", value: state.name ?? "")]
+        var list = [MyEditFolderListEntry]()
+        if state.isAddNew {
+            list.append(.screenHeader)
+        }
+        list = list + [.nameHeader("FOLDER NAME"), .name(placeholder: "Folder Name", value: state.name ?? "")]
+        list.append(.includePeersHeader("INCLUDE CHATS"))
+        list.append(.addIncludePeer(title: "Add Chats"))
+        for (index, title) in state.chatList.enumerated() {
+            list.append(.includePeerInfo(index, title))
+        }
+        list.append(.includePeersFooter("Choose chats or types of chats that will not appear in this folder."))
+        return list
     }
 }
  enum MyEditFolderSection: Int32 {
-    case screenHeader
-    case name
+     case screenHeader // 顶部的文件夹动画
+     case name  // 名称输入框
+     case includeChat // 包含的内容
+     case excludeChats // 不包含的内容
+     case inviteLinks // 链接
 }
 
  enum MyEditFolderStableId: Hashable {
-    case index(Int)
+     case index(Int)
+     case includeCategory(String)
+     case includePeer(String)
 }
 
  enum MyEditFolderListEntry: ItemListNodeEntry {
     case screenHeader // 动画
+    // 名称输入
     case nameHeader(String)
     case name(placeholder: String, value: String)
+    // 包含
+    case includePeersHeader(String)
+    case addIncludePeer(title: String)
+    case includePeerInfo(Int, String)
+     case includePeersFooter(String)
+//    // 不包含
+//    case excludePeersHeader(String)
+//    case addExcludePeer(title: String)
+//    case excludeCategory(index: Int, title: String)
+//    case excludePeer(index: Int)
+//    case excludePeerInfo(String)
+//    case includeExpand(String)
+//    case excludeExpand(String)
+//    // 链接
+//    case inviteLinkHeader(hasLinks: Bool)
+//    case inviteLinkCreate(hasLinks: Bool)
+//    case inviteLink(Int, String)
+//    case inviteLinkInfo(text: String)
     
     var section: ItemListSectionId {
         switch self {
@@ -188,6 +231,8 @@ class EditChatFolderVC: ItemListController {
             return MyEditFolderSection.screenHeader.rawValue
         case .nameHeader, .name:
             return MyEditFolderSection.name.rawValue
+        case .includePeersHeader, .addIncludePeer, .includePeerInfo, .includePeersFooter:
+            return MyEditFolderSection.includeChat.rawValue
         }
     }
     
@@ -199,6 +244,14 @@ class EditChatFolderVC: ItemListController {
             return .index(1)
         case .name:
             return .index(2)
+        case .includePeersHeader:
+            return .index(3)
+        case .addIncludePeer:
+            return .index(4)
+        case let .includePeerInfo(index, _):
+            return .index(7 + index)
+        case .includePeersFooter:
+            return .index(6)
         }
     }
         
@@ -210,6 +263,14 @@ class EditChatFolderVC: ItemListController {
             return 1
         case .name:
             return 2
+        case .includePeersHeader:
+            return 3
+        case .addIncludePeer:
+            return 4
+        case let .includePeerInfo(index, _):
+            return 100 + index
+        case .includePeersFooter:
+            return 6
         }
     }
         
@@ -247,6 +308,18 @@ class EditChatFolderVC: ItemListController {
                 // 让焦点保留在名称输入框里
                 arguments.focusOnName?()
             })
+        case .includePeersHeader(let title):
+            // 使用公共的item
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: title, sectionId: self.section)
+        case .addIncludePeer(let title):
+            return MyItemListPeerActionItem(icon: PresentationResourcesItemList.plusIconImage(defaultItemTheme().theme), title: title, alwaysPlain: false, sectionId: self.section, action: {
+                (arguments as? EditChatFolderVCArguments)?.openAddIncludePeer?()
+            })
+        case let .includePeerInfo(_, title):
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: title, sectionId: self.section)
+        case .includePeersFooter(let title):
+            // 使用公共的item
+            return ItemListSectionHeaderItem(presentationData: presentationData, text: title, multiline: true, sectionId: self.section)
         }
     }
         
@@ -788,3 +861,271 @@ public class MyEditFolerNameInputItemNode: ListViewItemNode, UITextFieldDelegate
         self.textNode.textField.selectAll(nil)
     }
 }
+
+// MARK: - 
+public enum MyItemListPeerActionItemHeight {
+    case generic
+    case compactPeerList
+    case peerList
+}
+public enum MyItemListPeerActionItemColor {
+    case accent
+    case destructive
+    case disabled
+}
+public class MyItemListPeerActionItem: ListViewItem, ItemListItem {
+    let icon: UIImage?
+    let iconSignal: Signal<UIImage?, NoError>?
+    let title: String
+    public let alwaysPlain: Bool // 是否展示在section的真实内容的第一、最后判断
+    let hasSeparator: Bool
+    let editing: Bool
+    let height: MyItemListPeerActionItemHeight
+    let color:  MyItemListPeerActionItemColor
+    public let sectionId: ItemListSectionId
+    
+    let action: (() -> Void)?
+    
+    public init(icon: UIImage?, iconSignal: Signal<UIImage?, NoError>? = nil, title: String, alwaysPlain: Bool = false, hasSeparator: Bool = true, sectionId: ItemListSectionId, height: MyItemListPeerActionItemHeight = .peerList, color: MyItemListPeerActionItemColor = .accent, editing: Bool = false, action: (() -> Void)?) {
+        self.icon = icon
+        self.iconSignal = iconSignal
+        self.title = title
+        self.alwaysPlain = alwaysPlain
+        self.hasSeparator = hasSeparator
+        self.editing = editing
+        self.height = height
+        self.color = color
+        self.sectionId = sectionId
+        self.action = action
+    }
+    
+    public  func nodeConfiguredForParams(async: @escaping (@escaping () -> Void) -> Void, params: ListViewItemLayoutParams, synchronousLoads: Bool, previousItem: ListViewItem?, nextItem: ListViewItem?, completion: @escaping (ListViewItemNode, @escaping () -> (Signal<Void, NoError>?, (ListViewItemApply) -> Void)) -> Void) {
+        async {
+            let node = MyItemListPeerActionItemNode()
+            var neighbors = itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem)
+            if self.alwaysPlain {
+                neighbors.top = .sameSection(alwaysPlain: false)
+            }
+            
+            let (layout, apply) = node.asyncLayout()(self, params, neighbors)
+            
+            node.contentSize = layout.contentSize
+            node.insets = layout.insets
+            
+            Queue.mainQueue().async {
+                completion(node, {
+                    return (nil, { _ in apply(false) })
+                })
+            }
+        }
+    }
+    
+    public func updateNode(async: @escaping (@escaping () -> Void) -> Void, node: @escaping () -> ListViewItemNode, params: ListViewItemLayoutParams, previousItem: ListViewItem?, nextItem: ListViewItem?, animation: ListViewItemUpdateAnimation, completion: @escaping (ListViewItemNodeLayout, @escaping (ListViewItemApply) -> Void) -> Void) {
+        
+        Queue.mainQueue().async {
+            guard let nodeValue = node() as? MyItemListPeerActionItemNode else {
+                return
+            }
+            let makeLayout = nodeValue.asyncLayout()
+            
+            var animated = true
+            if case .None = animation {
+                animated = false
+            }
+            
+            async {
+                var neighbors = itemListNeighbors(item: self, topItem: previousItem as? ItemListItem, bottomItem: nextItem as? ItemListItem)
+                if self.alwaysPlain {
+                    neighbors.top = .sameSection(alwaysPlain: false)
+                }
+                let (layout, apply) = makeLayout(self, params, neighbors)
+                Queue.mainQueue().async {
+                    completion(layout, { _ in
+                        apply(animated)
+                    })
+                }
+            }
+        }
+    }
+    
+    public var selectable: Bool {
+        // 是否可以点击
+        return self.action != nil
+    }
+    
+    public func selected(listView: ListView) {
+        // 点击行回调
+        listView.clearHighlightAnimated(true)
+        self.action?()
+    }
+}
+
+class MyItemListPeerActionItemNode: ListViewItemNode {
+    private let backgroundNode: ASDisplayNode
+    private let topStripeNode: ASDisplayNode
+    private let bottomStripeNode: ASDisplayNode
+    private let highlightedBackgroundNode: ASDisplayNode
+    private let maskNode: ASImageNode
+    
+    private let iconNode: ASImageNode
+    private let titleNode: TextNode
+    
+    private var item: MyItemListPeerActionItem?
+    
+    private let iconDisposeable = MetaDisposable()
+    
+    
+    init() {
+        self.backgroundNode = ASDisplayNode(isLayerBacked: true)
+        self.topStripeNode = ASDisplayNode(isLayerBacked: true)
+        self.bottomStripeNode = ASDisplayNode(isLayerBacked: true)
+        
+        self.maskNode = ASImageNode()
+        
+        self.iconNode = ASImageNode()
+        self.iconNode.isLayerBacked = true
+        self.iconNode.displayWithoutProcessing = true
+        self.iconNode.displaysAsynchronously = false
+        
+        self.titleNode = TextNode()
+        self.titleNode.isUserInteractionEnabled = false
+        self.titleNode.contentMode = .left
+        self.titleNode.contentsScale = UIScreen.main.scale
+        
+        self.highlightedBackgroundNode = ASDisplayNode(isLayerBacked: true)
+        
+        super.init(layerBacked: false, dynamicBounce: false)
+        
+        self.addSubnode(self.iconNode)
+        self.addSubnode(self.titleNode)
+
+    }
+    
+    deinit {
+        self.iconDisposeable.dispose()
+    }
+    
+    func asyncLayout() -> (_ item: MyItemListPeerActionItem, _ params: ListViewItemLayoutParams, _ neighbors: ItemListNeighbors) -> (ListViewItemNodeLayout, (Bool) -> Void) {
+        
+        let makeTitleLayout = self.titleNode.makeLayout
+        let currentItem = self.item
+        
+        return { item, params, neighbors in
+            let titleFont = Font.regular(12)
+            let leftInset: CGFloat = 65 + params.leftInset
+            let iconOffset: CGFloat = 3.0
+            let verticalInset: CGFloat = 14.0
+            let verticalOffset: CGFloat = 0
+            
+            let textColor: UIColor = .black
+            let titleAttr = NSAttributedString(string: item.title, font: titleFont, textColor: textColor)
+            let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attrStr: titleAttr, lines: 1, maxWidth: params.width - leftInset))
+            
+            let separatorHeight = UIScreenPixel
+            
+            let insets = itemListNeighborsGroupedInsets(neighbors, params)
+            let contentSize = CGSize(width: params.width, height: titleLayout.height + verticalInset * 2)
+            
+            let layout = ListViewItemNodeLayout(contentSize: contentSize, insets: insets)
+            
+            return (layout, { [weak self] animated in
+                guard let self = self else {
+                    return
+                }
+                self.item = item
+                
+                self.topStripeNode.backgroundColor = .lightGray
+                self.bottomStripeNode.backgroundColor = .lightGray
+                self.backgroundNode.backgroundColor = .white
+                self.highlightedBackgroundNode.backgroundColor = .lightGray
+                
+                // 展示内容
+                let _ = titleApply()
+                
+                let transition: ContainedViewLayoutTransition = .immediate
+                self.iconNode.image = item.icon
+                if let image = item.icon {
+                    transition.updateFrame(node: self.iconNode, frame: CGRect(x: params.leftInset + (leftInset - params.leftInset - image.size.width)/2, y: contentSize.height=>image.size.height, size: image.size))
+                } else if let iconSignal = item.iconSignal {
+                    let imageSize = CGSize(width: 28, height: 28)
+                    self.iconDisposeable.set((iconSignal |> deliverOnMainQueue).start(next: { [weak self] image in
+                        self?.iconNode.image = image
+                    }))
+                    transition.updateFrame(node: self.iconNode, frame: CGRect(x: params.leftInset + (leftInset - params.leftInset - imageSize.width)/2 + iconOffset, y: layout.height=>imageSize.height, size: imageSize))
+                }
+                
+                self.backgroundNode.insertIfNeed(superNode: self, at: 0)
+                self.topStripeNode.insertIfNeed(superNode: self, at: 1)
+                self.bottomStripeNode.insertIfNeed(superNode: self, at: 2)
+                self.maskNode.insertIfNeed(superNode: self, at: 3)
+                
+                let hasTopCorners = neighbors.isFirstRow
+                let hasBottomConers = neighbors.isLastRow
+                self.maskNode.image = (hasTopCorners || hasBottomConers) ? PresentationResourcesItemList.cornersImage(defaultItemTheme().theme, top: hasTopCorners, bottom: hasBottomConers) : nil
+                
+                self.backgroundNode.frame = CGRect(x: 0, y: -min(insets.top, separatorHeight), size: CGSize(width: params.width, height: layout.height))
+                self.maskNode.frame = self.backgroundNode.frame.insetBy(dx: params.leftInset, dy: 0)
+                self.topStripeNode.frame = CGRect(x: 0, y: 0, size: CGSize(width: layout.width, height: separatorHeight))
+                
+                transition.updateFrame(node: self.titleNode, frame: CGRect(x: leftInset, y: verticalInset + verticalOffset, size: titleLayout.size))
+                self.highlightedBackgroundNode.frame = CGRect(x: 0, y: -UIScreenPixel, size: CGSize(width: params.width, height: layout.height + UIScreenPixel*2))
+            })
+        }
+    }
+    override func setHighlighted(_ highlighted: Bool, at point: CGPoint, animated: Bool) {
+        super.setHighlighted(highlighted, at: point, animated: animated)
+        
+        if highlighted {
+            self.highlightedBackgroundNode.alpha = 1.0
+            if self.highlightedBackgroundNode.supernode == nil {
+                var anchorNode: ASDisplayNode?
+                if self.bottomStripeNode.supernode != nil {
+                    anchorNode = self.bottomStripeNode
+                } else if self.topStripeNode.supernode != nil {
+                    anchorNode = self.topStripeNode
+                } else if self.backgroundNode.supernode != nil {
+                    anchorNode = self.backgroundNode
+                }
+                if let anchorNode = anchorNode {
+                    self.insertSubnode(self.highlightedBackgroundNode, aboveSubnode: anchorNode)
+                } else {
+                    self.addSubnode(self.highlightedBackgroundNode)
+                }
+            }
+        } else {
+            if self.highlightedBackgroundNode.supernode != nil {
+                if animated {
+                    self.highlightedBackgroundNode.layer.animateAlpha(from: self.highlightedBackgroundNode.alpha, to: 0.0, duration: 0.4, completion: { [weak self] completed in
+                        if let strongSelf = self {
+                            if completed {
+                                strongSelf.highlightedBackgroundNode.removeFromSupernode()
+                            }
+                        }
+                        })
+                    self.highlightedBackgroundNode.alpha = 0.0
+                } else {
+                    self.highlightedBackgroundNode.removeFromSupernode()
+                }
+            }
+        }
+    }
+    
+    override func animateInsertion(_ currentTimestamp: Double, duration: Double, short: Bool) {
+        self.layer.animateAlpha(from: 0.0, to: 1.0, duration: 0.4)
+    }
+    
+    override func animateRemoved(_ currentTimestamp: Double, duration: Double) {
+        self.layer.animateAlpha(from: 1.0, to: 0.0, duration: 0.15, removeOnCompletion: false)
+    }
+}
+
+// MARK: -
+//class MyItemListPeerItem: ListViewItem, ItemListItem {
+//    let enabled: Bool
+//    let highlighted: Bool
+//    public let selectable: Bool
+//    let highlightable: Bool
+//    let animateFirstAvatarTransition: Bool
+//    public let sectionId: ItemListSectionId
+//    let action: (() -> Void)?
+//}
