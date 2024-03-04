@@ -107,11 +107,14 @@ extension ListViewItemNodeLayout {
     var height: CGFloat {
         return self.contentSize.height
     }
+    init(width: CGFloat, height: CGFloat, insets: UIEdgeInsets? = nil) {
+        self.init(contentSize: CGSize(width: width, height: height), insets: insets ?? .zero)
+    }
 }
 
 extension TextNodeLayoutArguments {
     convenience init(attrStr: NSAttributedString, lines: Int = 0, maxWidth: CGFloat = CGFloat.greatestFiniteMagnitude, maxHeight: CGFloat = CGFloat.greatestFiniteMagnitude, alignment: NSTextAlignment = .natural, insets: UIEdgeInsets = .zero) {
-        self.init(attributedString: attrStr, backgroundColor: nil, maximumNumberOfLines: lines, truncationType: .end, constrainedSize: CGSize(width: maxWidth, height: maxHeight), alignment: alignment, cutout: nil, insets: insets)
+        self.init(attributedString: attrStr, backgroundColor: nil, maximumNumberOfLines: lines, truncationType: .end, constrainedSize: CGSize(width: max(0, maxWidth), height: max(0, maxHeight)), alignment: alignment, cutout: nil, insets: insets)
     }
 }
 

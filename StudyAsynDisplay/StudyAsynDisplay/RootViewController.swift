@@ -24,6 +24,7 @@ class RootViewController: UIViewController {
         NormalDisplayTextVC.self,
         NormalTableViewVC.self,
         NormalDisplayListViewVC.self,
+        MySwipeDeleteListVC.self,
         StudySwiftSignalVC.self,
         MyChatFolderVC.self
     ]

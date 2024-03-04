@@ -103,7 +103,7 @@ class EditChatFolderVC: ItemListController {
                 getCurrentVCBlock?()?.navigationController?.popViewController(animated: true)
             })
             // 右侧按钮
-            let rightNavigationButton = ItemListNavigationButton(content: .text( state.isAddNew ? "完成" : "创建"), style: .bold, enabled: state.isComplete, action: {
+            let rightNavigationButton = ItemListNavigationButton(content: .text( state.isAddNew ?  "创建" : "完成"), style: .bold, enabled: state.isComplete, action: {
 //                applyImpl?(false, {
 //                    dismissImpl?()
 //                })

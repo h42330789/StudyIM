@@ -27,6 +27,7 @@
 		576022882B8DF377001132AB /* ArrayTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576022872B8DF377001132AB /* ArrayTestVC.swift */; };
 		57A44D152B8EDAA800AAB47C /* EditChatFolderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A44D142B8EDAA800AAB47C /* EditChatFolderVC.swift */; };
 		57A44D1A2B8EDB1E00AAB47C /* SignalExts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A44D192B8EDB1E00AAB47C /* SignalExts.swift */; };
+		57A44D1F2B95D28200AAB47C /* MySwipeDeleteListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A44D1E2B95D28200AAB47C /* MySwipeDeleteListVC.swift */; };
 		8FA90E6AEE3396C34468E96C /* Pods_StudyAsynDisplayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C628DE2F638F13CD739721D9 /* Pods_StudyAsynDisplayTests.framework */; };
 		B3269B22BE3E49C16B1D9070 /* Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CBD42DAAE4C62C44268D7D /* Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework */; };
 		E69EE300CB5DAD0BA7DE56F5 /* Pods_StudyAsynDisplay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F395AF7D8611B162BC0904E8 /* Pods_StudyAsynDisplay.framework */; };
@@ -76,6 +77,7 @@
 		576022872B8DF377001132AB /* ArrayTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTestVC.swift; sourceTree = "<group>"; };
 		57A44D142B8EDAA800AAB47C /* EditChatFolderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChatFolderVC.swift; sourceTree = "<group>"; };
 		57A44D192B8EDB1E00AAB47C /* SignalExts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalExts.swift; sourceTree = "<group>"; };
+		57A44D1E2B95D28200AAB47C /* MySwipeDeleteListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySwipeDeleteListVC.swift; sourceTree = "<group>"; };
 		59CBD42DAAE4C62C44268D7D /* Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyAsynDisplay_StudyAsynDisplayUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A6B130A0CCAB3E8899FFDDA /* Pods-StudyAsynDisplay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyAsynDisplay.debug.xcconfig"; path = "Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay.debug.xcconfig"; sourceTree = "<group>"; };
 		636EBCABD8245F807913B922 /* Pods-StudyAsynDisplay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyAsynDisplay.release.xcconfig"; path = "Target Support Files/Pods-StudyAsynDisplay/Pods-StudyAsynDisplay.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,10 +151,10 @@
 				52CDDAA12B7BB7F40008C4D0 /* RootViewController.swift */,
 				5714A2412B85D54300CAFEFB /* ASDisplayNodeExts.swift */,
 				52CDDAA32B7BB9E10008C4D0 /* NormalDisplayTextVC.swift */,
-				52CDDAA52B7BBED10008C4D0 /* NormalDisplayListViewVC.swift */,
+				57A44D1D2B95A71700AAB47C /* StudyListView */,
 				52CDDAA72B7CFC9E0008C4D0 /* NormalTableViewVC.swift */,
-				57A44D182B8EDB0500AAB47C /* Signal */,
-				57A44D162B8EDAC100AAB47C /* ChatFolder */,
+				57A44D182B8EDB0500AAB47C /* StudySignal */,
+				57A44D162B8EDAC100AAB47C /* StudyItemList */,
 				57A44D172B8EDAE900AAB47C /* Other */,
 			);
 			path = StudyAsynDisplay;
@@ -175,13 +177,13 @@
 			path = StudyAsynDisplayUITests;
 			sourceTree = "<group>";
 		};
-		57A44D162B8EDAC100AAB47C /* ChatFolder */ = {
+		57A44D162B8EDAC100AAB47C /* StudyItemList */ = {
 			isa = PBXGroup;
 			children = (
 				5265109A2B822D8300C76FD8 /* MyChatFolderVC.swift */,
 				57A44D142B8EDAA800AAB47C /* EditChatFolderVC.swift */,
 			);
-			path = ChatFolder;
+			path = StudyItemList;
 			sourceTree = "<group>";
 		};
 		57A44D172B8EDAE900AAB47C /* Other */ = {
@@ -196,13 +198,22 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
-		57A44D182B8EDB0500AAB47C /* Signal */ = {
+		57A44D182B8EDB0500AAB47C /* StudySignal */ = {
 			isa = PBXGroup;
 			children = (
 				526510A12B87AC5700C76FD8 /* StudySwiftSignal.swift */,
 				57A44D192B8EDB1E00AAB47C /* SignalExts.swift */,
 			);
-			path = Signal;
+			path = StudySignal;
+			sourceTree = "<group>";
+		};
+		57A44D1D2B95A71700AAB47C /* StudyListView */ = {
+			isa = PBXGroup;
+			children = (
+				52CDDAA52B7BBED10008C4D0 /* NormalDisplayListViewVC.swift */,
+				57A44D1E2B95D28200AAB47C /* MySwipeDeleteListVC.swift */,
+			);
+			path = StudyListView;
 			sourceTree = "<group>";
 		};
 		6190E7F94A5763F91A993650 /* Pods */ = {
@@ -500,6 +511,7 @@
 				57A44D152B8EDAA800AAB47C /* EditChatFolderVC.swift in Sources */,
 				5714A2422B85D54300CAFEFB /* ASDisplayNodeExts.swift in Sources */,
 				526510A22B87AC5700C76FD8 /* StudySwiftSignal.swift in Sources */,
+				57A44D1F2B95D28200AAB47C /* MySwipeDeleteListVC.swift in Sources */,
 				576022882B8DF377001132AB /* ArrayTestVC.swift in Sources */,
 				52CDDAA82B7CFC9E0008C4D0 /* NormalTableViewVC.swift in Sources */,
 				5714A2392B8335FA00CAFEFB /* TestStringVC.swift in Sources */,
