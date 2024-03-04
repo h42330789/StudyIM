@@ -270,7 +270,7 @@ class EditChatFolderVC: ItemListController {
         case let .includePeerInfo(index, _):
             return 100 + index
         case .includePeersFooter:
-            return 6
+            return 1000
         }
     }
         
