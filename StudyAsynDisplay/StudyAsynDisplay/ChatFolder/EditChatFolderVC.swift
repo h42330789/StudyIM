@@ -112,6 +112,9 @@ class EditChatFolderVC: ItemListController {
                 if let name = promise.rawValue.name, name.isNotEmpty {
                     var list = MyChatFolderVC.statePromise.rawValue
                     if state.isAddNew {
+                        // 添加
+                        list.append(name)
+                    } else {
                         // 修改
                         list = list.map {
                             if $0 == inName {
@@ -120,9 +123,6 @@ class EditChatFolderVC: ItemListController {
                                 return $0
                             }
                         }
-                    } else {
-                        // 添加
-                        list.append(name)
                     }
                     
                     MyChatFolderVC.statePromise.set(list)
