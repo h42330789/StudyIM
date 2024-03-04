@@ -259,6 +259,40 @@ use_frameworks! :linkage => :static
   ## MozjpegBinding引入
   pod "mozjpeg", :path => 'LocalLib/mozjpeg'
   pod "jxl", :path => 'LocalLib/libjxl'
+
+## PresentationDataUtils 引入
+  pod "PresentationDataUtils", :path => 'LocalLib/PresentationDataUtils'
+## pod "Display", :path => 'LocalLib/Display'
+## pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+## pod "AccountContext", :path => 'LocalLib/AccountContext'
+## pod "TelegramPresentationData", :path => 'LocalLib/TelegramPresentationData'
+  pod "AlertUI", :path => 'LocalLib/AlertUI'
+##  pod "ItemListUI", :path => 'LocalLib/ItemListUI'
+  pod "SolidRoundedButtonNode", :path => 'LocalLib/SolidRoundedButtonNode'
+  pod "OverlayStatusController", :path => 'LocalLib/OverlayStatusController'
+  pod "OverlayStatusControllerImpl", :path => 'LocalLib/OverlayStatusController/Impl'
+  pod "UrlWhitelist", :path => 'LocalLib/UrlWhitelist'
+
+## AlertUI引入
+##  pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
+##  pod "Display", :path => 'LocalLib/Display'
+  pod "TextNodeWithEntities", :path => 'LocalLib/TelegramUI/Components/TextNodeWithEntities'
+ 
+## TextNodeWithEntities引入
+##  pod "SwiftSignalKit", :path => 'LocalLib/SwiftSignalKit'
+##  pod "AsyncDisplayKit", :path => 'LocalLib/AsyncDisplayKit'
+##  pod "Display", :path => 'LocalLib/Display'
+##  pod "TextFormat", :path => 'LocalLib/TextFormat'
+  pod "EmojiTextAttachmentView", :path => 'LocalLib/TelegramUI/Components/EmojiTextAttachmentView'
+##  pod "AnimationCache", :path => 'LocalLib/TelegramUI/Components/AnimationCache'
+##  pod "MultiAnimationRenderer", :path => 'LocalLib/TelegramUI/Components/MultiAnimationRenderer'
+  pod "InvisibleInkDustNode", :path => 'LocalLib/InvisibleInkDustNode'
+
+## EmojiTextAttachmentView引入
+  pod "LottieAnimationCache", :path => 'LocalLib/TelegramUI/Components/LottieAnimationCache'
+  pod "VideoAnimationCache", :path => 'LocalLib/TelegramUI/Components/VideoAnimationCache'
+
   
   ###======== 待解决问题 ============
   # libjxl+mozjpeg+webp, 需要自动生成，目前是使用了模拟器生成的内容

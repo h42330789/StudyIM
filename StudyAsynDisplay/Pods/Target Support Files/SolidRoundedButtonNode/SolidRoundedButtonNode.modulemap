@@ -1,0 +1,6 @@
+framework module SolidRoundedButtonNode {
+  umbrella header "SolidRoundedButtonNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module EmojiTextAttachmentView {
+  umbrella header "EmojiTextAttachmentView-umbrella.h"
+
+  export *
+  module * { export * }
+}
