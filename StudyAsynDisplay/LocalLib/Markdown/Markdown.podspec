@@ -14,9 +14,5 @@ Pod::Spec.new do |s|
   
     s.libraries = 'swiftCoreGraphics'
   
-    # s.xcconfig = {
-    #     'LIBRARY_SEARCH_PATHS' => '$(SDKROOT)/usr/lib/swift',
-    # }
-  
     # s.swift_versions = ['5.0']
   end
