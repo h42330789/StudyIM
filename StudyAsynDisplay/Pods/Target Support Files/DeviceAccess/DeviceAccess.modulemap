@@ -1,0 +1,6 @@
+framework module DeviceAccess {
+  umbrella header "DeviceAccess-umbrella.h"
+
+  export *
+  module * { export * }
+}

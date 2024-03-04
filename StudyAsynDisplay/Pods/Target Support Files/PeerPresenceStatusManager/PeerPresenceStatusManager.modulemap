@@ -1,0 +1,6 @@
+framework module PeerPresenceStatusManager {
+  umbrella header "PeerPresenceStatusManager-umbrella.h"
+
+  export *
+  module * { export * }
+}

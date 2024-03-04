@@ -1,0 +1,6 @@
+framework module RadialStatusNode {
+  umbrella header "RadialStatusNode-umbrella.h"
+
+  export *
+  module * { export * }
+}

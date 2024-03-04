@@ -22,14 +22,14 @@ Pod::Spec.new do |s|
     s.dependency "AvatarNode"
     s.dependency "TelegramPresentationData"
     s.dependency "TelegramStringFormatting"
-    # s.dependency "PeerPresenceStatusManager"
+    s.dependency "PeerPresenceStatusManager"
     s.dependency "ItemListUI"
     s.dependency "TelegramUIPreferences"
-    # s.dependency "ContextUI"
-    # s.dependency "PresentationDataUtils"
+    s.dependency "ContextUI"
+    s.dependency "PresentationDataUtils"
     s.dependency "AccountContext"
     s.dependency "ComponentFlow"
-    # s.dependency "EmojiStatusComponent"
+    s.dependency "EmojiStatusComponent"
     s.dependency "CheckNode"
   
     s.libraries = 'swiftCoreGraphics'

@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
     s.dependency "AccountContext"
     s.dependency "TextFormat"
     s.dependency "AppBundle"
-    # s.dependency "PresentationDataUtils"
+    s.dependency "PresentationDataUtils"
   
     s.libraries = 'swiftCoreGraphics'
   end

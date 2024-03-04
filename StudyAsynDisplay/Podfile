@@ -292,7 +292,49 @@ use_frameworks! :linkage => :static
 ## EmojiTextAttachmentView引入
   pod "LottieAnimationCache", :path => 'LocalLib/TelegramUI/Components/LottieAnimationCache'
   pod "VideoAnimationCache", :path => 'LocalLib/TelegramUI/Components/VideoAnimationCache'
+  
+  pod "ItemListAddressItem", :path => 'LocalLib/ItemListAddressItem'
+  pod "ItemListAvatarAndNameInfoItem", :path => 'LocalLib/ItemListAvatarAndNameInfoItem'
+  pod "ItemListPeerActionItem", :path => 'LocalLib/ItemListPeerActionItem'
+  pod "ItemListPeerItem", :path => 'LocalLib/ItemListPeerItem'
+  pod "ItemListStickerPackItem", :path => 'LocalLib/ItemListStickerPackItem'
+  
+  pod "EmojiStatusComponent", :path => 'LocalLib/TelegramUI/Components/EmojiStatusComponent'
+  pod "PeerPresenceStatusManager", :path => 'LocalLib/PeerPresenceStatusManager'
+  pod "PhoneNumberFormat", :path => 'LocalLib/PhoneNumberFormat'
+  pod "libphonenumber", :path => 'LocalLib/libphonenumber'
+  pod "ContextUI", :path => 'LocalLib/ContextUI'
+  pod "TextSelectionNode", :path => 'LocalLib/TextSelectionNode'
 
+  pod "ReactionSelectionNode", :path => 'LocalLib/ReactionSelectionNode'
+  pod "EntityKeyboard", :path => 'LocalLib/TelegramUI/Components/EntityKeyboard'
+  pod "UndoUI", :path => 'LocalLib/UndoUI'
+  pod "RadialStatusNode", :path => 'LocalLib/RadialStatusNode'
+  pod "SlotMachineAnimationNode", :path => 'LocalLib/SlotMachineAnimationNode'
+  pod "AnimatedAvatarSetNode", :path => 'LocalLib/AnimatedAvatarSetNode'
+  pod "AudioBlob", :path => 'LocalLib/AudioBlob'
+  pod "ComponentDisplayAdapters", :path => 'LocalLib/Components/ComponentDisplayAdapters'
+  pod "EmojiStatusSelectionComponent", :path => 'LocalLib/TelegramUI/Components/EmojiStatusSelectionComponent'
+  pod "PagerComponent", :path => 'LocalLib/Components/PagerComponent'
+  pod "MultilineTextComponent", :path => 'LocalLib/Components/MultilineTextComponent'
+  pod "SolidRoundedButtonComponent", :path => 'LocalLib/Components/SolidRoundedButtonComponent'
+  pod "ReactionButtonListComponent", :path => 'LocalLib/Components/ReactionButtonListComponent'
+  pod "ReactionImageComponent", :path => 'LocalLib/Components/ReactionImageComponent'
+  pod "BlurredBackgroundComponent", :path => 'LocalLib/Components/BlurredBackgroundComponent'
+  pod "BundleIconComponent", :path => 'LocalLib/Components/BundleIconComponent'
+  pod "LottieComponent", :path => 'LocalLib/TelegramUI/Components/LottieComponent'
+  pod "LottieComponentEmojiContent", :path => 'LocalLib/TelegramUI/Components/LottieComponentEmojiContent'
+  pod "LottieAnimationComponent", :path => 'LocalLib/Components/LottieAnimationComponent'
+  
+  
+  pod "DirectionalPanGesture", :path => 'LocalLib/DirectionalPanGesture'
+  pod "PhotoResources", :path => 'LocalLib/PhotoResources'
+  pod "ImageTransparency", :path => 'LocalLib/ImageTransparency'
+  pod "Svg", :path => 'LocalLib/Svg'
+  pod "TelegramNotices", :path => 'LocalLib/TelegramNotices'
+  pod "TelegramPermissions", :path => 'LocalLib/TelegramPermissions'
+  pod "DeviceAccess", :path => 'LocalLib/DeviceAccess'
+  pod "AuthorizationUtils", :path => 'LocalLib/AuthorizationUtils'
   
   ###======== 待解决问题 ============
   # libjxl+mozjpeg+webp, 需要自动生成，目前是使用了模拟器生成的内容

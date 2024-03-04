@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
     s.dependency "StickerResources"
     s.dependency "AnimatedStickerNode"
     s.dependency "TelegramAnimatedStickerNode"
-    # s.dependency "PresentationDataUtils"
+    s.dependency "PresentationDataUtils"
     s.dependency "ShimmerEffect"
   
     s.libraries = 'swiftCoreGraphics'

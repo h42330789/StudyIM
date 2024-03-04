@@ -1,0 +1,6 @@
+framework module ItemListAvatarAndNameInfoItem {
+  umbrella header "ItemListAvatarAndNameInfoItem-umbrella.h"
+
+  export *
+  module * { export * }
+}

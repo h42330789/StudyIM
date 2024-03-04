@@ -19,14 +19,14 @@ Pod::Spec.new do |s|
     s.dependency "Display"
     s.dependency "TelegramCore"
     s.dependency "TelegramPresentationData"
-    # s.dependency "PeerPresenceStatusManager"
+    s.dependency "PeerPresenceStatusManager"
     s.dependency "TelegramStringFormatting"
     s.dependency "AvatarNode"
     s.dependency "ActivityIndicator"
     s.dependency "ItemListUI"
     s.dependency "AppBundle"
     s.dependency "PresentationDataUtils"
-    # s.dependency "PhoneNumberFormat"
+    s.dependency "PhoneNumberFormat"
     s.dependency "AccountContext"
   
     s.libraries = 'swiftCoreGraphics'

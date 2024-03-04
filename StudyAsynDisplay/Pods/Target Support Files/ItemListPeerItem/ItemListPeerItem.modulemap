@@ -1,0 +1,6 @@
+framework module ItemListPeerItem {
+  umbrella header "ItemListPeerItem-umbrella.h"
+
+  export *
+  module * { export * }
+}

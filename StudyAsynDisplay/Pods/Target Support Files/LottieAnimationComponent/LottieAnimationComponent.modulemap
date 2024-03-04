@@ -1,0 +1,6 @@
+framework module LottieAnimationComponent {
+  umbrella header "LottieAnimationComponent-umbrella.h"
+
+  export *
+  module * { export * }
+}

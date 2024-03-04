@@ -1,0 +1,6 @@
+framework module ItemListAddressItem {
+  umbrella header "ItemListAddressItem-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module EmojiStatusComponent {
+  umbrella header "EmojiStatusComponent-umbrella.h"
+
+  export *
+  module * { export * }
+}

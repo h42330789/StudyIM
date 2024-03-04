@@ -1,0 +1,6 @@
+framework module ItemListStickerPackItem {
+  umbrella header "ItemListStickerPackItem-umbrella.h"
+
+  export *
+  module * { export * }
+}
