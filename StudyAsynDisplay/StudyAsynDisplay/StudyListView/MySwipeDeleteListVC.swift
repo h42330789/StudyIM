@@ -10,6 +10,7 @@ import AsyncDisplayKit
 import Display
 import SwiftSignalKit
 import MergeLists
+import ItemListUI
 
 class MySwipeDeleteListVC: UIViewController {
     lazy var listViewNode: ListView = {
@@ -65,7 +66,7 @@ class MySwipeDeleteListVC: UIViewController {
                 directionHint = .Down
             }
             
-            let item = MySwipeDeleteItem(data: dataModel)
+            let item = MySwipeDeleteItem(data: dataModel, isReveal: index > 10)
             let insertItem = ListViewInsertItem(index: adjustedIndex, previousIndex: adjustedPrevousIndex, item: item, directionHint: directionHint)
             insertList.append(insertItem)
         }
@@ -99,10 +100,12 @@ class MySwipeDeleteListVC: UIViewController {
 // MARK: - Item
 class MySwipeDeleteItem: ListViewItem {
     var data: NormalDataModel
+    var isReveal: Bool
     // 是否可以点击
     let selectable: Bool = true
-    init(data: NormalDataModel) {
+    init(data: NormalDataModel, isReveal: Bool) {
         self.data = data
+        self.isReveal = isReveal
     }
     
     // MARK: - 创建Node时的回掉
@@ -110,8 +113,17 @@ class MySwipeDeleteItem: ListViewItem {
         // 在异步线程执行
         async {
             // UI上的Node，相当于自定义的UITableViewCell
-            let node = MySwipeDeleteItemNode()
-            let makeLayout = node.asyncLayout()
+            let makeLayout: ((_ item: MySwipeDeleteItem, _ params: ListViewItemLayoutParams, _ first: Bool, _ last: Bool) -> (ListViewItemNodeLayout, (Bool) -> (Signal<Void, NoError>?, (Bool) -> Void)))
+            let node: ListViewItemNode
+            if self.isReveal {
+                let dnode = MySwipeDeleteItemRevealNode()
+                makeLayout = dnode.asyncLayout()
+                node = dnode
+            } else {
+                let dnode = MySwipeDeleteItemNode()
+                makeLayout = dnode.asyncLayout()
+                node = dnode
+            }
             let first = previousItem == nil
             let last = nextItem == nil
             // 执行计算布局
@@ -178,8 +190,7 @@ class MySwipeDeleteItemNode: ListViewItemNode {
     required init() {
         
         // 背景
-        self.backgroundNode = ASDisplayNode()
-        self.backgroundNode.isLayerBacked = true
+        self.backgroundNode = ASDisplayNode(isLayerBacked: true, backgroundColor: .cyan)
         
         // 高亮时的背景
         self.highlightedBackgroundNode = ASDisplayNode()
@@ -234,14 +245,14 @@ class MySwipeDeleteItemNode: ListViewItemNode {
         return { [weak self] item, params, first, last in
             
             let leftInset: CGFloat = 20.0 + params.leftInset
-           
+            let rightInset: CGFloat = 10 + params.rightInset
             // title: 设置内容，并计算出展示内容
             let titleAttributedString = NSAttributedString(string: item.data.title, font: UIFont.systemFont(ofSize: 12), textColor: .black)
             // title的最大宽度 = 总宽度 - left(包含头像的宽度) - 与date的间距 - date.width - 10
-            let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attrStr: titleAttributedString, maxWidth: params.width - leftInset - 10.0))
+            let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attrStr: titleAttributedString, maxWidth: params.width - leftInset - rightInset))
          
             // 计算出最终Cell的布局
-            let verticalInset: CGFloat = 10
+            let verticalInset: CGFloat = 20
             let nodeLayout = ListViewItemNodeLayout(width: params.width, height: titleLayout.height + verticalInset * 2.0)
             
             
@@ -253,6 +264,221 @@ class MySwipeDeleteItemNode: ListViewItemNode {
                     guard let self = self else {
                         return
                     }
+                    let transition: ContainedViewLayoutTransition = .immediate
+                    
+                    // 背景
+                    self.backgroundNode.insertIfNeed(superNode: self, at: 0)
+                    // 容器
+                    self.containerNode.frame = CGRect(origin: CGPoint(), size: self.backgroundNode.frame.size)
+                    
+                    // 背景的frame
+                    self.backgroundNode.frame = CGRect(x: 0.0, y: -UIScreenPixel, width: params.width, height: nodeLayout.height + UIScreenPixel*2)
+                    
+                    // 高亮背景
+                    self.highlightedBackgroundNode.frame = CGRect(origin: CGPoint(x: 0.0, y: -nodeLayout.insets.top - 0), size: CGSize(width: nodeLayout.size.width, height: nodeLayout.size.height + 0))
+
+                    
+                    transition.updateFrameAdditive(node: self.bottomStripeNode, frame: CGRect(x: leftInset, y: nodeLayout.height - UIScreenPixel, width: params.width - leftInset - 10, height: UIScreenPixel))
+                    
+                    // Info按钮
+                    let infoIconRightInset: CGFloat = 10
+                    if let infoIcon = UIImage(named: "InfoIcon") {
+                        self.infoButtonNode.setImage(infoIcon, for: [])
+                        transition.updateFrameAdditive(node: self.infoButtonNode, frame: CGRect(x: params.width - infoIconRightInset - infoIcon.size.width, y: nodeLayout.height=>infoIcon.size.height, size: infoIcon.size))
+                    }
+                   
+                    
+                    // 设置title内容及frame
+                    let _ = titleApply()
+                    let titleFrame = CGRect(x: leftInset, y: verticalInset, size: titleLayout.size)
+                    transition.updateFrameAdditive(node: self.titleNode, frame: titleFrame)
+                })
+                
+            })
+        }
+    }
+    
+    
+    
+    // MARK: 高亮点击
+    override func setHighlighted(_ highlighted: Bool, at point: CGPoint, animated: Bool) {
+        super.setHighlighted(highlighted, at: point, animated: animated)
+        
+        if highlighted {
+            // 点击高亮时
+            self.highlightedBackgroundNode.alpha = 1.0
+            if self.highlightedBackgroundNode.supernode == nil {
+                if self.backgroundNode.supernode != nil {
+                    // 如果高亮背景没有加载，普通背景加载了，则高亮背景插入普通背景之上
+                    self.insertSubnode(self.highlightedBackgroundNode, aboveSubnode: self.backgroundNode)
+                } else {
+                    // 如果没有普通背景，直接插入到最底层
+                    self.insertSubnode(self.highlightedBackgroundNode, at: 0)
+                }
+            }
+        } else {
+            // 非高亮时
+            if self.highlightedBackgroundNode.supernode != nil {
+                // 如果高亮背景已经存在
+                if animated {
+                    // 使用动画的方式移除高亮背景
+                    self.highlightedBackgroundNode.layer.animateAlpha(from: self.highlightedBackgroundNode.alpha, to: 0.0, duration: 0.4, completion: { [weak self] completed in
+                        if let strongSelf = self {
+                            if completed {
+                                strongSelf.highlightedBackgroundNode.removeFromSupernode()
+                            }
+                        }
+                    })
+                    self.highlightedBackgroundNode.alpha = 0.0
+                } else {
+                    // 使用普通的方式移除高亮背景
+                    self.highlightedBackgroundNode.removeFromSupernode()
+                }
+            }
+        }
+    }
+}
+
+class MySwipeDeleteItemRevealNode: ItemListRevealOptionsItemNode {
+    // 背景
+    private let backgroundNode: ASDisplayNode
+    // 高亮时的背景
+    private let highlightedBackgroundNode: ASDisplayNode
+    // 底部分隔线
+    private let bottomStripeNode: ASDisplayNode
+    // 容器
+    private let containerNode: ASDisplayNode
+
+    private let titleNode: TextNode // 标题
+    private let infoButtonNode: HighlightableButtonNode // 右侧的按钮
+    
+    var editableControlNode: ItemListEditableControlNode?
+    
+//    private var item: MySwipeDeleteItem?
+    private var layoutParams: (MySwipeDeleteItem, ListViewItemLayoutParams)?
+    
+    required init() {
+        
+        // 背景
+        self.backgroundNode = ASDisplayNode(isLayerBacked: true, backgroundColor: .magenta)
+        self.backgroundNode.isLayerBacked = true
+        
+        // 高亮时的背景
+        self.highlightedBackgroundNode = ASDisplayNode()
+        self.highlightedBackgroundNode.backgroundColor = UIColor(red: 232.0/255, green: 232.0/255, blue: 231.0/255, alpha: 1)
+        self.highlightedBackgroundNode.isLayerBacked = true
+        
+        // 容器
+        self.containerNode = ASDisplayNode()
+        
+        // 底部的线
+        self.bottomStripeNode = ASDisplayNode(isLayerBacked: true, backgroundColor: .lightGray)
+        
+        self.titleNode = TextNode()
+        
+        // 右侧info的按钮，响应区域变大
+        self.infoButtonNode = HighlightableButtonNode()
+        self.infoButtonNode.hitTestSlop = UIEdgeInsets(top: -6.0, left: -6.0, bottom: -6.0, right: -10.0)
+        
+        
+        super.init(layerBacked: false, dynamicBounce: false, rotated: false, seeThrough: false)
+        // 添加显示内容
+        self.addSubnode(self.backgroundNode)
+        self.addSubnode(self.bottomStripeNode)
+        self.addSubnode(self.containerNode)
+        self.containerNode.addSubnode(self.titleNode)
+        self.containerNode.addSubnode(self.infoButtonNode)
+        // self不能在初始化之前直接使用
+        self.infoButtonNode.addTarget(self, action: #selector(self.infoPressed), forControlEvents: .touchUpInside)
+       
+    }
+    
+    @objc func infoPressed() {
+        print("infoPressed")
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if self.infoButtonNode.slopFrame.contains(point) {
+            return self.infoButtonNode.view
+        } else {
+            return super.hitTest(point, with: event)
+        }
+    }
+    
+    // MARK: - 侧滑删除
+    override func revealOptionsInteractivelyOpened() {
+        print("swipeOpen")
+    }
+    override func revealOptionsInteractivelyClosed() {
+        print("swipeClose")
+    }
+    override func updateRevealOffset(offset: CGFloat, transition: ContainedViewLayoutTransition) {
+        super.updateRevealOffset(offset: offset, transition: transition)
+        guard let (item, params) = self.layoutParams else {
+            return
+        }
+        let revealOffset = offset
+        let editingOffset: CGFloat
+        if let editableControlNode = self.editableControlNode {
+            editingOffset = editableControlNode.bounds.width
+            var editableControlFrame = editableControlNode.frame
+            editableControlFrame.origin.x = params.leftInset + offset
+            transition.updateFrame(node: editableControlNode, frame: editableControlFrame)
+        } else {
+            editingOffset = 0.0
+        }
+        
+        let leftInset: CGFloat = 86 + params.leftInset + editingOffset
+        let rightInset: CGFloat = 13 + params.rightInset
+        var infoIconRightInset: CGFloat = rightInset - 1
+        
+        
+        
+    }
+    override func revealOptionSelected(_ option: ItemListRevealOption, animated: Bool) {
+        self.setRevealOptionsOpened(false, animated: true)
+        self.revealOptionsInteractivelyClosed()
+    }
+    
+    // MARK: 刷新数据及计算frame
+    override func layoutForParams(_ params: ListViewItemLayoutParams, item: ListViewItem, previousItem: ListViewItem?, nextItem: ListViewItem?) {
+        guard let (item, _) = self.layoutParams else {
+            return
+        }
+        self.layoutParams = (item, params)
+        let makeLayout = self.asyncLayout()
+    }
+    
+    func asyncLayout() -> (_ item: MySwipeDeleteItem, _ params: ListViewItemLayoutParams, _ first: Bool, _ last: Bool) -> (ListViewItemNodeLayout, (Bool) -> (Signal<Void, NoError>?, (Bool) -> Void)) {
+        
+        // 布局需要的layout
+        let makeTitleLayout = self.titleNode.makeLayout
+        
+        
+       
+        return { [weak self] item, params, first, last in
+            
+            let leftInset: CGFloat = 20.0 + params.leftInset
+            let rightInset: CGFloat = 10 + params.rightInset
+            // title: 设置内容，并计算出展示内容
+            let titleAttributedString = NSAttributedString(string: item.data.title, font: UIFont.systemFont(ofSize: 12), textColor: .black)
+            // title的最大宽度 = 总宽度 - left(包含头像的宽度) - 与date的间距 - date.width - 10
+            let (titleLayout, titleApply) = makeTitleLayout(TextNodeLayoutArguments(attrStr: titleAttributedString, maxWidth: params.width - leftInset - rightInset))
+         
+            // 计算出最终Cell的布局
+            let verticalInset: CGFloat = 20
+            let nodeLayout = ListViewItemNodeLayout(width: params.width, height: titleLayout.height + verticalInset * 2.0)
+            
+            
+            return (nodeLayout, { [weak self] synchronousLoads in
+                guard let self = self else {
+                    return (nil, { _ in })
+                }
+                return (nil, { [weak self] animated in
+                    guard let self = self else {
+                        return
+                    }
+                    self.layoutParams = (item, params)
                     let transition: ContainedViewLayoutTransition = .immediate
                     
                     // 背景
